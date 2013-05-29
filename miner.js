@@ -63,7 +63,7 @@ Array.prototype.unique = function() {
          }
          
          $this.queryWork = function(){
-             $this.query = $('.search-term').text().trim();
+             $this.query = window.location.search.parseQuery('&')['queryText'] || $('.search-term').text().trim();
              $($this.box).html($this.query);
          }
         
