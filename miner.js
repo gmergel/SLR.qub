@@ -22,7 +22,8 @@ Array.prototype.unique = function() {
          styles.innerHTML = '#boxWrapper{width: 100%;position: absolute;top: 0;text-align: center;} '+
                             '#box{width: 70%;background-color: white;height: 500px;margin: 70px auto;text-align: center;border-radius: 6px;box-shadow: 2px 2px 12px #ddd, -2px -2px 12px #ddd;}';
         
-         $("head").append(styles);         
+         $("head").append(styles);       
+         $('#LayoutWrapper').css('opacity',0.15);
          console.warn("yeah");
         }
         
