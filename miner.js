@@ -18,7 +18,11 @@ Array.prototype.unique = function() {
         
         $this.init = function(){
          //include CSS:
-         $("head").append("<link id='styles' href='https://raw.github.com/gmergel/miner/master/styles.css' type='text/css' rel='stylesheet' />");
+         var styles = document.createElement('style');
+         styles.innerHTML = '#boxWrapper{width: 100%;position: absolute;top: 0;text-align: center;} '+
+                            '#box{width: 70%;background-color: white;height: 500px;margin: 70px auto;text-align: center;border-radius: 6px;box-shadow: 2px 2px 12px #ddd, -2px -2px 12px #ddd;}';
+        
+         $("head").append(styles);         
          console.warn("yeah");
         }
         
