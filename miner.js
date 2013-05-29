@@ -61,6 +61,11 @@ Array.prototype.unique = function() {
              $(wrapper).append($this.box);
              $('body').append(wrapper);
          }
+         
+         $this.queryWork = function(){
+             $this.query = $('.search-term').text().trim();
+             $($this.box).html($this.query);
+         }
         
         this.init();
         
