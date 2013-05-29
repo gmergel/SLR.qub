@@ -17,6 +17,8 @@ Array.prototype.unique = function() {
         $this.allwords = [];
         
         $this.init = function(){
+         //include CSS:
+         $("head").append("<link id='styles' href='https://raw.github.com/gmergel/miner/master/styles.css' type='text/css' rel='stylesheet' />");
          console.warn("yeah");
         }
         
