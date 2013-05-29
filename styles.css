@@ -1,11 +1,11 @@
-#ovwrapper{
+#boxWrapper{
   width: 100%;
   position: absolute;
   top: 0;
   text-align: center;
 }
 
-#overlay{
+#box{
   width: 70%;
   background-color: white;
   height: 500px;
