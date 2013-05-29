@@ -44,6 +44,17 @@ Array.prototype.unique = function() {
           });
           $this.allwords = $this.allwords.unique().sort();
          }
+         
+         $this.createBox = function(){
+             $this.box = document.createElement('div');
+             box.id = 'box';
+             box.class = '';
+             var wrapper = document.createElement('div');
+             wrapper.id = 'boxWrapper';
+             
+             $(wrapper).append(box);
+             $('body').append(wrapper);
+         }
         
         this.init();
         
