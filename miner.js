@@ -47,12 +47,11 @@ Array.prototype.unique = function() {
          
          $this.createBox = function(){
              $this.box = document.createElement('div');
-             box.id = 'box';
-             box.class = '';
+             $this.box.id = 'box';
              var wrapper = document.createElement('div');
              wrapper.id = 'boxWrapper';
              
-             $(wrapper).append(box);
+             $(wrapper).append($this.box);
              $('body').append(wrapper);
          }
         
