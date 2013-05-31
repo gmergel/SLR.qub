@@ -21,7 +21,8 @@ Array.prototype.unique = function () {
         $this.STYLES = {
             BOXWRAPPER: '#boxWrapper{width: 100%;position: absolute;top: 0;text-align: center;font-family:Trebuchet MS; font-size: 13px}',
             BOX: '#box{width: 70%;background-color: white;height: 500px;padding-top: 20px;margin: 70px auto;text-align: center;border-radius: 6px;box-shadow: 2px 2px 12px #ddd, -2px -2px 12px #ddd;}',
-            WORDS: '.queryWord{background-color: #bbdaf7;padding: 7px;color: white;border-radius: 5px;margin-right: 10px;}'
+            WORDS: '.queryWord{background-color: #bbdaf7;padding: 7px;color: white;border-radius: 5px;margin-right: 10px;}',
+            ACTIVEWORD: '.queryWord.active{background-color:#79bcff};'
         };
         
         $this.init = function () {
@@ -29,14 +30,23 @@ Array.prototype.unique = function () {
             var styles = document.createElement('style');
             styles.innerHTML = $this.STYLES.BOXWRAPPER +
                                $this.STYLES.BOX +
-                               $this.STYLES.WORDS;
-                               
+                               $this.STYLES.WORDS+
+                               $this.STYLES.ACTIVEWORD;
+                                                  
             $("head").append(styles);
+
+            //blur page
             $('#LayoutWrapper').css('opacity', 0.15);
-
+            
+            //prepare box layout elements
+            $this.getQuery();
             $this.createBox();
+            //calculates tf-idf
+            $this.getAbs();
+            $this.countWords(0);
+            $this.allWords();
 
-            console.warn("yeah");
+            console.warn("done");
         }
 
         $this.getAbs = function () {
@@ -70,20 +80,36 @@ Array.prototype.unique = function () {
             var wrapper = document.createElement('div');
             wrapper.id = 'boxWrapper';
 
-            //box html
+            //box inner-html
+            //queryBox
             var queryBox = document.createElement('div');
             queryBox.id = 'queryBox';
-            queryBox.innerHTML = '<span class="queryWord" id="word1">text</span><span class="queryWord" id="word2">mining</span>';
+            
+            $(MINER.query).each(function(key,value){
+                var newSpan = document.createElement('span');
+                newSpan.id = 'word'+key;
+                newSpan.className = 'queryWord';
+                newSpan.innerHTML = value;
+                if(key==1) newSpan.className = 'queryWord active';
+                queryBox.appendChild(newSpan);
+            });
 
+            //queryBox.innerHTML = '<span class="queryWord" id="word1">text</span><span class="queryWord" id="word2">mining</span>';
             $this.box.appendChild(queryBox);
+
+            //docsBox
+            var docsBox = document.createElement('div');
+            docsBox.id = 'docsBox';
+            docsBox.innerHTML = '';
+            $this.box.appendChild(docsBox);
 
             $(wrapper).append($this.box);
             $('body').append(wrapper);
         }
 
-        $this.queryWork = function () {
-            $this.query = window.location.search.parseQuery('&')['queryText'] || $('.search-term').text().trim();
-            $($this.box).html($this.query);
+        $this.getQuery = function () {
+            var queryText = window.location.search.parseQuery('&')['queryText'] || $('.search-term').text().trim();
+            $this.query = queryText.split('+');
         }
 
         this.init();
