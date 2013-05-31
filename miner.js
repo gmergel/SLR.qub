@@ -16,16 +16,34 @@ Array.prototype.unique = function () {
         $this.words = [];
         $this.allwords = [];
 
+        $this.step = 162;
+        $this.moveby = 2;
+
         //colors: 79bcff, bbdaf7, 378ee5, 528fcc
 
         $this.STYLES = {
             BOXWRAPPER: '#boxWrapper{width: 100%;position: absolute;top: 0;text-align: center;font-family:Trebuchet MS; font-size: 13px}',
             BOX: '#box{width: 70%;background-color: white;height: 500px;padding-top: 20px;margin: 70px auto;text-align: center;border-radius: 6px;box-shadow: 2px 2px 12px #ddd, -2px -2px 12px #ddd;}',
-            DOC: '.doc{border-radius: 4px;background-color: white;box-shadow: 0px 5px 0px 2px #F2F2F2;color: #666;line-height: 23px;width: 100px;height: 120px;border: 1px solid #eee;display: inline-block;margin: 20px 30px auto;text-align: center;overflow: hidden;}',
-            DOCSBOX: '#docsBox{height: 200px;background-color: #fafafa;margin-top: 20px;box-shadow: 0px 3px 6px -1px #f2f2f2 inset;border-top: 1px solid #eee;}',
+            DOCSLI: '#docsBox li{display: inline-block;margin: 20px 30px auto;text-align: center;width: 100px;vertical-align: top;}',
+            DOC: '.doc:hover{cursor:pointer;border: 1px solid red}.doc{display: block;border-radius: 4px;background-color: white;box-shadow: 0px 5px 0px 2px #F2F2F2;color: #666;line-height: 23px;height: 120px;border: 1px solid #eee;overflow: hidden;}',
+            DOCSBOX: '#docsBox{-webkit-transition: margin-left 0.8s ease-out;height: 200px;width: 9000px;text-align: left;padding: 0;margin: 0 0 0 64px;}',
+            DOCSWRAPPER: '#docsWrapper{overflow: hidden;margin: 20px 0;padding: 0;box-shadow: 0px 3px 6px -1px #f2f2f2 inset;border-top: 1px solid #eee;}',
             WORDS: '.queryWord{background-color: #bbdaf7;padding: 7px;color: white;border-radius: 5px;margin-right: 10px;}',
-            ACTIVEWORD: '.queryWord.active{background-color:#79bcff};'
+            BUTTONS: '.btn{background-color: green;padding: 5px;border-radius: 6px;height: 100px;color: white;line-height: 36px;margin-right: 35px;box-shadow: 1px 1px 0px 0px #ccc;}.btn:active{box-shadow: 0 0}',
+            ACTIVEWORD: '.queryWord.active{background-color:#79bcff}'            
         };
+
+        $this.CONTROLS = {
+            next: $('<a id="prevBtn" class="btn" href="#">next ></a>'),
+            prev: $('<a id="nextBtn" class="btn" href="#">< previous</a>')
+        }
+
+        $this.CONTROLS.next.bind('click',function(){
+            $('#docsBox').css('margin-left', parseInt($('#docsBox').css('margin-left'),10)-($this.moveby*$this.step)+'px');
+        });
+        $this.CONTROLS.prev.bind('click',function(){
+            $('#docsBox').css('margin-left', parseInt($('#docsBox').css('margin-left'),10)+($this.moveby*$this.step)+'px');
+        });
         
         $this.init = function () {
             //include CSS:
@@ -73,7 +91,12 @@ Array.prototype.unique = function () {
         $this.countWords = function (key) {
             if (typeof key === 'undefined') return;
             var tf = [];
+            //$this.abs[key].words.map(function (a) { if (a in tf) tf[a]++; else tf[a] = 1; });
             $this.abs[key].words.map(function (a) { if (a in tf) tf[a]++; else tf[a] = 1; });
+
+            $(tf).each(function(idx,value){
+                console.log(this);
+            })
             $this.abs[key].tf = tf;
         }
 
@@ -107,19 +130,43 @@ Array.prototype.unique = function () {
             $this.box.appendChild(queryBox);
 
             //docsBox
-            var docsBox = document.createElement('div');
+            var docsWrapper = document.createElement('div');
+            docsWrapper.id = 'docsWrapper';
+
+            var docsBox = document.createElement('ul');
             docsBox.id = 'docsBox';
-            
+            docsWrapper.appendChild(docsBox);
+
             $(MINER.abs).each(function(key,value){
+                var newLi = document.createElement('li');
+                
+                var newId = document.createElement('div');
+                newId.id = 'docref';
+                newId.innerHTML = '#'+key;
+
                 var newSpan = document.createElement('span');
-                newSpan.id = 'doc'+key;
-                newSpan.className = 'doc';
-                console.log(value.title);
+                newSpan.id = 'doc'+key;     
+                newSpan.className = 'doc';           
                 newSpan.innerHTML = value.title;
-                docsBox.appendChild(newSpan);
+
+                var newWordList = document.createElement('div');
+                newWordList.id = 'wl'+key;
+                
+                console.log(this);
+                
+                //newWordList.innerHTML
+
+
+                newLi.appendChild(newId);
+                newLi.appendChild(newSpan);
+                docsBox.appendChild(newLi);
             });
             
-            $this.box.appendChild(docsBox);
+            //carousel actions
+            $(docsWrapper).append($this.CONTROLS.prev);
+            $(docsWrapper).append($this.CONTROLS.next);            
+            
+            $this.box.appendChild(docsWrapper);
 
             $(wrapper).append($this.box);
             $('body').append(wrapper);
