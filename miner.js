@@ -16,7 +16,7 @@ Array.prototype.unique = function () {
         $this.words = [];
         $this.allwords = [];
 
-        $this.step = 162;
+        $this.step = 160;
         $this.moveby = 2;
 
         //colors: 79bcff, bbdaf7, 378ee5, 528fcc
@@ -51,14 +51,7 @@ Array.prototype.unique = function () {
             
             for(var style in $this.STYLES){
                 styles.innerHTML += $this.STYLES[style];
-            }
-            /*
-            styles.innerHTML = $this.STYLES.BOXWRAPPER +
-                               $this.STYLES.BOX +
-                               $this.STYLES.DOCSBOX +
-                               $this.STYLES.WORDS+
-                               $this.STYLES.ACTIVEWORD;
-              */                                    
+            }                          
             $("head").append(styles);
 
             //blur page
@@ -92,7 +85,7 @@ Array.prototype.unique = function () {
             if (typeof key === 'undefined') return;
             var tf = [];
             //$this.abs[key].words.map(function (a) { if (a in tf) tf[a]++; else tf[a] = 1; });
-            $this.abs[key].words.map(function (a) { if (a in tf) tf[a]++; else tf[a] = 1; });
+            $this.abs[key].words.map(function (key, value) { if (key in tf) tf[a]++; else tf[a] = 1; });
 
             $(tf).each(function(idx,value){
                 console.log(this);
