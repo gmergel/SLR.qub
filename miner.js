@@ -30,7 +30,7 @@ Array.prototype.unique = function () {
             DOCSWRAPPER: '#docsWrapper{overflow: hidden;margin: 20px 0;padding: 0;box-shadow: 0px 3px 6px -1px #f2f2f2 inset;border-top: 1px solid #eee;}',
             WORDS: '.queryWord{background-color: #bbdaf7;padding: 7px;color: white;border-radius: 5px;margin-right: 10px;}',
             BUTTONS: '.btn{background-color: green;padding: 5px;border-radius: 6px;height: 100px;color: white;line-height: 36px;margin-right: 35px;box-shadow: 1px 1px 0px 0px #ccc;}.btn:active{box-shadow: 0 0}',
-            ACTIVEWORD: '.queryWord.active{background-color:#79bcff}'            
+            ACTIVEWORD: '.queryWord.active{background-color:#79bcff}'
         };
 
         $this.CONTROLS = {
@@ -38,32 +38,31 @@ Array.prototype.unique = function () {
             prev: $('<a id="nextBtn" class="btn" href="#">< previous</a>')
         }
 
-        $this.CONTROLS.next.bind('click',function(){
-            $('#docsBox').css('margin-left', parseInt($('#docsBox').css('margin-left'),10)-($this.moveby*$this.step)+'px');
+        $this.CONTROLS.next.bind('click', function () {
+            $('#docsBox').css('margin-left', parseInt($('#docsBox').css('margin-left'), 10) - ($this.moveby * $this.step) + 'px');
         });
-        $this.CONTROLS.prev.bind('click',function(){
-            $('#docsBox').css('margin-left', parseInt($('#docsBox').css('margin-left'),10)+($this.moveby*$this.step)+'px');
+        $this.CONTROLS.prev.bind('click', function () {
+            $('#docsBox').css('margin-left', parseInt($('#docsBox').css('margin-left'), 10) + ($this.moveby * $this.step) + 'px');
         });
-        
+
         $this.init = function () {
             //include CSS:
             var styles = document.createElement('style');
-            
-            for(var style in $this.STYLES){
+
+            for (var style in $this.STYLES) {
                 styles.innerHTML += $this.STYLES[style];
-            }                          
+            }
             $("head").append(styles);
 
             //blur page
             $('#LayoutWrapper').css('opacity', 0.15);
-            
+
             //get abstracts
             $this.getAbs();
             //prepare box layout elements
             $this.getQuery();
             $this.createBox();
             //calc
-            $this.countWords(0);
             $this.allWords();
 
             console.warn("done");
@@ -81,16 +80,31 @@ Array.prototype.unique = function () {
             });
         }
 
-        $this.countWords = function (key) {
-            if (typeof key === 'undefined') return;
-            var tf = [];
-            //$this.abs[key].words.map(function (a) { if (a in tf) tf[a]++; else tf[a] = 1; });
-            $this.abs[key].words.map(function (key, value) { if (key in tf) tf[a]++; else tf[a] = 1; });
+        $this.countWords = function () {
 
-            $(tf).each(function(idx,value){
-                console.log(this);
-            })
-            $this.abs[key].tf = tf;
+            $($this.abs).each(function () {
+                
+                var words = this.words;
+                console.log(words);
+                var positions = new Array();
+                var word_counts = new Array();
+
+                for (var i = 0; i < words.length; i++) {
+                    
+                    var word = " " + words[i];
+                    
+                    if (!word) continue;
+                    if (typeof positions[word] == 'undefined') {
+                        positions[word] = word_counts.length;
+                        word_counts.push([word, 1]);
+                    } else word_counts[positions[word]][1]++;
+                }
+                // Put most frequent words at the beginning.
+                word_counts.sort(function (a, b) { return b[1] - a[1] })
+                this.tf = word_counts;
+
+            });
+
         }
 
         $this.allWords = function () {
@@ -110,13 +124,13 @@ Array.prototype.unique = function () {
             //queryBox
             var queryBox = document.createElement('div');
             queryBox.id = 'queryBox';
-            
-            $(MINER.query).each(function(key,value){
+
+            $(MINER.query).each(function (key, value) {
                 var newSpan = document.createElement('span');
-                newSpan.id = 'word'+key;
+                newSpan.id = 'word' + key;
                 newSpan.className = 'queryWord';
                 newSpan.innerHTML = value;
-                if(key==1) newSpan.className = 'queryWord active';
+                if (key == 1) newSpan.className = 'queryWord active';
                 queryBox.appendChild(newSpan);
             });
 
@@ -130,35 +144,30 @@ Array.prototype.unique = function () {
             docsBox.id = 'docsBox';
             docsWrapper.appendChild(docsBox);
 
-            $(MINER.abs).each(function(key,value){
+            $(MINER.abs).each(function (key, value) {
                 var newLi = document.createElement('li');
-                
+
                 var newId = document.createElement('div');
                 newId.id = 'docref';
-                newId.innerHTML = '#'+key;
+                newId.innerHTML = '#' + key;
 
                 var newSpan = document.createElement('span');
-                newSpan.id = 'doc'+key;     
-                newSpan.className = 'doc';           
+                newSpan.id = 'doc' + key;
+                newSpan.className = 'doc';
                 newSpan.innerHTML = value.title;
 
                 var newWordList = document.createElement('div');
-                newWordList.id = 'wl'+key;
-                
-                console.log(this);
-                
-                //newWordList.innerHTML
-
+                newWordList.id = 'wl' + key;
 
                 newLi.appendChild(newId);
                 newLi.appendChild(newSpan);
                 docsBox.appendChild(newLi);
             });
-            
+
             //carousel actions
             $(docsWrapper).append($this.CONTROLS.prev);
-            $(docsWrapper).append($this.CONTROLS.next);            
-            
+            $(docsWrapper).append($this.CONTROLS.next);
+
             $this.box.appendChild(docsWrapper);
 
             $(wrapper).append($this.box);
