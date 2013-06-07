@@ -88,8 +88,10 @@ var stemmer = function () {
                 $this.abs[key].title = $($this.abs[key]).parents('.detail').find('h3').text().trim();
                 $this.abs[key].txt = $this.abs[key].text().replace(/^[\s]/g, '').replace(/\s+/g, ' ').toLowerCase();
                 words = $this.abs[key].txt.split(/\s|,|\.|-|Â»|\/|\\|\(|\)|:|'s/ig).filter(function (value) { return value !== "" && value !== null; });
+                /*
                 for (var wordkey in words)
                     if (words.hasOwnProperty(wordkey)) words[wordkey] = stemmer(words[wordkey]);
+                    */
                 $this.abs[key].words = words;
                 $this.abs[key].uniqueWords = words.unique().sort();
             });
@@ -134,8 +136,11 @@ var stemmer = function () {
                         //word[0];
                         
                         //if(typeof positions[word] == 'undefined')
-
-                        if (typeof value.tfidf[wordkey] == 'undefined') value.tfidf[wordkey] = [word, termf / df];
+                            
+                        if (typeof value.tfidf[wordkey] == 'undefined'){
+                            var tfidf = Math.log(termf) * Math.log(Math.abs(MINER.abs.length)/df);
+                            value.tfidf[wordkey] = [word, tfidf];
+                        }
                         //value.tfidf[wordkey][0] = word;
                         //value.tfidf[wordkey][1] = termf / df;
                         
