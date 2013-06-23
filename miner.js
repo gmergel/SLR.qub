@@ -1,6 +1,6 @@
 var MINER = window.MINER || {};
 $ = jQuery;
-
+//prototype
 Array.prototype.unique = function () {
     var o = {}, i, l = this.length, r = [];
     for (i = 0; i < l; i += 1) o[this[i]] = this[i];
@@ -48,7 +48,11 @@ var stemmer = function () {
             DOCSWRAPPER: '#docsWrapper{overflow: hidden;margin: 20px 0;padding: 0;box-shadow: 0px 3px 6px -1px #f2f2f2 inset;border-top: 1px solid #eee;}',
             WORDS: '.queryWord{background-color: #bbdaf7;padding: 7px;color: white;border-radius: 5px;margin-right: 10px;}',
             BUTTONS: '.btn{background-color: green;padding: 5px;border-radius: 6px;height: 100px;color: white;line-height: 36px;margin-right: 35px;box-shadow: 1px 1px 0px 0px #ccc;}.btn:active{box-shadow: 0 0}',
-            ACTIVEWORD: '.queryWord.active{background-color:#79bcff}'
+            ACTIVEWORD: '.queryWord.active{background-color:#79bcff}',
+            FWORDS: '.fwords{display:none}',
+            COLORS: '/* Green */
+                    .green {background-color: #7ab800;}
+                    .green_stroke { padding: 30px 0px;border: 2px solid #7ab800;}'
         };
 
         $this.CONTROLS = {
