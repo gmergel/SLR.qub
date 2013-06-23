@@ -50,9 +50,7 @@ var stemmer = function () {
             BUTTONS: '.btn{background-color: green;padding: 5px;border-radius: 6px;height: 100px;color: white;line-height: 36px;margin-right: 35px;box-shadow: 1px 1px 0px 0px #ccc;}.btn:active{box-shadow: 0 0}',
             ACTIVEWORD: '.queryWord.active{background-color:#79bcff}',
             FWORDS: '.fwords{display:none}',
-            COLORS: '/* Green */
-                    .green {background-color: #7ab800;}
-                    .green_stroke { padding: 30px 0px;border: 2px solid #7ab800;}'
+            COLORS: '.green{background-color: #7ab800;}.green_stroke { padding: 30px 0px;border: 2px solid #7ab800;}.red {background-color: #DC5034;}.red_stroke {padding: 30px 0px;border: 2px solid #DC5034;}.blue {background-color: #0085c3;}.blue_stroke {padding: 30px 0px;border: 2px solid #0085c3;}.navyblue {background-color: #003758;}'
         };
 
         $this.CONTROLS = {
