@@ -1,13 +1,13 @@
 var MINER = window.MINER || {};
 $ = jQuery;
-//prototype
+
 Array.prototype.unique = function () {
     var o = {}, i, l = this.length, r = [];
     for (i = 0; i < l; i += 1) o[this[i]] = this[i];
     for (i in o) r.push(o[i]);
     return r;
 };
-
+ 
 var stemmer = function () {
     function h() { } function i() { console.log(Array.prototype.slice.call(arguments).join(" ")) } var j = { ational: "ate", tional: "tion", enci: "ence", anci: "ance", izer: "ize", bli: "ble", alli: "al", entli: "ent", eli: "e", ousli: "ous", ization: "ize", ation: "ate", ator: "ate", alism: "al", iveness: "ive", fulness: "ful", ousness: "ous", aliti: "al", iviti: "ive", biliti: "ble", logi: "log" }, k = { icate: "ic", ative: "", alize: "al", iciti: "ic", ical: "ic", ful: "", ness: "" }; return function (a, l) {
         var d, b, g, c, f, e; e = l ? i : h; if (3 > a.length) return a;
@@ -36,26 +36,24 @@ var stemmer = function () {
 
         $this.step = 160;
         $this.moveby = 2;
-
-        //colors: 79bcff, bbdaf7, 378ee5, 528fcc
-
         $this.STYLES = {
             BOXWRAPPER: '#boxWrapper{width: 100%;position: absolute;top: 0;text-align: center;font-family:Trebuchet MS; font-size: 13px}',
             BOX: '#box{width: 70%;background-color: white;height: 500px;padding-top: 20px;margin: 70px auto;text-align: center;border-radius: 6px;box-shadow: 2px 2px 12px #ddd, -2px -2px 12px #ddd;}',
             DOCSLI: '#docsBox li{display: inline-block;margin: 20px 30px auto;text-align: center;width: 100px;vertical-align: top;}',
-            DOC: '.doc:hover{cursor:pointer;border: 1px solid red}.doc{display: block;border-radius: 4px;background-color: white;box-shadow: 0px 2px 2px 0px #F2F2F2;color: #666;line-height: 23px;height: 120px;border: 1px solid #eee;overflow: hidden;}',
-            DOCSBOX: '#docsBox{-webkit-transition: margin-left 0.8s ease-out;height: 280px;width: 99000px;text-align: left;padding: 0;margin: 0 0 0 64px;}',
-            DOCSWRAPPER: '#docsWrapper{overflow: hidden;margin: 20px 0;padding: 0;box-shadow: 0px 3px 6px -1px #f2f2f2 inset;border-top: 1px solid #eee;}',
+            DOC: '.doc:hover{cursor:pointer;border: 1px solid #aaa}.doc{display: block;border-radius: 4px;background-color: white;box-shadow: 0px 2px 2px 0px #F2F2F2;color: #666;line-height: 23px;height: 120px;border: 1px solid #eee;overflow: hidden;}.doc.good{border-bottom:6px solid #7ab800}.doc.bad{border-bottom:6px solid #DC5034}',
+            DOCSBOX: '#docsBox{-webkit-transition: margin-left 0.8s ease-out;height: 280px;width: 99000px;text-align: left;padding: 0;margin: 0 0 0 -6px;}',
+            DOCSWRAPPER: '#docsWrapper{float:left;overflow: hidden;margin: 20px auto;width:800px;padding: 0;border-top: 1px solid #eee;}',
             WORDS: '.queryWord{background-color: #bbdaf7;padding: 7px;color: white;border-radius: 5px;margin-right: 10px;}',
-            BUTTONS: '.btn{background-color: green;padding: 5px;border-radius: 6px;height: 100px;color: white;line-height: 36px;margin-right: 35px;box-shadow: 1px 1px 0px 0px #ccc;}.btn:active{box-shadow: 0 0}',
+            BUTTONS: '.btn{padding: 60px 20px;border-radius: 6px;margin: 50px 42px;color: white;float:left;box-shadow: 1px 1px 0px 0px #ccc;}.btn:active{box-shadow: 0 0}',
             ACTIVEWORD: '.queryWord.active{background-color:#79bcff}',
             FWORDS: '.fwords{display:none}',
+            QUERYBOX: '.queryBox{box-shadow: 0px 3px 6px -1px #f2f2f2}',
             COLORS: '.green{background-color: #7ab800;}.green_stroke { padding: 30px 0px;border: 2px solid #7ab800;}.red {background-color: #DC5034;}.red_stroke {padding: 30px 0px;border: 2px solid #DC5034;}.blue {background-color: #0085c3;}.blue_stroke {padding: 30px 0px;border: 2px solid #0085c3;}.navyblue {background-color: #003758;}'
         };
 
         $this.CONTROLS = {
-            next: $('<a id="prevBtn" class="btn" href="#">next ></a>'),
-            prev: $('<a id="nextBtn" class="btn" href="#">< previous</a>')
+            next: $('<a id="prevBtn" class="btn blue">></a>'),
+            prev: $('<a id="nextBtn" class="btn blue"><</a>')
         }
 
         $this.CONTROLS.next.bind('click', function () {
@@ -202,6 +200,7 @@ var stemmer = function () {
                 newSpan.id = 'doc' + key;
                 newSpan.className = 'doc';
                 newSpan.innerHTML = value.title;
+                $(newSpan).bind('click',function(){ $this.flipDoc(newSpan); });
                 
                 var newFWordsSpan = document.createElement('span');
                 newFWordsSpan.id = 'fwords' + key;
@@ -220,11 +219,18 @@ var stemmer = function () {
                 docsBox.appendChild(newLi);
             });
 
-            //carousel actions
-            $(docsWrapper).append($this.CONTROLS.prev);
-            $(docsWrapper).append($this.CONTROLS.next);
+            //carouselBox
+            var carouselBox = document.createElement('div');
+            carouselBox.id = 'carouselBox';
+            $(carouselBox).append($this.CONTROLS.prev);
+            carouselBox.appendChild(docsWrapper);
+            $(carouselBox).append($this.CONTROLS.next);
 
-            $this.box.appendChild(docsWrapper);
+            //carousel actions
+            // $(docsWrapper).append($this.CONTROLS.prev);
+            // $(docsWrapper).append($this.CONTROLS.next);
+            $this.box.appendChild(carouselBox);
+            // $this.box.appendChild(docsWrapper);
 
             $(wrapper).append($this.box);
             $('body').append(wrapper);
@@ -233,6 +239,15 @@ var stemmer = function () {
         $this.getQuery = function () {
             var queryText = window.location.search.parseQuery('&')['queryText'] || $('.search-term').text().trim();
             $this.query = queryText.split('+');
+        }
+
+        $this.flipDoc = function(docn) {
+            if($(docn).hasClass('bad')) $(docn).removeClass('bad');
+            else if(!$(docn).hasClass('good')) $(docn).addClass('good');
+            else{
+                $(docn).removeClass('good');
+                $(docn).addClass('bad');
+            }
         }
 
         this.init();
