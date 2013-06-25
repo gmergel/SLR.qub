@@ -28,6 +28,8 @@ var stemmer = function () {
         $this.goods = new Array();
         $this.bads = new Array();
         $this.newquery = new Array();
+        $this.nqpositions = new Array();
+        $this.nonstem = new Array();
 
         $this.stopWords = ["a","able","about","above","abst","accordance","according","accordingly","across","act","actually","added","adj","affected","affecting","affects","after","afterwards","again","against","ah","all","almost","alone","along","already","also","although","always","am","among","amongst","an","and","announce","another","any","anybody","anyhow","anymore","anyone","anything","anyway","anyways","anywhere","apparently","approximately","are","aren","arent","arise","around","as","aside","ask","asking","at","auth","available","away","awfully","b","back","be","became","because","become","becomes","becoming","been","before","beforehand","begin","beginning","beginnings","begins","behind","being","believe","below","beside","besides","between","beyond","biol","both","brief","briefly","but","by","c","ca","came","can","cannot","can't","cause","causes","certain","certainly","co","com","come","comes","contain","containing","contains","could","couldnt","d","date","did","didn't","different","do","does","doesn't","doing","done","don't","down","downwards","due","during","e","each","ed","edu","effect","eg","eight","eighty","either","else","elsewhere","end","ending","enough","especially","et","et-al","etc","even","ever","every","everybody","everyone","everything","everywhere","ex","except","f","far","few","ff","fifth","first","five","fix","followed","following","follows","for","former","formerly","forth","found","four","from","further","furthermore","g","gave","get","gets","getting","give","given","gives","giving","go","goes","gone","got","gotten","h","had","happens","hardly","has","hasn't","have","haven't","having","he","hed","hence","her","here","hereafter","hereby","herein","heres","hereupon","hers","herself","hes","hi","hid","him","himself","his","hither","home","how","howbeit","however","hundred","i","id","ie","if","i'll","im","immediate","immediately","importance","important","in","inc","indeed","index","information","instead","into","invention","inward","is","isn't","it","itd","it'll","its","itself","i've","j","just","k","keep","keeps","kept","kg","km","know","known","knows","l","largely","last","lately","later","latter","latterly","least","less","lest","let","lets","like","liked","likely","line","little","'ll","look","looking","looks","ltd","m","made","mainly","make","makes","many","may","maybe","me","mean","means","meantime","meanwhile","merely","mg","might","million","miss","ml","more","moreover","most","mostly","mr","mrs","much","mug","must","my","myself","n","na","name","namely","nay","nd","near","nearly","necessarily","necessary","need","needs","neither","never","nevertheless","new","next","nine","ninety","no","nobody","non","none","nonetheless","noone","nor","normally","nos","not","noted","nothing","now","nowhere","o","obtain","obtained","obviously","of","off","often","oh","ok","okay","old","omitted","on","once","one","ones","only","onto","or","ord","other","others","otherwise","ought","our","ours","ourselves","out","outside","over","overall","owing","own","p","page","pages","part","particular","particularly","past","per","perhaps","placed","please","plus","poorly","possible","possibly","potentially","pp","predominantly","present","previously","primarily","probably","promptly","proud","provides","put","q","que","quickly","quite","qv","r","ran","rather","rd","re","readily","really","recent","recently","ref","refs","regarding","regardless","regards","related","relatively","research","respectively","resulted","resulting","results","right","run","s","said","same","saw","say","saying","says","sec","section","see","seeing","seem","seemed","seeming","seems","seen","self","selves","sent","seven","several","shall","she","shed","she'll","shes","should","shouldn't","show","showed","shown","showns","shows","significant","significantly","similar","similarly","since","six","slightly","so","some","somebody","somehow","someone","somethan","something","sometime","sometimes","somewhat","somewhere","soon","sorry","specifically","specified","specify","specifying","still","stop","strongly","sub","substantially","successfully","such","sufficiently","suggest","sup","sure","t","take","taken","taking","tell","tends","th","than","thank","thanks","thanx","that","that'll","thats","that've","the","their","theirs","them","themselves","then","thence","there","thereafter","thereby","thered","therefore","therein","there'll","thereof","therere","theres","thereto","thereupon","there've","these","they","theyd","they'll","theyre","they've","think","this","those","thou","though","thoughh","thousand","throug","through","throughout","thru","thus","til","tip","to","together","too","took","toward","towards","tried","tries","truly","try","trying","ts","twice","two","u","un","under","unfortunately","unless","unlike","unlikely","until","unto","up","upon","ups","us","use","used","useful","usefully","usefulness","uses","using","usually","v","value","various","'ve","very","via","viz","vol","vols","vs","w","want","wants","was","wasn't","way","we","wed","welcome","we'll","went","were","weren't","we've","what","whatever","what'll","whats","when","whence","whenever","where","whereafter","whereas","whereby","wherein","wheres","whereupon","wherever","whether","which","while","whim","whither","who","whod","whoever","whole","who'll","whom","whomever","whos","whose","why","widely","willing","wish","with","within","without","won't","words","world","would","wouldn't","www","x","y","yes","yet","you","youd","you'll","your","youre","yours","yourself","yourselves","you've","z","zero"];
 
@@ -49,7 +51,6 @@ var stemmer = function () {
             DOCSWRAPPER: '#docsWrapper{float:left;overflow: hidden;margin: 20px 10px;width:781px;padding: 0;border-bottom: 1px solid #eee;}',
             WORDS: '.queryWord{background-color: #bbdaf7;padding: 7px;color: white;border-radius: 5px;margin-right: 10px;}',
             BUTTONS: '.btn{padding: 60px 27px;border-radius: 6px;margin: 50px 9px;color: white;float:left;box-shadow: 1px 1px 0px 0px #ccc;}.btn:active{box-shadow: 0 0}',
-            ACTIVEWORD: '.queryWord.active{background-color:#79bcff}',
             FWORDS: '.fwords{display:none}',
             QUERIESBOX: '#queriesBox{height:120px;box-shadow: 0px 3px 6px -1px #f2f2f2}',
             QUERYBOX: '#queryBox{margin-bottom: 40px;}',
@@ -101,10 +102,14 @@ var stemmer = function () {
                 $this.abs[key] = $(this);
                 $this.abs[key].title = $($this.abs[key]).parents('.detail').find('h3').text().trim();
                 $this.abs[key].txt = $this.abs[key].text().replace(/^[\s]/g, '').replace(/\s+/g, ' ').toLowerCase();
-                words = $this.abs[key].txt.split(/\s|,|\.|-|»|\/|\\|\(|\)|:|'s/ig).filter(function (value) { return value !== "" && value !== null && !$this.isStopWord(value); });
+                words = $this.abs[key].txt.split(/\s|,|\.|-|»|\/|\\|\(|\)|:|'|'s/ig).filter(function (value) { return value !== "" && value !== null && !$this.isStopWord(value); });
                 
                 for (var wordkey in words)
-                    if (words.hasOwnProperty(wordkey)) words[wordkey] = stemmer(words[wordkey]);
+                    if (words.hasOwnProperty(wordkey)){
+                        var stemmed = stemmer(words[wordkey]);
+                        $this.nonstem[stemmed] = words[wordkey];
+                        words[wordkey] =stemmed;
+                    }
                     
                 $this.abs[key].words = words;
                 $this.abs[key].uniqueWords = words.unique().sort();
@@ -139,6 +144,7 @@ var stemmer = function () {
         }
 
         $this.TfIdf = function () {
+            console.warn('yeah');
             var positions = new Array();
             $($this.abs).each(function (key, value) {
                 value.tfidf = new Array();
@@ -255,32 +261,77 @@ var stemmer = function () {
             if($(docn).hasClass('bad')){
                 $(docn).removeClass('bad');
                 $this.bads.splice($this.bads.indexOf(docn.id), 1);
+                $this.newQ(docn.id,0);
             }else if(!$(docn).hasClass('good')){
                 $(docn).addClass('good');
                 $this.goods.push(docn.id);
+                $this.newQ(docn.id,1);
             }else{
                 $(docn).removeClass('good');
                 $(docn).addClass('bad');
                 $this.goods.splice($this.goods.indexOf(docn.id), 1);
                 $this.bads.push(docn.id);
+                $this.newQ(docn.id,-1);
             }
-            $this.newQ();
+            //$this.newQ();
         }
 
-        $this.newQ = function(){
-            $this.newquery = new Array();
-            var positions = new Array();
-            $this.goods.each(function(idx){
-                var tfidfs = $this.abs[idx.substr(3)].tfidf;
-                console.log($this.goods);
-                for(var i=0;i<5;i++){
-                    if (typeof positions[tfidfs[i][0]] == 'undefined') {
-                        positions[tfidfs[i][0]] = $this.newquery.length;
-                        $this.newquery.push(tfidfs[i]);
-                    } else $this.newquery[positions[tfidfs[i][0]]][1]++;
+        $this.newQ = function(docid, state){
+
+            var absid = docid.replace('doc','');
+            var tfidfs = $this.abs[absid].tfidf;
+
+            for(var i=0;i<5;i++){
+                if (typeof $this.nqpositions[tfidfs[i][0]] == 'undefined') {
+                    $this.nqpositions[tfidfs[i][0]] = $this.newquery.length;
+                    $this.newquery.push(new Array(tfidfs[i][0],tfidfs[i][1]));
+                } else {
+                    var modifier;
+                    switch(state){
+                        default:
+                        case 0:
+                        case 1:
+                            modifier = parseInt(tfidfs[i][1],10);
+                            break;
+                        case -1:
+                            modifier = parseInt((-2*tfidfs[i][1]),10);
+                            break;
+                    }
+                    $this.newquery[$this.nqpositions[tfidfs[i][0]]][1] += modifier;
                 }
+            }
+
+            // $this.newquery = new Array();
+            // var positions = new Array();
+            // $this.goods.each(function(idx){
+            //     var tfidfs = $this.abs[idx.substr(3)].tfidf;
+            //     for(var i=0;i<5;i++){
+            //         if (typeof positions[tfidfs[i][0]] == 'undefined') {
+            //             positions[tfidfs[i][0]] = $this.newquery.length;
+            //             $this.newquery.push(tfidfs[i]);
+            //         } else {
+            //             console.log($this.newquery[positions[tfidfs[i][0]]][1]+' + '+tfidfs[i][1]);
+            //             $this.newquery[positions[tfidfs[i][0]]][1] += tfidfs[i][1];
+            //         }
+            //     }
+            // });
+            // $this.bads.each(function(idx){
+            //     var tfidfs = $this.abs[idx.substr(3)].tfidf;
+            //     for(var i=0;i<5;i++){
+            //         if (typeof positions[tfidfs[i][0]] == 'undefined') {
+            //             positions[tfidfs[i][0]] = $this.newquery.length;
+            //             $this.newquery.push(tfidfs[i]);
+            //         } else {
+            //             console.log($this.newquery[positions[tfidfs[i][0]]][0]+' = '+$this.newquery[positions[tfidfs[i][0]]][1]+' - '+(2*tfidfs[i][1]));
+            //             $this.newquery[positions[tfidfs[i][0]]][1] = $this.newquery[positions[tfidfs[i][0]]][1]-(2*tfidfs[i][1]);
+            //         }
+            //     }
+            // });
+
+            $this.newquery.sort(function (a, b) { return b[1] - a[1] });
+            $this.newquery.each(function(value,key){
+                $this.nqpositions[value[0]] = key;
             });
-            $this.newquery.sort(function (a, b) { return b[1] - a[1] })
             $this.updateNQ();
         }
 
@@ -289,10 +340,18 @@ var stemmer = function () {
             if(!$this.newquery.length) return;
             for(var i = 0; i< 5; i++){
                 var wordspan = document.createElement('span');
-                wordspan.innerHTML = $this.newquery[i][0];
-                wordspan.className = 'queryWord';
+                wordspan.innerHTML = $this.nonstem[$this.newquery[i][0].trim()];
+                wordspan.innerHTML += ' ('+$this.newquery[i][1].toFixed(2)+')';
+                wordspan.className = 'queryWord green';
                 $("#suggBox").append(wordspan);
             };
+            $("#suggBox").append(document.createElement('br'));
+            /*for(var i = 0; i< 5; i++){
+                var wordspan = document.createElement('span');
+                wordspan.innerHTML = $this.nonstem[$this.newquery[i][0].trim()];
+                wordspan.className = 'queryWord green';
+                $("#suggBox").append(wordspan);
+            };*/
         }
 
         this.init();
