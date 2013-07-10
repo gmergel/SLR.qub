@@ -340,7 +340,7 @@ var stemmer = function () {
                 splitted.each(function(w){
                     finalword += ' '+$this.nonstem[w];
                 });
-                var finaltfidf = (typeof $this.df[wobj[0]] == 'number')? wobj[1]/$this.df[wobj[0]] : wobj[1];
+                var finaltfidf = (typeof $this.df[wobj[0]] == 'number')? wobj[1]/$this.goods.length : wobj[1];//wobj[1]/$this.df[wobj[0]] : wobj[1];
                 if(finaltfidf < $this.corte) return;
 
                 wordspan.innerHTML = finalword.trim();//$this.newquery[i][0].trim();//$this.nonstem[$this.newquery[i][0].trim()];
