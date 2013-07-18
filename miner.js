@@ -30,7 +30,7 @@ var stemmer = function () {
         $this.newquery = new Array();
         $this.nqpositions = new Array();
         $this.nonstem = new Array();
-        $this.corte = 0.5;
+        $this.corte = 1;
 
         $this.stopWords = ["a","able","about","above","abst","accordance","according","accordingly","across","act","actually","added","adj","affected","affecting","affects","after","afterwards","again","against","ah","all","almost","alone","along","already","also","although","always","am","among","amongst","an","and","announce","another","any","anybody","anyhow","anymore","anyone","anything","anyway","anyways","anywhere","apparently","approximately","are","aren","arent","arise","around","as","aside","ask","asking","at","auth","available","away","awfully","b","back","be","became","because","become","becomes","becoming","been","before","beforehand","begin","beginning","beginnings","begins","behind","being","believe","below","beside","besides","between","beyond","biol","both","brief","briefly","but","by","c","ca","came","can","cannot","can't","cause","causes","certain","certainly","co","com","come","comes","contain","containing","contains","could","couldnt","d","date","did","didn't","different","do","does","doesn't","doing","done","don't","down","downwards","due","during","e","each","ed","edu","effect","eg","eight","eighty","either","else","elsewhere","end","ending","enough","especially","et","et-al","etc","even","ever","every","everybody","everyone","everything","everywhere","ex","except","f","far","few","ff","fifth","first","five","fix","followed","following","follows","for","former","formerly","forth","found","four","from","further","furthermore","g","gave","get","gets","getting","give","given","gives","giving","go","goes","gone","got","gotten","h","had","happens","hardly","has","hasn't","have","haven't","having","he","hed","hence","her","here","hereafter","hereby","herein","heres","hereupon","hers","herself","hes","hi","hid","him","himself","his","hither","home","how","howbeit","however","hundred","i","id","ie","if","i'll","im","is","immediate","immediately","importance","important","in","inc","indeed","index","information","instead","into","invention","inward","is","isn't","it","itd","it'll","its","itself","i've","j","just","k","keep","keeps","kept","kg","km","know","known","knows","l","largely","last","lately","later","latter","latterly","least","less","lest","let","lets","like","liked","likely","line","little","'ll","look","looking","looks","ltd","m","made","mainly","make","makes","many","may","maybe","me","mean","means","meantime","meanwhile","merely","mg","might","million","miss","ml","more","moreover","most","mostly","mr","mrs","much","mug","must","my","myself","n","na","name","namely","nay","nd","near","nearly","necessarily","necessary","need","needs","neither","never","nevertheless","new","next","nine","ninety","no","nobody","non","none","nonetheless","noone","nor","normally","nos","not","noted","nothing","now","nowhere","o","obtain","obtained","obviously","of","off","often","oh","ok","okay","old","omitted","on","once","one","ones","only","onto","or","ord","other","others","otherwise","ought","our","ours","ourselves","out","outside","over","overall","owing","own","p","page","pages","part","particular","particularly","past","per","perhaps","placed","please","plus","poorly","possible","possibly","potentially","pp","predominantly","present","previously","primarily","probably","promptly","proud","provides","put","q","que","quickly","quite","qv","r","ran","rather","rd","re","readily","really","recent","recently","ref","refs","regarding","regardless","regards","related","relatively","research","respectively","resulted","resulting","results","right","run","s","said","same","saw","say","saying","says","sec","section","see","seeing","seem","seemed","seeming","seems","seen","self","selves","sent","seven","several","shall","she","shed","she'll","shes","should","shouldn't","show","showed","shown","showns","shows","significant","significantly","similar","similarly","since","six","slightly","so","some","somebody","somehow","someone","somethan","something","sometime","sometimes","somewhat","somewhere","soon","sorry","specifically","specified","specify","specifying","still","stop","strongly","sub","substantially","successfully","such","sufficiently","suggest","sup","sure","t","take","taken","taking","tell","tends","th","than","thank","thanks","thanx","that","that'll","thats","that've","the","their","theirs","them","themselves","then","thence","there","thereafter","thereby","thered","therefore","therein","there'll","thereof","therere","theres","thereto","thereupon","there've","these","they","theyd","they'll","theyre","they've","think","this","those","thou","though","thoughh","thousand","throug","through","throughout","thru","thus","til","tip","to","together","too","took","toward","towards","tried","tries","truly","try","trying","ts","twice","two","u","un","under","unfortunately","unless","unlike","unlikely","until","unto","up","upon","ups","us","use","used","useful","usefully","usefulness","uses","using","usually","v","value","various","'ve","very","via","viz","vol","vols","vs","w","want","wants","was","wasn't","way","we","wed","welcome","we'll","went","were","weren't","we've","what","whatever","what'll","whats","when","whence","whenever","where","whereafter","whereas","whereby","wherein","wheres","whereupon","wherever","whether","which","while","whim","whither","who","whod","whoever","whole","who'll","whom","whomever","whos","whose","why","widely","willing","wish","with","within","without","won't","words","world","would","wouldn't","www","x","y","yes","yet","you","youd","you'll","your","youre","yours","yourself","yourselves","you've","z","zero"];
 
@@ -48,15 +48,18 @@ var stemmer = function () {
             DOCSLI: '#docsBox li{display: inline-block;margin: 20px 30px auto;text-align: center;width: 100px;vertical-align: top;}',
             DOC: '.doc:hover{cursor:pointer;border: 1px solid #aaa}.doc{display: block;border-radius: 4px;background-color: white;box-shadow: 0px 2px 2px 0px #F2F2F2;color: #666;line-height: 23px;height: 120px;border: 1px solid #eee;overflow: hidden;}.doc.good{border-bottom:6px solid #7ab800}.doc.bad{border-bottom:6px solid #DC5034}',
             DOCREF: '.docref{font-size: 13px;height: 15px;width: auto;color: #777;}',
-            DOCSBOX: '#docsBox{-webkit-transition: margin-left 0.8s ease-out;width: 99000px;text-align: left;height: 190px;padding: 0;margin: 0 0 0 -6px;}',
+            DOCSBOX: '#docsBox{-webkit-transition: margin-left 0.8s ease-out;width: 99000px;text-align: left;height: 290px;padding: 0;margin: 0 0 0 -6px;}',
             DOCSWRAPPER: '#docsWrapper{float:left;overflow: hidden;margin: 20px 10px;width:781px;padding: 0;border-bottom: 1px solid #eee;}',
-            WORDS: '.queryWord{padding: 7px;color: white;border-radius: 5px;margin-right: 10px;}',
+            WORDS: '.queryWord{padding: 3px;color: white;float:left;border-radius: 5px;margin-right: 10px;display: inline-block;margin-bottom: 3px;}',
             BUTTONS: '.btn{padding: 60px 27px;border-radius: 6px;margin: 50px 9px;color: white;float:left;box-shadow: 1px 1px 0px 0px #ccc;}.btn:active{box-shadow: 0 0}',
-            FWORDS: '.fwords{display:none}',
+            FWORDS: '',//'.fwords{display:none}',
             QUERIESBOX: '#queriesBox{height:120px;box-shadow: 0px 3px 6px -1px #f2f2f2}',
-            QUERYBOX: '#queryBox{margin-bottom: 40px;}',
-            SUGGBOX: '#suggBox{}',
-            COLORS: '.grey{background-color: #aaa}.green{background-color: #7ab800;}.green_stroke { padding: 30px 0px;border: 2px solid #7ab800;}.red {background-color: #DC5034;}.red_stroke {padding: 30px 0px;border: 2px solid #DC5034;}.blue {background-color: #0085c3;}.blue_stroke {padding: 30px 0px;border: 2px solid #0085c3;}.navyblue {background-color: #003758;}'
+            TITLE: '#title{height: 30px;font-size: 22px;margin-bottom: 10px;text-decoration: underline;font-style: italic;}',
+            QUERYBOX: '#queryBox{height:33px;}',
+            SUGGBOX: '#suggBox{clear:both;height: 54px;overflow: hidden;}',
+            LABELS: '.label{margin-bottom: 10px;color: white;padding: 3px;float: left;margin-right: 20px;width: 105px;text-align: left;}',
+            HEATMAP: '.heatmapTable{clear:both}.heatcell{width:160px;}',
+            COLORS: '.orange{background-color: #EE6411}.grey{background-color: #aaa}.green{background-color: #7ab800;}.green_stroke { padding: 30px 0px;border: 2px solid #7ab800;}.red {background-color: #DC5034;}.red_stroke {padding: 30px 0px;border: 2px solid #DC5034;}.blue {background-color: #0085c3;}.blue_stroke {padding: 30px 0px;border: 2px solid #0085c3;}.navyblue {background-color: #003758;}'
         };
 
         $this.CONTROLS = {
@@ -81,7 +84,7 @@ var stemmer = function () {
             $("head").append(styles);
 
             //blur page
-            $('#LayoutWrapper').css('opacity', 0.15);
+            $('#LayoutWrapper').css('opacity', 0.2);
 
             //get abstracts
             $this.getAbs();
@@ -91,8 +94,6 @@ var stemmer = function () {
             //prepare box layout elements
             $this.getQuery();
             $this.createBox();
-            //calc
-            //$this.allWords();
 
             console.warn("done");
         }
@@ -101,6 +102,7 @@ var stemmer = function () {
             $(".abstract").each(function (key) {
                 var words = [];
                 $this.abs[key] = $(this);
+                $this.abs[key].id = 'doc'+key;
                 $this.abs[key].title = $($this.abs[key]).parents('.detail').find('h3').text().trim();
                 $this.abs[key].txt = $this.abs[key].text().replace(/^[\s]/g, '').replace(/\s+/g, ' ').toLowerCase();
                 var txt = $this.abs[key].txt;
@@ -110,7 +112,11 @@ var stemmer = function () {
                     var regex = new RegExp(word,'ig');
                     txt = txt.replace(regex,'&&&');
                 })
-                words = txt.split(/,|\.|-|»|\/|\\|\(|\)|:|'|'s|&&&/ig).filter(function (value) { value = value.trim(); return value !== "" && value !== null && !$this.isStopWord(value); });
+                words = txt.split(/\→|\*|\"|\,|\.|\;|-|»|\/|\\|\(|\)|:|'|'s|&&&/ig)
+                        .filter(function (value) { 
+                        value = value.trim();
+                            return value !== "" && value !== null && !$this.isStopWord(value);
+                        });
                 
                 for (var wordkey in words)
                     if (words.hasOwnProperty(wordkey)){
@@ -134,11 +140,29 @@ var stemmer = function () {
             });
         }
 
-        $this.countWords = function () {
+        $this.normalizeTF = function(){
+            $this.abs.each(function(abs){
+                var max = abs.tf[0][1]; //ordenado anteriormente
+                abs.tf.each(function(word){
+                    var f = word[1];
+                    word[1] = f/max;
+                });
+            });
+        }
 
-            $($this.abs).each(function () {
+        $this.countWords = function (coll) {
+
+            var collection = new Array();
+
+            if(coll){
+                coll.each(function(key){
+                    collection.push($this.abs[key]);
+                })
+            }else collection = $this.abs;
+
+            collection.each(function (abs) {
                 
-                var words = this.words;
+                var words = abs.words;
                 var positions = new Array();
                 var word_counts = new Array();
 
@@ -149,20 +173,24 @@ var stemmer = function () {
                     if (typeof positions[word] == 'undefined') {
                         positions[word] = word_counts.length;
                         word_counts.push([word, 1]);
-                        ($this.df[word]) ? $this.df[word]++ : $this.df[word] = 1;
+                        //($this.df[word]) ? $this.df[word]++ : $this.df[word] = 1;
+                        if(!$this.df[word]) $this.df[word] = new Array();
+                        $this.df[word].push(abs.id);
                     } else word_counts[positions[word]][1]++;
 
                 }
                 // Put most frequent words at the beginning.
                 word_counts.sort(function (a, b) { return b[1] - a[1] })
-                this.tf = word_counts;
+                abs.tf = word_counts;
 
             });
 
         }
 
         $this.TfIdf = function () {
-            console.warn('yeah');
+            
+            $this.normalizeTF();
+
             var positions = new Array();
             $($this.abs).each(function (key, value) {
                 value.tfidf = new Array();
@@ -170,19 +198,13 @@ var stemmer = function () {
                     if (value.tf.hasOwnProperty(wordkey) && value.tf[wordkey]) {
                         var word =  value.tf[wordkey][0];
                         var termf = value.tf[wordkey][1];
-                        var df = MINER.df[word];
-                        //word[0];
-                        
-                        //if(typeof positions[word] == 'undefined')
+                        var df = MINER.df[word].length;
                             
                         if (typeof value.tfidf[wordkey] == 'undefined'){
-                            var tfidf = Math.log(termf) * Math.log(Math.abs(MINER.abs.length)/df);
+                            var tfidf = Math.log((termf)*(MINER.abs.length/df));
+                            console.warn(">>>> "+tfidf)
                             value.tfidf[wordkey] = [word, tfidf];
                         }
-                        //value.tfidf[wordkey][0] = word;
-                        //value.tfidf[wordkey][1] = termf / df;
-                        
-                        //console.log(word + " = " + termf / df);
                     }
                 }
                 value.tfidf.sort(function (a, b) { return b[1] - a[1] })
@@ -202,16 +224,35 @@ var stemmer = function () {
             //suggBox
             var suggBox = document.createElement('div');
             suggBox.id = 'suggBox';
+            var termsBox = document.createElement('div');
+            termsBox.id = 'termsBox';
             var queriesBox = document.createElement('div');
             queriesBox.id = 'queriesBox';
+            var title = document.createElement('div');
+            title.id = 'title';
+            title.innerHTML = 'qub';
+            $this.box.appendChild(title);
 
             queriesBox.appendChild(queryBox);
             queriesBox.appendChild(suggBox);
 
+            var labelQ = document.createElement('span');
+            labelQ.id = 'queryLabel';
+            labelQ.className = 'grey label';
+            labelQ.innerHTML = '<i>String</i> de busca';
+            queryBox.appendChild(labelQ);
+
+            var labelSQ = document.createElement('span');
+            labelSQ.id = 'queryLabel';
+            labelSQ.className = 'grey label';
+            labelSQ.innerHTML = 'Termos sugeridos';
+            suggBox.appendChild(labelSQ);
+            suggBox.appendChild(termsBox);
+
             $(MINER.query).each(function (key, value) {
                 var newSpan = document.createElement('span');
                 newSpan.id = 'word' + key;
-                newSpan.className = 'queryWord grey';
+                newSpan.className = 'queryWord blue';
                 newSpan.innerHTML = value;
                 queryBox.appendChild(newSpan);
             });
@@ -265,6 +306,27 @@ var stemmer = function () {
 
             $this.box.appendChild(carouselBox);
 
+            //heatmap
+            var heatmapBox = document.createElement('div');
+            heatmapBox.id = 'heatmapBox';
+            heatmapBox.className = 'heatmapBox';
+            $this.box.appendChild(heatmapBox);
+
+            var heatmapTable = document.createElement('table');
+            heatmapTable.id = 'heatmapTable';
+            heatmapTable.className = 'heatmapTable';
+
+            var tr = document.createElement('tr');
+            $this.abs.each(function(){
+                var td = document.createElement('td');
+                td.className = 'heatcell grey';
+                td.style.border = '1px solid #ccc';
+                tr.appendChild(td);
+            })
+
+            heatmapTable.appendChild(tr);
+            heatmapBox.appendChild(heatmapTable);
+
             $(wrapper).append($this.box);
             $('body').append(wrapper);
         }
@@ -294,17 +356,17 @@ var stemmer = function () {
         }
 
         $this.newQ = function(docid, state){
-
+            console.warn(docid+" - "+state);
             var absid = docid.replace('doc','');
             var tfidfs = $this.abs[absid].tfidf;
 
             for(var i=0;i<5;i++){
                 if (typeof $this.nqpositions[tfidfs[i][0]] == 'undefined') {
                     $this.nqpositions[tfidfs[i][0]] = $this.newquery.length;
-                    console.warn($this.nqpositions[tfidfs[i][0]]+") "+tfidfs[i][0]);
+                    console.warn($this.nqpositions[tfidfs[i][0]]+") "+tfidfs[i][0] + " "+tfidfs[i][1]);
                     $this.newquery.push(new Array(tfidfs[i][0],tfidfs[i][1]));
                 } else {
-                    var modifier;
+                    var modifier = 0;
                     switch(state){
                         default:
                         case 0:
@@ -315,6 +377,7 @@ var stemmer = function () {
                             modifier = (-2*tfidfs[i][1]);
                             break;
                     }
+                    console.warn(tfidfs[i][0]+" = "+$this.newquery[$this.nqpositions[tfidfs[i][0]]][1]+"+"+modifier);
                     $this.newquery[$this.nqpositions[tfidfs[i][0]]][1] += modifier;
                 }
             }
@@ -327,25 +390,26 @@ var stemmer = function () {
         }
 
         $this.updateNQ = function(){
-            $("#suggBox").html('');
+            $("#termsBox").html('');
             if(!$this.newquery.length) return;
+            if(!$this.goods.length) return;
 
             $this.newquery.each(function(wobj, key){
                 
                 var wordspan = document.createElement('span');
-                console.log(wobj);
                 var splitted = wobj[0].split(' ');
                 var finalword = '';
                 splitted.each(function(w){
                     finalword += ' '+$this.nonstem[w];
                 });
-                var finaltfidf = (typeof $this.df[wobj[0]] == 'number')? wobj[1]/$this.goods.length : wobj[1];//wobj[1]/$this.df[wobj[0]] : wobj[1];
+                var finaltfidf = wobj[1]/$this.goods.length;
+                //var finaltfidf = wobj[1];//wobj[1]/$this.df[wobj[0]] : wobj[1];
                 if(finaltfidf < $this.corte) return;
 
                 wordspan.innerHTML = finalword.trim();//$this.newquery[i][0].trim();//$this.nonstem[$this.newquery[i][0].trim()];
                 wordspan.innerHTML += ' ('+finaltfidf.toFixed(2)+')';
                 wordspan.className = 'queryWord green';
-                $("#suggBox").append(wordspan);
+                $("#termsBox").append(wordspan);
             });
         }
 
