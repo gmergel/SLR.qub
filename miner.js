@@ -146,6 +146,7 @@ var stemmer = function () {
         }
 
         $this.normalizeTF = function(){
+            return;
             $this.abs.each(function(abs){
                 var max = abs.tf[0][1]; //ordenado anteriormente
                 abs.tf.each(function(word){
