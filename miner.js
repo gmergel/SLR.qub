@@ -42,11 +42,14 @@ var stemmer = function () {
             return false;
         }
 
-        $this.step = 160;
+        $this.step = 159;
         $this.moveby = 2;
+        $this.sit = 0;
+        $this.heatmapwidth = 800;
+
         $this.STYLES = {
             BOXWRAPPER: '#boxWrapper{width: 100%;position: absolute;top: 0;text-align: center;font-family:Trebuchet MS; font-size: 13px}',
-            BOX: '#box{width: 960px;background-color: white;height: 620px;padding-top: 20px;margin: 70px auto;text-align: center;border-radius: 6px;box-shadow: 2px 2px 12px #ddd, -2px -2px 12px #ddd;}',
+            BOX: '#box{width: 960px;background-color: white;height: 640px;padding-top: 20px;margin: 70px auto;text-align: center;border-radius: 6px;box-shadow: 2px 2px 12px #ddd, -2px -2px 12px #ddd;}',
             DOCSLI: '#docsBox li{display: inline-block;margin: 20px 30px auto;text-align: center;width: 100px;vertical-align: top;}',
             DOC: '.doc:hover{cursor:pointer;border: 1px solid #aaa}.doc{display: block;border-radius: 4px;background-color: white;box-shadow: 0px 2px 2px 0px #F2F2F2;color: #666;line-height: 23px;height: 120px;border: 1px solid #eee;overflow: hidden;}.doc.good{border-bottom:6px solid #7ab800}.doc.bad{border-bottom:6px solid #DC5034}',
             DOCREF: '.docref{font-size: 13px;height: 15px;width: auto;color: #777;}',
@@ -61,7 +64,8 @@ var stemmer = function () {
             SUGGBOX: '#suggBox{clear:both;height: 54px;overflow: hidden;}',
             OPTBOX: '#optionsBox{margin-top: 12px;}',
             LABELS: '.label{margin-bottom: 10px;color: white;padding: 3px;float: left;margin-right: 20px;width: 105px;text-align: left;}',
-            HEATMAP: '.heatmapWordiv{padding-right: 10px;height:20px}#heatmapWords{text-align:right;width: 90px;position: absolute;background-color: white;height: 200px;z-index: 5;}#heatmapBox{height:0;clear: both;width: 871px;margin: 20px 10px 20px 0px;overflow: hidden;}#heatmapTable{clear:both;-webkit-transition: margin-left 0.8s ease-out;margin-left: 90px;}.heatcell{color:white;opacity:0;width:160px;height:20px}',
+            HEATMAP: '.headcell{background-color:white;visibility:hidden;}.heatmapWordiv{padding-right: 10px;height:20px}#heatmapWords{text-align:right;width: 90px;position: absolute;background-color: white;height: 200px;z-index: 5;}#heatmapBox{height:0;clear: both;width: 871px;margin: 20px 10px 20px 0px;}#heatmapTable{clear:both;-webkit-transition: margin-left 0.8s ease-out;margin-left: 90px;}.heatcell{cursor: pointer; color:white;opacity:0;height:20px}',
+            OVERLAY: '#overlay{-webkit-transition: margin-left 0.8s ease-out;visibility:hidden;border: 2px solid #bbb;position: absolute;width: 164px;margin-left: 86px;z-index: 9;opacity: 0.7;margin-top: -5px;height: 224px;border-radius: 7px;}',
             COLORS: '.yellow{background-color: #F2AF00}.orange{background-color: #EE6411}.grey{background-color: #aaa}.green{background-color: #7ab800;}.green_stroke { padding: 30px 0px;border: 2px solid #7ab800;}.red {background-color: #DC5034;}.red_stroke {padding: 30px 0px;border: 2px solid #DC5034;}.blue {background-color: #0085c3;}.blue_stroke {padding: 30px 0px;border: 2px solid #0085c3;}.navyblue {background-color: #003758;}'
         };
 
@@ -70,13 +74,27 @@ var stemmer = function () {
             prev: $('<a id="nextBtn" class="btn blue"><</a>')
         }
 
+        $this.moveheatmap = function(steps){
+            if(($this.sit <= 0 && steps < 0) || ($this.sit >= (Math.floor($this.abs.length/$this.moveby)-1) && steps > 0)) return;
+            $('#docsBox').css('margin-left', parseInt($('#docsBox').css('margin-left'), 10) - (steps * $this.moveby * $this.step) + 'px');
+            //$('#heatmapTable').css('margin-left', parseInt($('#heatmapTable').css('margin-left'), 10) - ($this.moveby * $this.step) + 'px');
+            $('#overlay').css('margin-left', parseInt($('#overlay').css('margin-left'), 10) + (steps * $this.moveby * $this.heatmapcellstep) + 'px');
+            $this.sit += steps;
+        }
+
         $this.CONTROLS.next.bind('click', function () {
-            $('#docsBox').css('margin-left', parseInt($('#docsBox').css('margin-left'), 10) - ($this.moveby * $this.step) + 'px');
-            $('#heatmapTable').css('margin-left', parseInt($('#heatmapTable').css('margin-left'), 10) - ($this.moveby * $this.step) + 'px');
+            /*$('#docsBox').css('margin-left', parseInt($('#docsBox').css('margin-left'), 10) - ($this.moveby * $this.step) + 'px');
+            //$('#heatmapTable').css('margin-left', parseInt($('#heatmapTable').css('margin-left'), 10) - ($this.moveby * $this.step) + 'px');
+            $('#overlay').css('margin-left', parseInt($('#overlay').css('margin-left'), 10) + ($this.moveby * $this.heatmapcellstep) + 'px');
+            */
+            $this.moveheatmap(1);
         });
         $this.CONTROLS.prev.bind('click', function () {
-            $('#docsBox').css('margin-left', parseInt($('#docsBox').css('margin-left'), 10) + ($this.moveby * $this.step) + 'px');
-            $('#heatmapTable').css('margin-left', parseInt($('#heatmapTable').css('margin-left'), 10) + ($this.moveby * $this.step) + 'px');
+            /*$('#docsBox').css('margin-left', parseInt($('#docsBox').css('margin-left'), 10) + ($this.moveby * $this.step) + 'px');
+            //$('#heatmapTable').css('margin-left', parseInt($('#heatmapTable').css('margin-left'), 10) + ($this.moveby * $this.step) + 'px');
+            $('#overlay').css('margin-left', parseInt($('#overlay').css('margin-left'), 10) - ($this.moveby * $this.heatmapcellstep) + 'px');
+            */
+            $this.moveheatmap(-1);
         });
 
         $this.init = function () {
@@ -143,6 +161,7 @@ var stemmer = function () {
                 $this.abs[key].words = words;
                 $this.abs[key].uniqueWords = words.unique().sort();
             });
+            $this.heatmapcellstep = Math.floor($this.heatmapwidth/$this.abs.length);
         }
 
         $this.normalizeTF = function(){
@@ -334,18 +353,37 @@ var stemmer = function () {
 
             var heatmapWords = document.createElement('div');
             heatmapWords.id = 'heatmapWords';
+
+            var wordiv = document.createElement('div');
+            wordiv.className = 'heatmapWordiv';
+            heatmapWords.appendChild(wordiv);
+
             for(var i=0;i<$this.heatmapwords;i++){
                 var wordiv = document.createElement('div');
                 wordiv.className = 'heatmapWordiv';
                 wordiv.id = 'heatmapWord-'+i;
                 heatmapWords.appendChild(wordiv);
             }
+
             heatmapBox.appendChild(heatmapWords);
+
+            var overlay = document.createElement('div');
+            overlay.id = "overlay";
+            heatmapBox.appendChild(overlay); 
 
             var heatmapTable = document.createElement('table');
             heatmapTable.id = 'heatmapTable';
             heatmapTable.className = 'yellow';
-            heatmapTable.style.width = $this.abs.length*160+'px';
+            heatmapTable.style.width = $this.heatmapwidth+'px';
+
+            var tr = document.createElement('tr');
+            $this.abs.each(function(v, k){
+                var td = document.createElement('td');
+                td.innerHTML = k+1;
+                td.className = 'headcell';
+                tr.appendChild(td);
+            });
+            heatmapTable.appendChild(tr);
 
             for(var i=0; i<$this.heatmapwords; i++){
                 var tr = document.createElement('tr');
@@ -354,6 +392,12 @@ var stemmer = function () {
                     td.id = 'heatcell'+i+'-'+k;
                     td.className = 'heatcell red';
                     tr.appendChild(td);
+                    $(td).bind('click',function(e){
+                        var n = Math.floor(this.id.split('-')[1]/$this.moveby);
+                        var diff = n-$this.sit;//($this.sit<n)? n-$this.sit : -1*($this.sit-n);
+                        console.log(diff);
+                        $this.moveheatmap(diff);
+                    });
                 });
                 heatmapTable.appendChild(tr);
             }            
@@ -366,17 +410,20 @@ var stemmer = function () {
         $this.colorizeHeatmap = function(){
             $this.newquery.each(function(word,wkey){
                 if(word[1]/$this.goods.length < $this.corte || wkey >= $this.heatmapwords){
-                    console.warn(wkey+" - "+$this.heatmapwords)
                     $("#heatmapBox").css('height',(wkey*20)+'px');
                     for(var y=wkey;y<=$this.heatmapwords;y++){
-                        console.log($("#heatmapWord-"+y));
                         $("#heatmapWord-"+y).html('');
                     }
                     throw $break;
 
                 }
-                //if(wkey>=10) return;
                 $("#heatmapWord-"+wkey).html($this.nonstem[word[0].trim()]);
+
+                //show
+                $("#overlay").css('visibility','visible');
+                $(".headcell").css('visibility','visible');
+                
+                
 
                 $this.abs.each(function(abs,akey){
                     $('#heatcell'+wkey+'-'+akey).css('opacity',0);
@@ -390,12 +437,18 @@ var stemmer = function () {
                     //var rlog = Math.log(relevancy,2)*-1;//Math.log(relevancy)*-1;
                     //var irlog = 1/rlog;
                     var fopac = relevancy.toFixed(2);///Math.log($this.maxtfidf,2);
-                    $('#heatcell'+wkey+'-'+akey).css('opacity',fopac)
-                                                .html(wtfidf.toFixed(2));
+                    
+                    //$('.heatcell').css('width',cellwidth+'%');
+
+                    $('#heatcell'+wkey+'-'+akey).css('opacity',fopac);
+                                                //.html(wtfidf.toFixed(2));
 
                     
                 });
+
             });
+            var cellwidth = 100/parseInt($this.abs.length,10);
+            $('.heatcell').css('width',cellwidth+'%');
         }
 
         $this.getQuery = function () {
