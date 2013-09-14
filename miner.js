@@ -55,7 +55,7 @@ var stemmer = function () {
             DOCREF: '.docref{font-size: 13px;height: 15px;width: auto;color: #777;}',
             DOCSBOX: '#docsBox{-webkit-transition: margin-left 0.8s ease-out;width: 99000px;text-align: left;height: 180px;padding: 0;margin: 0 0 0 -6px;}',
             DOCSWRAPPER: '#docsWrapper{float:left;overflow: hidden;margin: 20px 10px;width:781px;padding: 0;border-bottom: 1px solid #eee;}',
-            WORDS: '.queryWord{padding: 3px;color: white;float:left;border-radius: 5px;margin-right: 10px;display: inline-block;margin-bottom: 3px;}',
+            WORDS: '.queryWord{padding: 3px;float:left;border-radius: 5px;margin-right: 10px;display: inline-block;margin-bottom: 3px;}',
             BUTTONS: '.btn{padding: 60px 27px;border-radius: 6px;margin: 50px 9px 0px;color: white;float:left;box-shadow: 1px 1px 0px 0px #ccc;}.btn:active{box-shadow: 0 0}',
             FWORDS: '.fwords{display:none}',
             QUERIESBOX: '#queriesBox{height:140px;box-shadow: 0px 3px 6px -1px #f2f2f2}',
@@ -66,7 +66,7 @@ var stemmer = function () {
             LABELS: '.label{margin-bottom: 10px;color: white;padding: 3px;float: left;margin-right: 20px;width: 105px;text-align: left;}',
             HEATMAP: '.headcell{background-color:white;visibility:hidden;}.heatmapWordiv{padding-right: 10px;height:20px}#heatmapWords{text-align:right;width: 90px;position: absolute;background-color: white;height: 200px;z-index: 5;}#heatmapBox{height:0;clear: both;width: 871px;margin: 20px 10px 20px 0px;}#heatmapTable{clear:both;-webkit-transition: margin-left 0.8s ease-out;margin-left: 90px;}.heatcell{cursor: pointer; color:white;opacity:0;height:20px}',
             OVERLAY: '#overlay{-webkit-transition: margin-left 0.8s ease-out;visibility:hidden;border: 2px solid #bbb;position: absolute;width: 164px;margin-left: 86px;z-index: 9;opacity: 0.7;margin-top: -5px;height: 224px;border-radius: 7px;}',
-            COLORS: '.yellow{background-color: #F2AF00}.orange{background-color: #EE6411}.grey{background-color: #aaa}.green{background-color: #7ab800;}.green_stroke { padding: 30px 0px;border: 2px solid #7ab800;}.red {background-color: #DC5034;}.red_stroke {padding: 30px 0px;border: 2px solid #DC5034;}.blue {background-color: #0085c3;}.blue_stroke {padding: 30px 0px;border: 2px solid #0085c3;}.navyblue {background-color: #003758;}'
+            COLORS: '.grey-text{margin-right:2px; color: #aaa}.yellow{background-color: #F2AF00}.orange{background-color: #EE6411;color:white}.grey{color:white;background-color: #aaa}.green{color:white;background-color: #7ab800;}.green_stroke { padding: 30px 0px;border: 2px solid #7ab800;}.red {color:white;background-color: #DC5034;}.red_stroke {padding: 30px 0px;border: 2px solid #DC5034;}.blue {color:white;background-color: #0085c3;}.blue_stroke {padding: 30px 0px;border: 2px solid #0085c3;}.navyblue {color:white;background-color: #003758;}'
         };
 
         $this.CONTROLS = {
@@ -75,7 +75,10 @@ var stemmer = function () {
         }
 
         $this.moveheatmap = function(steps){
-            if(($this.sit <= 0 && steps < 0) || ($this.sit >= (Math.floor($this.abs.length/$this.moveby)-1) && steps > 0)) return;
+            if(($this.sit <= 0 && steps < 0) || ($this.sit >= (Math.round(($this.abs.length-5)/$this.moveby)) && steps > 0)) return;
+            steps = Math.min(steps,(Math.round(($this.abs.length-5)/$this.moveby))-$this.sit);
+            console.warn(">"+steps);
+
             $('#docsBox').css('margin-left', parseInt($('#docsBox').css('margin-left'), 10) - (steps * $this.moveby * $this.step) + 'px');
             //$('#heatmapTable').css('margin-left', parseInt($('#heatmapTable').css('margin-left'), 10) - ($this.moveby * $this.step) + 'px');
             $('#overlay').css('margin-left', parseInt($('#overlay').css('margin-left'), 10) + (steps * $this.moveby * $this.heatmapcellstep) + 'px');
@@ -123,6 +126,8 @@ var stemmer = function () {
 
         $this.getAbs = function () {
             $(".abstract").each(function (key) {
+                //if($(this).parents('.detail').find('h3').length <= 0 || $(this).text().length <= 0 || $(this).text() == '') return;
+                if(key%2==1) return;
                 var words = [];
                 $this.abs[key] = $(this);
                 $this.abs[key].id = 'doc'+key;
@@ -290,9 +295,12 @@ var stemmer = function () {
 
             $(MINER.query).each(function (key, value) {
                 var newSpan = document.createElement('span');
+                console.log(value);
+                var word = value.replace(/</ig,'').replace(/>/ig,'');
                 newSpan.id = 'word' + key;
-                newSpan.className = 'queryWord blue';
-                newSpan.innerHTML = value;
+                newSpan.className = 'queryWord ';
+                newSpan.className += (value.indexOf('<')!=-1)? (value.indexOf('(') != -1 || value.indexOf(')') != -1)? 'grey-text' : 'grey' : 'blue';
+                newSpan.innerHTML = word;
                 queryBox.appendChild(newSpan);
             });
 
@@ -380,6 +388,7 @@ var stemmer = function () {
             $this.abs.each(function(v, k){
                 var td = document.createElement('td');
                 td.innerHTML = k+1;
+                td.id = 'headcell-'+k;
                 td.className = 'headcell';
                 tr.appendChild(td);
             });
@@ -449,23 +458,40 @@ var stemmer = function () {
             });
             var cellwidth = 100/parseInt($this.abs.length,10);
             $('.heatcell').css('width',cellwidth+'%');
+            $('#overlay').css('width',($($('.heatcell')[0]).width()*5)+'px');
         }
 
         $this.getQuery = function () {
             var queryText = window.location.search.parseQuery('&')['queryText'] || $('.search-term').text().trim();
-            $this.query = queryText.split('+');
+            //$this.query = queryText.split('+');
+            var tq = queryText.replace(/\(/ig,'|<(>|')
+                              .replace(/\)/ig,'|<)>|')
+                              .replace(/\sAND\s/ig,'|<AND>|')
+                              .replace(/\sOR\s/ig,'|<OR>|')
+                              //.replace(/\s/ig,'|')
+                              .split('|')
+                              .filter(function (value) { 
+                                    value = value.trim();
+                                        return value !== "" && value !== null;
+                                    });
+            $this.query = tq;
         }
 
         $this.flipDoc = function(docn) {
+            var cellid = docn.id.replace(/[^0-9\.]/g, '');
             if($(docn).hasClass('bad')){
+                $("#headcell-"+cellid).removeClass('red')
                 $(docn).removeClass('bad');
                 $this.bads.splice($this.bads.indexOf(docn.id), 1);
                 $this.newQ(docn.id,0);
             }else if(!$(docn).hasClass('good')){
+                $("#headcell-"+cellid).addClass('green')
                 $(docn).addClass('good');
                 $this.goods.push(docn.id);
                 $this.newQ(docn.id,1);
             }else{
+                $("#headcell-"+cellid).removeClass('green')
+                $("#headcell-"+cellid).addClass('red')
                 $(docn).removeClass('good');
                 $(docn).addClass('bad');
                 $this.goods.splice($this.goods.indexOf(docn.id), 1);
