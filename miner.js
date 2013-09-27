@@ -154,10 +154,10 @@ var stemmer = function () {
                         //return;
                         var finalw = '';
                         splitted.each(function(w){
-                            var stemmed = stemmer(w);
-                            finalw += ' '+stemmed;
+                            var stemmed = ' '+stemmer(w);
+                            finalw += stemmed;
                             
-                            if(finalw != 'length') $this.nonstem[stemmed] = w;
+                            $this.nonstem[stemmed] = w;
                         });
                         words[wordkey] = finalw.trim();
                     }
