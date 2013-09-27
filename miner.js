@@ -151,7 +151,7 @@ var stemmer = function () {
                         console.log(wordkey);
                         var splitted = words[wordkey].split(' ');
                         console.log(splitted);
-                        return;
+                        //return;
                         var finalw = '';
                         splitted.each(function(w){
                             var stemmed = stemmer(w);
