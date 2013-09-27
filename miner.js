@@ -64,7 +64,7 @@ var stemmer = function () {
             SUGGBOX: '#suggBox{clear:both;height: 54px;overflow: hidden;}',
             OPTBOX: '#optionsBox{margin-top: 12px;}',
             LABELS: '.label{margin-bottom: 10px;color: white;padding: 3px;float: left;margin-right: 20px;width: 105px;text-align: left;}',
-            HEATMAP: '.headcell{background-color:white;visibility:hidden;}.smallerFont{font-size: 0.7em; line-height: 9px;}.heatmapWordiv{padding-right: 10px;height:20px}#heatmapWords{text-align:right;width: 90px;position: absolute;background-color: white;height: 200px;z-index: 5;}#heatmapBox{height:0;clear: both;width: 871px;margin: 20px 10px 20px 0px;}#heatmapTable{clear:both;-webkit-transition: margin-left 0.8s ease-out;margin-left: 90px;}.heatcell{cursor: pointer; color:white;opacity:0;height:20px}',
+            HEATMAP: '.headcell{background-color:white;visibility:hidden;}.heatmapWordiv{padding-right: 10px;height:20px}#heatmapWords{text-align:right;width: 90px;position: absolute;background-color: white;height: 200px;z-index: 5;}#heatmapBox{height:0;clear: both;width: 871px;margin: 20px 10px 20px 0px;}#heatmapTable{clear:both;-webkit-transition: margin-left 0.8s ease-out;margin-left: 90px;}.heatcell{cursor: pointer; color:white;opacity:0;height:20px}',
             OVERLAY: '#overlay{-webkit-transition: margin-left 0.8s ease-out;visibility:hidden;border: 2px solid #bbb;position: absolute;width: 164px;margin-left: 86px;z-index: 9;opacity: 0.7;margin-top: -5px;height: 224px;border-radius: 7px;}',
             COLORS: '.grey-text{margin-right:2px; color: #aaa}.yellow{background-color: #F2AF00}.orange{background-color: #EE6411;color:white}.grey{color:white;background-color: #aaa}.green{color:white;background-color: #7ab800;}.green_stroke { padding: 30px 0px;border: 2px solid #7ab800;}.red {color:white;background-color: #DC5034;}.red_stroke {padding: 30px 0px;border: 2px solid #DC5034;}.blue {color:white;background-color: #0085c3;}.blue_stroke {padding: 30px 0px;border: 2px solid #0085c3;}.navyblue {color:white;background-color: #003758;}'
         };
@@ -127,15 +127,12 @@ var stemmer = function () {
         $this.getAbs = function () {
             $(".abstract").each(function (key) {
                 //if($(this).parents('.detail').find('h3').length <= 0 || $(this).text().length <= 0 || $(this).text() == '') return;
-                //if(key>22) return;
+                if(key%2==1) return;
                 var words = [];
                 $this.abs[key] = $(this);
                 $this.abs[key].id = 'doc'+key;
                 $this.abs[key].title = $($this.abs[key]).parents('.detail').find('h3').text().trim();
-                $this.abs[key].txt = $this.abs[key].text()
-                                                   .replace(/^[\s]/g, '')
-                                                   //.replace(/\s+/g, ' ')
-                                                   .toLowerCase();
+                $this.abs[key].txt = $this.abs[key].text().replace(/^[\s]/g, '').replace(/\s+/g, ' ').toLowerCase();
                 var txt = $this.abs[key].txt;
 
                 $this.stopWords.each(function(value){
@@ -143,23 +140,24 @@ var stemmer = function () {
                     var regex = new RegExp(word,'ig');
                     txt = txt.replace(regex,'&&&');
                 })
-                var splitspace = /\s|\-|\→|\*|\"|\,|\.|\;|\-|\»|\/|\\|\(|\)|\:|\'|'s|&&&/ig;
-                var splitnospace = /\-|\→|\*|\"|\,|\.|\;|\-|\»|\/|\\|\(|\)|\:|\'|'s|&&&/ig;
-                var regextouse = ($this.splitSpace)? splitspace : splitnospace;
-                words = txt.split(regextouse)
+                words = txt.split(/\s|\→|\*|\"|\,|\.|\;|-|»|\/|\\|\(|\)|:|'|'s|&&&/ig)
                         .filter(function (value) { 
-                        value = value.trim();
-                            return value !== "" && value !== null && !$this.isStopWord(value);
+                        value = " "+value.trim();
+                            return value !== " " && value !== "" && value !== null && !$this.isStopWord(value);
                         });
                 
                 for (var wordkey in words)
                     if (words.hasOwnProperty(wordkey)){
+                        console.log(wordkey);
                         var splitted = words[wordkey].split(' ');
+                        console.log(splitted);
+                        return;
                         var finalw = '';
                         splitted.each(function(w){
                             var stemmed = stemmer(w);
                             finalw += ' '+stemmed;
-                            $this.nonstem[stemmed] = w;
+                            
+                            if(finalw != 'length') $this.nonstem[stemmed] = w;
                         });
                         words[wordkey] = finalw.trim();
                     }
@@ -372,7 +370,7 @@ var stemmer = function () {
             heatmapWords.appendChild(wordiv);
 
             for(var i=0;i<$this.heatmapwords;i++){
-                var wordiv = document.createElement('span');
+                var wordiv = document.createElement('div');
                 wordiv.className = 'heatmapWordiv';
                 wordiv.id = 'heatmapWord-'+i;
                 heatmapWords.appendChild(wordiv);
@@ -431,13 +429,7 @@ var stemmer = function () {
                     throw $break;
 
                 }
-                var splitted = word[0].trim().split(' ');
-                var finalword = '';
-                splitted.each(function(w){
-                    finalword += ' '+$this.nonstem[w];
-                });
-                $("#heatmapWord-"+wkey).html(finalword);
-                if(splitted.length > 1) $("#heatmapWord-"+wkey).addClass('smallerFont');
+                $("#heatmapWord-"+wkey).html($this.nonstem[word[0].trim()]);
 
                 //show
                 $("#overlay").css('visibility','visible');
