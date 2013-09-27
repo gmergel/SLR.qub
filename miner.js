@@ -55,7 +55,7 @@ var stemmer = function () {
             DOCREF: '.docref{font-size: 13px;height: 15px;width: auto;color: #777;}',
             DOCSBOX: '#docsBox{-webkit-transition: margin-left 0.8s ease-out;width: 99000px;text-align: left;height: 180px;padding: 0;margin: 0 0 0 -6px;}',
             DOCSWRAPPER: '#docsWrapper{float:left;overflow: hidden;margin: 20px 10px;width:781px;padding: 0;border-bottom: 1px solid #eee;}',
-            WORDS: '.queryWord{padding: 3px;float:left;border-radius: 5px;margin-right: 10px;display: inline-block;margin-bottom: 3px;}',
+            WORDS: '.queryWord{text-align:center; padding: 3px;float:left;border: 1px solid #fff; border-radius: 5px;margin-right: 10px;display: inline-block;margin-bottom: 3px;}',
             BUTTONS: '.btn{padding: 60px 27px;border-radius: 6px;margin: 50px 9px 0px;color: white;float:left;box-shadow: 1px 1px 0px 0px #ccc;}.btn:active{box-shadow: 0 0}',
             FWORDS: '.fwords{display:none}',
             QUERIESBOX: '#queriesBox{height:140px;box-shadow: 0px 3px 6px -1px #f2f2f2}',
@@ -64,9 +64,10 @@ var stemmer = function () {
             SUGGBOX: '#suggBox{clear:both;height: 54px;overflow: hidden;}',
             OPTBOX: '#optionsBox{margin-top: 12px;}',
             LABELS: '.label{margin-bottom: 10px;color: white;padding: 3px;float: left;margin-right: 20px;width: 105px;text-align: left;}',
-            HEATMAP: '.headcell{background-color:white;visibility:hidden;}.heatmapWordiv{padding-right: 10px;height:20px}#heatmapWords{text-align:right;width: 90px;position: absolute;background-color: white;height: 200px;z-index: 5;}#heatmapBox{height:0;clear: both;width: 871px;margin: 20px 10px 20px 0px;}#heatmapTable{clear:both;-webkit-transition: margin-left 0.8s ease-out;margin-left: 90px;}.heatcell{cursor: pointer; color:white;opacity:0;height:20px}',
+            HEATMAP: '.headcell{background-color:white;visibility:hidden;}.smallerFont{font-size: 0.7em; line-height: 9px; display:table-cell; vertical-align: middle; width: 90px;}.heatmapWordiv{padding-right: 10px;height:20px}#heatmapWords{text-align:right;width: 90px;position: absolute;background-color: white;height: 200px;z-index: 5;}#heatmapBox{height:0;clear: both;width: 871px;margin: 20px 10px 20px 0px;}#heatmapTable{clear:both;-webkit-transition: margin-left 0.8s ease-out;margin-left: 90px;}.heatcell{cursor: pointer; color:white;opacity:0;height:20px}',
             OVERLAY: '#overlay{-webkit-transition: margin-left 0.8s ease-out;visibility:hidden;border: 2px solid #bbb;position: absolute;width: 164px;margin-left: 86px;z-index: 9;opacity: 0.7;margin-top: -5px;height: 224px;border-radius: 7px;}',
-            COLORS: '.grey-text{margin-right:2px; color: #aaa}.yellow{background-color: #F2AF00}.orange{background-color: #EE6411;color:white}.grey{color:white;background-color: #aaa}.green{color:white;background-color: #7ab800;}.green_stroke { padding: 30px 0px;border: 2px solid #7ab800;}.red {color:white;background-color: #DC5034;}.red_stroke {padding: 30px 0px;border: 2px solid #DC5034;}.blue {color:white;background-color: #0085c3;}.blue_stroke {padding: 30px 0px;border: 2px solid #0085c3;}.navyblue {color:white;background-color: #003758;}'
+            COLORS: '.blue-stroke{border: 1px solid #007db8}.blue-text{color: #007db8;}.grey-stroke{border: 1px solid #aaa}.grey-text{color: #aaa}.yellow{background-color: #F2AF00}.orange{background-color: #EE6411;color:white}.grey{color:white;background-color: #aaa}.green{color:white;background-color: #7ab800;}.green_stroke { padding: 30px 0px;border: 2px solid #7ab800;}.red {color:white;background-color: #DC5034;}.red_stroke {padding: 30px 0px;border: 2px solid #DC5034;}.blue {color:white;background-color: #0085c3;}.blue_stroke {padding: 30px 0px;border: 2px solid #0085c3;}.navyblue {color:white;background-color: #003758;}',
+            INPUTS: '.queryWord:focus{background-color: white;outline:none;}'
         };
 
         $this.CONTROLS = {
@@ -126,8 +127,7 @@ var stemmer = function () {
 
         $this.getAbs = function () {
             $(".abstract").each(function (key) {
-                //if($(this).parents('.detail').find('h3').length <= 0 || $(this).text().length <= 0 || $(this).text() == '') return;
-                if(key%2==1) return;
+
                 var words = [];
                 $this.abs[key] = $(this);
                 $this.abs[key].id = 'doc'+key;
@@ -140,7 +140,10 @@ var stemmer = function () {
                     var regex = new RegExp(word,'ig');
                     txt = txt.replace(regex,'&&&');
                 })
-                words = txt.split(/\s|\→|\*|\"|\,|\.|\;|-|»|\/|\\|\(|\)|:|'|'s|&&&/ig)
+                var splitspace = /\s|\-|\→|\*|\"|\,|\.|\;|\-|\»|\/|\\|\(|\)|\:|\'|'s|&&&/ig;
+                var splitnospace = /\-|\→|\*|\"|\,|\.|\;|\-|\»|\/|\\|\(|\)|\:|\'|'s|&&&/ig;
+                var regextouse = ($this.splitSpace)? splitspace : splitnospace;
+                words = txt.split(regextouse)
                         .filter(function (value) { 
                         value = " "+value.trim();
                             return value !== " " && value !== "" && value !== null && !$this.isStopWord(value);
@@ -148,14 +151,11 @@ var stemmer = function () {
                 
                 for (var wordkey in words)
                     if (words.hasOwnProperty(wordkey)){
-                        console.log(wordkey);
                         var splitted = words[wordkey].split(' ');
-                        console.log(splitted);
-                        //return;
                         var finalw = '';
                         splitted.each(function(w){
-                            var stemmed = ' '+stemmer(w);
-                            finalw += stemmed;
+                            var stemmed = stemmer(w);
+                            finalw += ' '+stemmed;
                             
                             $this.nonstem[stemmed] = w;
                         });
@@ -296,17 +296,47 @@ var stemmer = function () {
             suggBox.appendChild(labelSQ);
             suggBox.appendChild(termsBox);
 
+            var stringBusca = document.createElement('div');
+            stringBusca.id = "stringdeBusca";
+
+
             $(MINER.query).each(function (key, value) {
-                var newSpan = document.createElement('span');
-                console.log(value);
+                var newSpan = document.createElement('input');
                 var word = value.replace(/</ig,'').replace(/>/ig,'');
                 newSpan.id = 'word' + key;
                 newSpan.className = 'queryWord ';
                 newSpan.className += (value.indexOf('<')!=-1)? (value.indexOf('(') != -1 || value.indexOf(')') != -1)? 'grey-text' : 'grey' : 'blue';
-                newSpan.innerHTML = word;
-                queryBox.appendChild(newSpan);
-            });
+                newSpan.value = word;
 
+                $(newSpan).bind('focus',function(e){
+                    var temp = this.className;
+                    var color = (temp.indexOf('blue') != -1)? 'blue' : (temp.indexOf('grey') != -1)? 'grey' : (temp.indexOf('red') != -1)? 'red' : 'green';
+                    $(this).removeClass(color).addClass(color+"-text").addClass(color+"-stroke");
+                }).bind('focusout',function(e){
+                    var temp = this.className;
+                    var color = ((this.value.toUpperCase() == "OR") || +
+                                 (this.value.toUpperCase() == "AND") || +
+                                 (this.value == "(") || +
+                                 (this.value == ")"))? "grey" : 'blue';
+                    /*+
+                                 (temp.indexOf('blue') != -1)? 'blue' : +
+                                 (temp.indexOf('grey') != -1)? 'grey' : +
+                                 (temp.indexOf('red') != -1)? 'red' : 'green';
+                    */
+
+                    this.className = '';
+                    $(this).addClass('queryWord').addClass(color);
+
+                }).bind('keyup change', function(e){
+                    $(this).css('width',(this.value.length*9)+'px');
+                });
+
+                $(newSpan).keyup();
+
+                stringBusca.appendChild(newSpan);
+                
+            });
+            queryBox.appendChild(stringBusca);
             $this.box.appendChild(queriesBox);
 
             //docsBox
@@ -373,6 +403,7 @@ var stemmer = function () {
                 var wordiv = document.createElement('div');
                 wordiv.className = 'heatmapWordiv';
                 wordiv.id = 'heatmapWord-'+i;
+                heatmapWords.appendChild(document.createElement('div'));
                 heatmapWords.appendChild(wordiv);
             }
 
@@ -429,14 +460,27 @@ var stemmer = function () {
                     throw $break;
 
                 }
-                $("#heatmapWord-"+wkey).html($this.nonstem[word[0].trim()]);
+                var splitted = word[0].trim().split(' ');
+                
+                var finalword = '';
+                splitted.each(function(w,k){
+                   if(k > 1){
+                        finalword += ' ...';
+                        throw $break;
+                    }
+                   finalword += ' '+$this.nonstem[w];
+
+                });
+                
+                if(finalword.trim().length > 14) $("#heatmapWord-"+wkey).html(finalword.trim().substr(0,12)+"...");
+                    else $("#heatmapWord-"+wkey).html(finalword.trim());
+                if(splitted.length > 1 || finalword.length > 12) $("#heatmapWord-"+wkey).addClass('smallerFont');
+                    else $("#heatmapWord-"+wkey).removeClass('smallerFont');
 
                 //show
                 $("#overlay").css('visibility','visible');
                 $(".headcell").css('visibility','visible');
                 
-                
-
                 $this.abs.each(function(abs,akey){
                     $('#heatcell'+wkey+'-'+akey).css('opacity',0);
 
@@ -446,15 +490,8 @@ var stemmer = function () {
                     if(wtfidf <= 0) return;
                     var relevancy = (wtfidf+1)/($this.maxtfidf+1);
                     //opacity calc
-                    //var rlog = Math.log(relevancy,2)*-1;//Math.log(relevancy)*-1;
-                    //var irlog = 1/rlog;
-                    var fopac = relevancy.toFixed(2);///Math.log($this.maxtfidf,2);
-                    
-                    //$('.heatcell').css('width',cellwidth+'%');
-
+                    var fopac = relevancy.toFixed(2);
                     $('#heatcell'+wkey+'-'+akey).css('opacity',fopac);
-                                                //.html(wtfidf.toFixed(2));
-
                     
                 });
 
@@ -471,6 +508,7 @@ var stemmer = function () {
                               .replace(/\)/ig,'|<)>|')
                               .replace(/\sAND\s/ig,'|<AND>|')
                               .replace(/\sOR\s/ig,'|<OR>|')
+                              .replace(/\+/ig,'|<OR>|')
                               //.replace(/\s/ig,'|')
                               .split('|')
                               .filter(function (value) { 
