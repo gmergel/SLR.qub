@@ -34,6 +34,8 @@ var stemmer = function () {
         $this.maxtfidf = 0;
         $this.heatmapwords = 10;
 
+        $this.splitSpace = true;
+
         $this.stopWords = ["a","able","about","above","abst","accordance","according","accordingly","across","act","actually","added","adj","affected","affecting","affects","after","afterwards","again","against","ah","all","almost","alone","along","already","also","although","always","am","among","amongst","an","and","announce","another","any","anybody","anyhow","anymore","anyone","anything","anyway","anyways","anywhere","apparently","approximately","are","aren","arent","arise","around","as","aside","ask","asking","at","auth","available","away","awfully","b","back","be","became","because","become","becomes","becoming","been","before","beforehand","begin","beginning","beginnings","begins","behind","being","believe","below","beside","besides","between","beyond","biol","both","brief","briefly","but","by","c","ca","came","can","cannot","can't","cause","causes","certain","certainly","co","com","come","comes","contain","containing","contains","could","couldnt","d","date","did","didn't","different","do","does","doesn't","doing","done","don't","down","downwards","due","during","e","each","ed","edu","effect","eg","eight","eighty","either","else","elsewhere","end","ending","enough","especially","et","et-al","etc","even","ever","every","everybody","everyone","everything","everywhere","ex","except","f","far","few","ff","fifth","first","five","fix","followed","following","follows","for","former","formerly","forth","found","four","from","further","furthermore","g","gave","get","gets","getting","give","given","gives","giving","go","goes","gone","got","gotten","h","had","happens","hardly","has","hasn't","have","haven't","having","he","hed","hence","her","here","hereafter","hereby","herein","heres","hereupon","hers","herself","hes","hi","hid","him","himself","his","hither","home","how","howbeit","however","hundred","i","id","ie","if","i'll","im","is","immediate","immediately","importance","important","in","inc","indeed","index","information","instead","into","invention","inward","is","isn't","it","itd","it'll","its","itself","i've","j","just","k","keep","keeps","kept","kg","km","know","known","knows","l","largely","last","lately","later","latter","latterly","least","less","lest","let","lets","like","liked","likely","line","little","'ll","look","looking","looks","ltd","m","made","mainly","make","makes","many","may","maybe","me","mean","means","meantime","meanwhile","merely","mg","might","million","miss","ml","more","moreover","most","mostly","mr","mrs","much","mug","must","my","myself","n","na","name","namely","nay","nd","near","nearly","necessarily","necessary","need","needs","neither","never","nevertheless","new","next","nine","ninety","no","nobody","non","none","nonetheless","noone","nor","normally","nos","not","noted","nothing","now","nowhere","o","obtain","obtained","obviously","of","off","often","oh","ok","okay","old","omitted","on","once","one","ones","only","onto","or","ord","other","others","otherwise","ought","our","ours","ourselves","out","outside","over","overall","owing","own","p","page","pages","part","particular","particularly","past","per","perhaps","placed","please","plus","poorly","possible","possibly","potentially","pp","predominantly","present","previously","primarily","probably","promptly","proud","provides","put","q","que","quickly","quite","qv","r","ran","rather","rd","re","readily","really","recent","recently","ref","refs","regarding","regardless","regards","related","relatively","research","respectively","resulted","resulting","results","right","run","s","said","same","saw","say","saying","says","sec","section","see","seeing","seem","seemed","seeming","seems","seen","self","selves","sent","seven","several","shall","she","shed","she'll","shes","should","shouldn't","show","showed","shown","showns","shows","significant","significantly","similar","similarly","since","six","slightly","so","some","somebody","somehow","someone","somethan","something","sometime","sometimes","somewhat","somewhere","soon","sorry","specifically","specified","specify","specifying","still","stop","strongly","sub","substantially","successfully","such","sufficiently","suggest","sup","sure","t","take","taken","taking","tell","tends","th","than","thank","thanks","thanx","that","that'll","thats","that've","the","their","theirs","them","themselves","then","thence","there","thereafter","thereby","thered","therefore","therein","there'll","thereof","therere","theres","thereto","thereupon","there've","these","they","theyd","they'll","theyre","they've","think","this","those","thou","though","thoughh","thousand","throug","through","throughout","thru","thus","til","tip","to","together","too","took","toward","towards","tried","tries","truly","try","trying","ts","twice","two","u","un","under","unfortunately","unless","unlike","unlikely","until","unto","up","upon","ups","us","use","used","useful","usefully","usefulness","uses","using","usually","v","value","various","'ve","very","via","viz","vol","vols","vs","w","want","wants","was","wasn't","way","we","wed","welcome","we'll","went","were","weren't","we've","what","whatever","what'll","whats","when","whence","whenever","where","whereafter","whereas","whereby","wherein","wheres","whereupon","wherever","whether","which","while","whim","whither","who","whod","whoever","whole","who'll","whom","whomever","whos","whose","why","widely","willing","wish","with","within","without","won't","words","world","would","wouldn't","www","x","y","yes","yet","you","youd","you'll","your","youre","yours","yourself","yourselves","you've","z","zero"];
 
         $this.isStopWord = function(word){
@@ -49,21 +51,21 @@ var stemmer = function () {
 
         $this.STYLES = {
             BOXWRAPPER: '#boxWrapper{width: 100%;position: absolute;top: 0;text-align: center;font-family:Trebuchet MS; font-size: 13px}',
-            BOX: '#box{width: 960px;background-color: white;height: 640px;padding-top: 20px;margin: 70px auto;text-align: center;border-radius: 6px;box-shadow: 2px 2px 12px #ddd, -2px -2px 12px #ddd;}',
+            BOX: '#box{width: 960px;background-color: white;height: 700px;padding-top: 20px;margin: 70px auto;text-align: center;border-radius: 6px;box-shadow: 2px 2px 12px #ddd, -2px -2px 12px #ddd;}',
             DOCSLI: '#docsBox li{display: inline-block;margin: 20px 30px auto;text-align: center;width: 100px;vertical-align: top;}',
             DOC: '.doc:hover{cursor:pointer;border: 1px solid #aaa}.doc{display: block;border-radius: 4px;background-color: white;box-shadow: 0px 2px 2px 0px #F2F2F2;color: #666;line-height: 23px;height: 120px;border: 1px solid #eee;overflow: hidden;}.doc.good{border-bottom:6px solid #7ab800}.doc.bad{border-bottom:6px solid #DC5034}',
             DOCREF: '.docref{font-size: 13px;height: 15px;width: auto;color: #777;}',
             DOCSBOX: '#docsBox{-webkit-transition: margin-left 0.8s ease-out;width: 99000px;text-align: left;height: 180px;padding: 0;margin: 0 0 0 -6px;}',
             DOCSWRAPPER: '#docsWrapper{float:left;overflow: hidden;margin: 20px 10px;width:781px;padding: 0;border-bottom: 1px solid #eee;}',
-            WORDS: '.queryWord{text-align:center; padding: 3px;float:left;border: 1px solid #fff; border-radius: 5px;margin-right: 10px;display: inline-block;margin-bottom: 3px;}',
+            WORDS: '#termsBox .queryWord{cursor:pointer;}.queryWord{font-family: Consolas;text-align:center; padding: 3px;border: 1px solid #fff; border-radius: 5px;margin-right: 7px;display: inline-block;margin-bottom: 3px;}',
             BUTTONS: '.btn{padding: 60px 27px;border-radius: 6px;margin: 50px 9px 0px;color: white;float:left;box-shadow: 1px 1px 0px 0px #ccc;}.btn:active{box-shadow: 0 0}',
             FWORDS: '.fwords{display:none}',
-            QUERIESBOX: '#queriesBox{height:140px;box-shadow: 0px 3px 6px -1px #f2f2f2}',
-            TITLE: '#title{height: 30px;font-size: 22px;margin-bottom: 10px;text-decoration: underline;font-style: italic;}',
-            QUERYBOX: '#queryBox{height:33px;}',
-            SUGGBOX: '#suggBox{clear:both;height: 54px;overflow: hidden;}',
+            QUERIESBOX: '#queriesBox{text-align:left;height:200px;box-shadow: 0px 3px 6px -1px #f2f2f2}#stringdeBusca{cursor:text;}',
+            TITLE: '#title{height: 30px;font-size: 22px;margin-bottom: 10px;text-align: center; text-decoration: underline;font-style: italic;}',
+            QUERYBOX: '#queryBox{height:63px;}',
+            SUGGBOX: '#suggBox{clear:both;height: 58px;overflow: hidden;}',
             OPTBOX: '#optionsBox{margin-top: 12px;}',
-            LABELS: '.label{margin-bottom: 10px;color: white;padding: 3px;float: left;margin-right: 20px;width: 105px;text-align: left;}',
+            LABELS: '.label{font-family: monospace; font-size: 12px;margin-bottom: 10px;color: white;padding: 3px;float: left;margin-right: 20px;width: 65px;text-align: left;}',
             HEATMAP: '.headcell{background-color:white;visibility:hidden;}.smallerFont{font-size: 0.7em; line-height: 9px; display:table-cell; vertical-align: middle; width: 90px;}.heatmapWordiv{padding-right: 10px;height:20px}#heatmapWords{text-align:right;width: 90px;position: absolute;background-color: white;height: 200px;z-index: 5;}#heatmapBox{height:0;clear: both;width: 871px;margin: 20px 10px 20px 0px;}#heatmapTable{clear:both;-webkit-transition: margin-left 0.8s ease-out;margin-left: 90px;}.heatcell{cursor: pointer; color:white;opacity:0;height:20px}',
             OVERLAY: '#overlay{-webkit-transition: margin-left 0.8s ease-out;visibility:hidden;border: 2px solid #bbb;position: absolute;width: 164px;margin-left: 86px;z-index: 9;opacity: 0.7;margin-top: -5px;height: 224px;border-radius: 7px;}',
             COLORS: '.blue-stroke{border: 1px solid #007db8}.blue-text{color: #007db8;}.grey-stroke{border: 1px solid #aaa}.grey-text{color: #aaa}.yellow{background-color: #F2AF00}.orange{background-color: #EE6411;color:white}.grey{color:white;background-color: #aaa}.green{color:white;background-color: #7ab800;}.green_stroke { padding: 30px 0px;border: 2px solid #7ab800;}.red {color:white;background-color: #DC5034;}.red_stroke {padding: 30px 0px;border: 2px solid #DC5034;}.blue {color:white;background-color: #0085c3;}.blue_stroke {padding: 30px 0px;border: 2px solid #0085c3;}.navyblue {color:white;background-color: #003758;}',
@@ -78,7 +80,6 @@ var stemmer = function () {
         $this.moveheatmap = function(steps){
             if(($this.sit <= 0 && steps < 0) || ($this.sit >= (Math.round(($this.abs.length-5)/$this.moveby)) && steps > 0)) return;
             steps = Math.min(steps,(Math.round(($this.abs.length-5)/$this.moveby))-$this.sit);
-            console.warn(">"+steps);
 
             $('#docsBox').css('margin-left', parseInt($('#docsBox').css('margin-left'), 10) - (steps * $this.moveby * $this.step) + 'px');
             //$('#heatmapTable').css('margin-left', parseInt($('#heatmapTable').css('margin-left'), 10) - ($this.moveby * $this.step) + 'px');
@@ -87,17 +88,9 @@ var stemmer = function () {
         }
 
         $this.CONTROLS.next.bind('click', function () {
-            /*$('#docsBox').css('margin-left', parseInt($('#docsBox').css('margin-left'), 10) - ($this.moveby * $this.step) + 'px');
-            //$('#heatmapTable').css('margin-left', parseInt($('#heatmapTable').css('margin-left'), 10) - ($this.moveby * $this.step) + 'px');
-            $('#overlay').css('margin-left', parseInt($('#overlay').css('margin-left'), 10) + ($this.moveby * $this.heatmapcellstep) + 'px');
-            */
             $this.moveheatmap(1);
         });
         $this.CONTROLS.prev.bind('click', function () {
-            /*$('#docsBox').css('margin-left', parseInt($('#docsBox').css('margin-left'), 10) + ($this.moveby * $this.step) + 'px');
-            //$('#heatmapTable').css('margin-left', parseInt($('#heatmapTable').css('margin-left'), 10) + ($this.moveby * $this.step) + 'px');
-            $('#overlay').css('margin-left', parseInt($('#overlay').css('margin-left'), 10) - ($this.moveby * $this.heatmapcellstep) + 'px');
-            */
             $this.moveheatmap(-1);
         });
 
@@ -298,7 +291,35 @@ var stemmer = function () {
 
             var stringBusca = document.createElement('div');
             stringBusca.id = "stringdeBusca";
+            $(stringBusca).bind('click', function(e){
+                //$('input', this).offset
+                if(e.currentTarget != e.target) return;
+                var andar = Math.floor(e.offsetY/28);
+                var clicked = e.currentTarget.offsetLeft+e.offsetX;
+                var len = $('input', '#stringdeBusca').length;
 
+                $('input', '#stringdeBusca').each(function(k){
+                    
+                    if((andar == Math.floor((this.offsetTop-132)/28) && clicked < $(this).offset().left) || k >= len-1){
+                        console.log(this);
+
+                        var newSpan = document.createElement('input');
+                        newSpan.id = 'word'+len;
+                        $(newSpan).css('width','20px');
+                        newSpan.className = 'queryWord blue-stroke blue-text ';
+                        if(clicked < $(this).offset().left) $(newSpan).insertBefore(this);
+                        else $(newSpan).insertAfter(this);
+
+                        $this.bindToStringwords(newSpan);
+                        $(newSpan).focus();
+
+                        changed = true;
+                        return false;
+                    }
+
+                })
+
+            })         
 
             $(MINER.query).each(function (key, value) {
                 var newSpan = document.createElement('input');
@@ -306,35 +327,11 @@ var stemmer = function () {
                 newSpan.id = 'word' + key;
                 newSpan.className = 'queryWord ';
                 newSpan.className += (value.indexOf('<')!=-1)? (value.indexOf('(') != -1 || value.indexOf(')') != -1)? 'grey-text' : 'grey' : 'blue';
-                newSpan.value = word;
+                newSpan.value = word;//.toLowerCase();
 
-                $(newSpan).bind('focus',function(e){
-                    var temp = this.className;
-                    var color = (temp.indexOf('blue') != -1)? 'blue' : (temp.indexOf('grey') != -1)? 'grey' : (temp.indexOf('red') != -1)? 'red' : 'green';
-                    $(this).removeClass(color).addClass(color+"-text").addClass(color+"-stroke");
-                }).bind('focusout',function(e){
-                    var temp = this.className;
-                    var color = ((this.value.toUpperCase() == "OR") || +
-                                 (this.value.toUpperCase() == "AND") || +
-                                 (this.value == "(") || +
-                                 (this.value == ")"))? "grey" : 'blue';
-                    /*+
-                                 (temp.indexOf('blue') != -1)? 'blue' : +
-                                 (temp.indexOf('grey') != -1)? 'grey' : +
-                                 (temp.indexOf('red') != -1)? 'red' : 'green';
-                    */
-
-                    this.className = '';
-                    $(this).addClass('queryWord').addClass(color);
-
-                }).bind('keyup change', function(e){
-                    $(this).css('width',(this.value.length*9)+'px');
-                });
-
+                $this.bindToStringwords(newSpan);
                 $(newSpan).keyup();
-
                 stringBusca.appendChild(newSpan);
-                
             });
             queryBox.appendChild(stringBusca);
             $this.box.appendChild(queriesBox);
@@ -438,7 +435,6 @@ var stemmer = function () {
                     $(td).bind('click',function(e){
                         var n = Math.floor(this.id.split('-')[1]/$this.moveby);
                         var diff = n-$this.sit;//($this.sit<n)? n-$this.sit : -1*($this.sit-n);
-                        console.log(diff);
                         $this.moveheatmap(diff);
                     });
                 });
@@ -448,6 +444,31 @@ var stemmer = function () {
 
             $(wrapper).append($this.box);
             $('body').append(wrapper);
+        }
+
+        $this.bindToStringwords = function(el){
+            $(el).bind('focus',function(e){
+                    var temp = this.className;
+                    var color = (temp.indexOf('blue') != -1)? 'blue' : (temp.indexOf('grey') != -1)? 'grey' : (temp.indexOf('red') != -1)? 'red' : 'green';
+                    $(this).removeClass(color).addClass(color+"-text").addClass(color+"-stroke");
+                }).bind('focusout',function(e){
+                    var temp = this.className;
+                    var color = ((this.value.toUpperCase() == "OR") || +
+                                 (this.value.toUpperCase() == "AND"))? "grey" : +
+                                 ((this.value == "(") || +
+                                 (this.value == ")"))? "grey-text" : 'blue';
+
+                    this.className = '';
+                    $(this).addClass('queryWord').addClass(color);
+
+                }).bind('keyup change', function(e){
+                    if(e.keyCode == 13) $(this).blur();
+                    if($.inArray(e.keyCode,[9,20,16,17,18]) != -1) return false;
+                    $(this).css('width',(this.value.length*7.5)+'px');
+                }).bind('blur',function(e){
+                    if(this.value.trim() == '') this.parentNode.removeChild(this);
+                    //this.value = this.value.toLowerCase();
+                });
         }
 
         $this.colorizeHeatmap = function(){
@@ -599,6 +620,35 @@ var stemmer = function () {
                 wordspan.innerHTML = finalword.trim();//$this.newquery[i][0].trim();//$this.nonstem[$this.newquery[i][0].trim()];
                 wordspan.innerHTML += ' ('+finaltfidf.toFixed(2)+')';
                 wordspan.className = 'queryWord green';
+
+                $(wordspan).bind('click',function(e){
+                    var lastidx = $('input', '#stringdeBusca').length;
+                    var lastinput = $('input', '#stringdeBusca')[lastidx-1];
+                    var newinput = document.createElement('input');
+                    newinput.className = 'queryWord blue';
+                    newinput.value = finalword.trim();
+                    
+
+                    if(lastinput.value.toUpperCase() != "OR" && lastinput.value.toUpperCase() != "AND"){
+
+                        var newOR = document.createElement('input');
+                        newOR.className = 'queryWord grey';
+                        newOR.id = 'word'+lastidx;
+                        newOR.value = "OR";
+                        lastidx++;
+                        $(newOR).insertAfter(lastinput);
+                        $this.bindToStringwords(newOR);
+                        $(newOR).keyup();
+                        lastinput = newOR;
+                    }
+
+                    newinput.id = 'word'+lastidx;
+                    $(newinput).insertAfter(lastinput);
+                    $this.bindToStringwords(newinput);
+                    $(newinput).keyup();
+                    $(this).css('display','none');
+                });
+
                 $("#termsBox").append(wordspan);
             });
             
