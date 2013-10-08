@@ -1,7 +1,8 @@
 <?php
     if ($db = new SQLiteDatabase('metrics')) {
 
-        echo "consegui!";
+        $ip = $_SERVER['REMOTE_ADDR'];
+        echo $ip;
 
     }
     //     $q = @$db->query('SELECT requests FROM tablename WHERE id = 1');
@@ -16,4 +17,7 @@
     // } else {
     //     die($err);
     // }
+
+
+    //$.getJSON("http://qub.herokuapp.com/triggered.php?jsoncallback=?", null, function(e){ console.log(e); });
 ?>
