@@ -146,16 +146,16 @@ var stemmer = function () {
             for (var d in tempgoods){
                 if (tempgoods.hasOwnProperty(d)){
                     var doc = $('#'+tempgoods[d])[0];
-                    $this.flipDoc(doc,true);
-                    $this.flipDoc(doc,true);
+                    $this.flipDoc(doc,false);
+                    $this.flipDoc(doc,false);
                     $this.flipDoc(doc,false);
                 }
             }
             for (var d in tempbads){
                 if (tempbads.hasOwnProperty(d)){
                     var doc = $('#'+tempbads[d])[0];
-                    $this.flipDoc(doc,true);
-                    $this.flipDoc(doc,true);
+                    $this.flipDoc(doc,false);
+                    $this.flipDoc(doc,false);
                     $this.flipDoc(doc,false);
                 }
             }
@@ -367,7 +367,6 @@ var stemmer = function () {
                     $('input', '#stringdeBusca').each(function(k){
                         
                         if((andar == Math.floor((this.offsetTop-132)/28) && clicked < $(this).offset().left) || k >= len-1){
-                            console.log(this);
 
                             var newSpan = document.createElement('input');
                             newSpan.id = 'word'+len;
@@ -654,13 +653,11 @@ var stemmer = function () {
             $('#applyOpts').bind('click',function(e){
                 if(this.className.indexOf('disabled') != -1) return false;
                 $(this).addClass('disabled');
-                console.log(this);
                 $this.setupandgo();
             });
         }
 
         $this.colorizeHeatmap = function(){
-            console.log($this.newquery);
             $this.newquery.each(function(word,wkey){
                 if(word[1]/$this.goods.length < $this.corte || wkey >= $this.heatmapwords){
                     $("#heatmapBox").css('height',(wkey*20)+'px');
