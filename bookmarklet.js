@@ -43,7 +43,7 @@ var stemmer = function () {
             DOCSWRAPPER: '#docsWrapper{float:left;overflow: hidden;margin: 20px 10px;width:781px;padding: 0;border-bottom: 1px solid #eee;}',
             WORDS: '#termsBox .queryWord{cursor:pointer;}.queryWord{font-family: Consolas;text-align:center; padding: 3px;border: 1px solid #fff; border-radius: 5px;margin-right: 7px;display: inline-block;margin-bottom: 3px;}',
             BUTTONS: '.btn{cursor:pointer;display:inline-block;*display:inline;*zoom:1;padding:4px 12px;margin-bottom:0;font-size:14px;line-height:20px;text-align:center;vertical-align:middle;border:1px solid #ccc;*border:0;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;*margin-left:.3em;box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 1px 2px rgba(0,0,0,.05)}.btn:hover{text-decoration:underline}.btn:focus,.btn.disabled,.btn[disabled]{*background-color:#d9d9d9}.btn:first-child{*margin-left:0}.btn:focus{outline:thin dotted #333;outline:5px auto -webkit-focus-ring-color;outline-offset:-2px}.btn.active,.btn:active{background-image:none;outline:0;-webkit-box-shadow:inset 0 2px 4px rgba(0,0,0,.15),0 1px 2px rgba(0,0,0,.05);box-shadow:inset 0 2px 4px rgba(0,0,0,.15),0 1px 2px rgba(0,0,0,.05)}.btn.disabled,.btn[disabled]{cursor:default;opacity:.65;filter:alpha(opacity=65);box-shadow:none}.btn{text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);}'+
-            '.btn-carousel{padding: 60px 27px;border-radius: 6px;margin: 50px 9px 0px;color: white;float:left;box-shadow: 1px 1px 0px 0px #ccc;}.btn-carousel:active{box-shadow: 0 0}',
+            '.btn-carousel{padding: 60px 27px;border-radius: 6px;margin: 50px 9px 0px;color: white;float:left;box-shadow: 1px 1px 0px 0px #ccc;}.btn-carousel:active{box-shadow: 0 0}.btn-icon{padding: 0 2px 0 6px;background: none;border: 0;-webkit-border-radius: 0;box-shadow: none;text-shadow: none;}',
             FWORDS: '.fwords{display:none}',
             QUERIESBOX: '#queriesBox{text-align:left;height:250px;box-shadow: 0px 3px 6px -1px #f2f2f2}#stringdeBusca{cursor:text;}',
             TITLE: '#title{height: 30px;font-size: 22px;margin-bottom: 10px;text-align: center; text-decoration: underline;font-style: italic;}',
@@ -53,8 +53,8 @@ var stemmer = function () {
             LABELS: '.label{font-family: monospace; font-size: 12px;margin-bottom: 10px;color: white;padding: 3px;float: left;margin-right: 20px;width: 65px;text-align: left;}',
             HEATMAP: '.headcell{background-color:white;visibility:hidden;}.smallerFont{font-size: 0.7em; line-height: 9px; display:table-cell; vertical-align: middle; width: 90px;}.heatmapWordiv{padding-right: 10px;height:20px}#heatmapWords{text-align:right;width: 90px;position: absolute;background-color: white;height: 200px;z-index: 5;}#heatmapBox{height:0;clear: both;width: 871px;margin: 20px 10px 20px 0px;}#heatmapTable{clear:both;-webkit-transition: margin-left 0.8s ease-out;margin-left: 90px;}.heatcell{cursor: pointer; color:white;opacity:0;height:20px}',
             OVERLAY: '#overlay{-webkit-transition: margin-left 0.8s ease-out;visibility:hidden;border: 2px solid #bbb;position: absolute;width: 164px;margin-left: 86px;z-index: 9;opacity: 0.7;margin-top: -5px;height: 224px;border-radius: 7px;}',
-            COLORS: '.blue-stroke{border: 1px solid #007db8}.blue-text{color: #007db8;}.grey-stroke{border: 1px solid #aaa}.grey-text{color: #aaa}.yellow{background-color: #F2AF00}.orange{background-color: #EE6411;color:white}.grey{color:white;background-color: #aaa}.green{color:white;background-color: #7ab800;}.green_stroke { padding: 30px 0px;border: 2px solid #7ab800;}.red {color:white;background-color: #DC5034;}.red_stroke {padding: 30px 0px;border: 2px solid #DC5034;}.blue {color:white;background-color: #0085c3;}.blue_stroke {padding: 30px 0px;border: 2px solid #0085c3;}.navyblue {color:white;background-color: #003758;}',
-            INPUTS: '.queryWord:focus{background-color: white;outline:none;}'
+            COLORS: '.teal{background-color: #42AEAF;color:white}.teal-stroke{color: #42AEAF}.blue-stroke{border: 1px solid #007db8}.blue-text{color: #007db8;}.grey-stroke{border: 1px solid #aaa}.grey-text{color: #aaa}.yellow{background-color: #F2AF00}.orange{background-color: #EE6411;color:white}.grey{color:white;background-color: #aaa}.green{color:white;background-color: #7ab800;}.green_stroke { padding: 30px 0px;border: 2px solid #7ab800;}.red {color:white;background-color: #DC5034;}.red_stroke {padding: 30px 0px;border: 2px solid #DC5034;}.blue {color:white;background-color: #0085c3;}.blue_stroke {padding: 30px 0px;border: 2px solid #0085c3;}.navyblue {color:white;background-color: #003758;}',
+            INPUTS: '.queryWord:focus{background-color: white;outline:none;}#corteopt{width:24px;width: 24px;text-align: center;background-color: white;vertical-align: middle;margin: 0;margin-left: 3px;}'
         };
 
         $this.CONTROLS = {
@@ -123,7 +123,7 @@ var stemmer = function () {
             $this.newquery = new Array();
             $this.nqpositions = new Array();
             $this.nonstem = new Array();
-            $this.corte = 1;
+            $this.corte = ($('#corteopt').length>0)? parseFloat($('#corteopt').val()) : 1;
             $this.tfcalc = ($('input[name="tfcalc"]:checked').length>0)? $('input[name="tfcalc"]:checked').attr('id').substr(-1) : 1;
             $this.maxtfidf = 0;
             $this.splitSpace = ($("#splitspacesopt").length > 0)? $("#splitspacesopt")[0].checked : false;
@@ -146,16 +146,16 @@ var stemmer = function () {
             for (var d in tempgoods){
                 if (tempgoods.hasOwnProperty(d)){
                     var doc = $('#'+tempgoods[d])[0];
-                    $this.flipDoc(doc,false);
-                    $this.flipDoc(doc,false);
+                    $this.flipDoc(doc,true);
+                    $this.flipDoc(doc,true);
                     $this.flipDoc(doc,false);
                 }
             }
             for (var d in tempbads){
                 if (tempbads.hasOwnProperty(d)){
                     var doc = $('#'+tempbads[d])[0];
-                    $this.flipDoc(doc,false);
-                    $this.flipDoc(doc,false);
+                    $this.flipDoc(doc,true);
+                    $this.flipDoc(doc,true);
                     $this.flipDoc(doc,false);
                 }
             }
@@ -178,8 +178,8 @@ var stemmer = function () {
                     var regex = new RegExp(word,'ig');
                     txt = txt.replace(regex,'&&&');
                 })
-                var splitspace = /\s|\-|\→|\*|\"|\“|\”|\,|\.|\;|\-|\»|\/|\\|\(|\)|\:|\'|'s|&&&/ig;
-                var splitnospace = /\-|\→|\*|\"|\“|\”|\,|\.|\;|\-|\»|\/|\\|\(|\)|\:|\'|'s|&&&/ig;
+                var splitspace = /\s|\[|\]|\-|\→|\*|\"|\“|\”|\,|\.|\;|\-|\»|\/|\\|\(|\)|\:|\'|'s|&&&/ig;
+                var splitnospace = /\[|\]|\-|\→|\*|\"|\“|\”|\,|\.|\;|\-|\»|\/|\\|\(|\)|\:|\'|'s|&&&/ig;
                 var regextouse = ($this.splitSpace)? splitspace : splitnospace;
                 words = txt.split(regextouse)
                         .filter(function (value) { 
@@ -260,17 +260,17 @@ var stemmer = function () {
 
         $this.tfidf1 = function(){
             //natural Tf
-            return Math.log((this.termf)*(MINER.abs.length/this.df));
+            return (this.termf)*Math.log(MINER.abs.length/this.df);
         }
         $this.tfidf2 = function(){
             //logarithm Tf
             var x = 1+Math.log(this.termf);
-            return Math.log((x)*(MINER.abs.length/this.df));
+            return (x)*Math.log(MINER.abs.length/this.df);
         }
         $this.tfidf3 = function(){            
             //boolean Tf
             var x = (this.termf>0)? 1:0;
-            return Math.log((x)*(MINER.abs.length/this.df));
+            return (x)*Math.log(MINER.abs.length/this.df);
         }
 
         $this.TfIdf = function () {
@@ -468,6 +468,33 @@ var stemmer = function () {
 
                 $this.optionsBox.appendChild(tfscontainer);
 
+                var explaincontainer = document.createElement('div');
+                $(explaincontainer).css('float','left').css('width','320px').css('margin-left','12px');
+
+                var h3explain = document.createElement('h3');
+                h3explain.innerText = "Definição";
+                explaincontainer.appendChild(h3explain);
+
+                var span1 = document.createElement('span');
+                var span2 = document.createElement('span');
+                var span3 = document.createElement('span');
+                $(span2).css('display','none');
+                $(span3).css('display','none');
+
+                span1.id = 'tfexp1';
+                span2.id = 'tfexp2';
+                span3.id = 'tfexp3';
+
+                span1.innerHTML = '<i>TF*IDF</i>, onde <i>TF</i> é o número de vezes que o termo aparece no documento e <i>IDF</i> o log da razão entre o número total de documentos dividido pelo número de documentos contendo o termo.';
+                span2.innerHTML = '<i>TF*IDF</i>, onde <i>TF</i> é o log do número de vezes que o termo aparece no documento e <i>IDF</i> o log da razão entre o número total de documentos dividido pelo número de documentos contendo o termo.';
+                span3.innerHTML = '<i>TF*IDF</i>, onde <i>TF</i> é 1 se o termo aparece no documento ou 0 se não aparece e <i>IDF</i> é o log da razão entre o número total de documentos dividido pelo número de documentos contendo o termo.';
+
+                explaincontainer.appendChild(span1);
+                explaincontainer.appendChild(span2);
+                explaincontainer.appendChild(span3);
+
+                $this.optionsBox.appendChild(explaincontainer);
+
                 //corte option
                 var h3opttitle = h3opttitle.cloneNode(true);
                 h3opttitle.innerText = "Geral";
@@ -485,10 +512,37 @@ var stemmer = function () {
                 $(splitspacelbl).attr('for','splitspacesopt');
                 container.appendChild(splitspacelbl);
 
+                var corteinput = document.createElement('input');
+                corteinput.id = 'corteopt';
+                corteinput.value = '1.0';
+                corteinput.disabled = 'true';
+
+                var cortelbl = document.createElement('label');
+                $(cortelbl).attr('for','corteopt');
+                cortelbl.innerText = 'Ponto de corte';
+                cortelbl.style.float = 'left';
+
+                container.appendChild(cortelbl);
+                container.appendChild(corteinput);
+
+                $(container).css('border-left','1px solid #ccc').css('padding-left','12px');
+
+                var plusbtn = document.createElement('button');
+                plusbtn.innerText = '+';
+                plusbtn.className = 'btn btn-icon';
+                plusbtn.id = 'pluscorte';
+                container.appendChild(plusbtn);
+
+                var minusbtn = document.createElement('button');
+                minusbtn.innerText = '-';
+                minusbtn.className = 'btn btn-icon';
+                minusbtn.id = 'minuscorte';
+                container.appendChild(minusbtn);
+
                 $this.optionsBox.appendChild(container);
 
                 var btncontainer = document.createElement('div');
-                $(btncontainer).css('float','right').css('height','60px').css('margin-left','90px');
+                $(btncontainer).css('float','right').css('margin', '30px 20px 0 0');
 
                 var applyBtn = document.createElement('button');
                 applyBtn.id = 'applyOpts';
@@ -625,7 +679,7 @@ var stemmer = function () {
         $this.bindToStringwords = function(el){
             $(el).bind('focus',function(e){
                     var temp = this.className;
-                    var color = (temp.indexOf('blue') != -1)? 'blue' : (temp.indexOf('grey') != -1)? 'grey' : (temp.indexOf('red') != -1)? 'red' : 'green';
+                    var color = (temp.indexOf('blue') != -1)? 'blue' : (temp.indexOf('grey') != -1)? 'grey' : (temp.indexOf('red') != -1)? 'red' : 'teal';
                     $(this).removeClass(color).addClass(color+"-text").addClass(color+"-stroke");
                 }).bind('focusout',function(e){
                     var temp = this.className;
@@ -649,12 +703,28 @@ var stemmer = function () {
 
         $this.optionBinds = function(){
             //OPTION BINDS
-            $('input[name=tfcalc],#splitspacesopt').bind('change', function(e){ $('#applyOpts').removeClass('disabled'); });
-            $('#applyOpts').bind('click',function(e){
+            $('input[name=tfcalc],#splitspacesopt').unbind('change').bind('change', function(e){
+                $('#applyOpts').removeClass('disabled');
+                if($(this).attr('name') == 'tfcalc'){
+                    $('span[id^=tfexp]:visible').css('display','none');
+                    $('#tfexp'+this.id.substr(-1)).css('display','inline');
+                };
+            });
+            $('#applyOpts').unbind('click').bind('click',function(e){
                 if(this.className.indexOf('disabled') != -1) return false;
                 $(this).addClass('disabled');
                 $this.setupandgo();
             });
+            $('#pluscorte').unbind('click').bind('click', function(e){
+                $("#corteopt").val((parseFloat($("#corteopt").val())+0.1).toFixed(1));
+                $('#applyOpts').removeClass('disabled');
+            });
+            $('#minuscorte').unbind('click').bind('click', function(e){
+                $("#corteopt").val((parseFloat($("#corteopt").val())-0.1).toFixed(1));
+                $('#applyOpts').removeClass('disabled');
+            });
+
+
         }
 
         $this.colorizeHeatmap = function(){
@@ -791,8 +861,9 @@ var stemmer = function () {
 
         $this.updateNQ = function(){
             $("#termsBox").html('');
+            console.log($this.newquery.length+" -- "+$this.goods.length);
             if(!$this.newquery.length) return;
-            if(!$this.goods.length) return;
+            //if(!$this.goods.length) return;
 
             $this.newquery.each(function(wobj, key){
                 
@@ -808,7 +879,7 @@ var stemmer = function () {
 
                 wordspan.innerHTML = finalword.trim();//$this.newquery[i][0].trim();//$this.nonstem[$this.newquery[i][0].trim()];
                 wordspan.innerHTML += ' ('+finaltfidf.toFixed(2)+')';
-                wordspan.className = 'queryWord green';
+                wordspan.className = 'queryWord teal';
 
                 $(wordspan).bind('click',function(e){
                     var lastidx = $('input', '#stringdeBusca').length;
