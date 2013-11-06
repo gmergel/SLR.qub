@@ -47,11 +47,11 @@ var stemmer = function () {
             FWORDS: '.fwords{display:none}',
             QUERIESBOX: '#queriesBox{text-align:left;box-shadow: 0px 3px 6px -1px #f2f2f2}#stringdeBusca{cursor:text;margin-right: 100px;margin-bottom: 20px;padding-left: 90px;}',
             TITLE: '#title{height: 30px;font-size: 22px;margin-bottom: 10px;text-align: center; text-decoration: underline;font-style: italic;}',
-            CAROUSELBOX: '#carouselBox{clear: both;}',
+            CAROUSELBOX: '#queryBox{margin-bottom: 30px;}#carouselBox{clear: both;}',
             SUGGBOX: '#suggBox{clear:both;height: 58px;overflow: hidden;}',
             OPTBOX: '#optionsBox{height: 100px;margin-top: 12px;}#optionsBox input, #optionsBox label{cursor: pointer}',
             LABELS: '.label{font-family: monospace; font-size: 12px;margin-bottom: 10px;color: white;padding: 3px;float: left;margin-right: 20px;width: 65px;text-align: left;}',
-            HEATMAP: '.headcell{background-color:white;visibility:hidden;}.smallerFont{font-size: 0.7em; line-height: 9px; display:table-cell; vertical-align: middle; width: 90px;}.heatmapWordiv{padding-right: 10px;height:20px}#heatmapWords{text-align:right;width: 90px;position: absolute;background-color: white;height: 200px;z-index: 5;}#heatmapBox{height:0;clear: both;width: 871px;margin: 20px 10px 20px 0px;}#heatmapTable{clear:both;-webkit-transition: margin-left 0.8s ease-out;margin-left: 90px;}.heatcell{cursor: pointer; color:white;opacity:0;height:20px}',
+            HEATMAP: '.headcell{background-color:white;visibility:hidden;}.smallerFont{font-size: 0.7em; line-height: 9px; display:table-cell; vertical-align: middle; width: 90px;}.heatmapWordiv{padding-right: 10px;height:20px}#heatmapWords{text-align:right;width: 90px;position: absolute;background-color: white;height: 200px;z-index: 5;}#heatmapBox{padding-bottom:40px;clear: both;width: 871px;margin: 20px 10px 20px 0px;}#heatmapTable{clear:both;-webkit-transition: margin-left 0.8s ease-out;margin-left: 90px;}.heatcell{cursor: pointer; color:white;opacity:0;height:20px}',
             OVERLAY: '#overlay{-webkit-transition: margin-left 0.8s ease-out;visibility:hidden;border: 2px solid #bbb;position: absolute;width: 164px;margin-left: 86px;z-index: 9;opacity: 0.7;margin-top: -5px;height: 224px;border-radius: 7px;}',
             COLORS: '.teal{background-color: #42AEAF;color:white}.teal-stroke{color: #42AEAF}.blue-stroke{border: 1px solid #007db8}.blue-text{color: #007db8;}.grey-stroke{border: 1px solid #aaa}.grey-text{color: #aaa}.yellow{background-color: #F2AF00}.orange{background-color: #EE6411;color:white}.grey{color:white;background-color: #aaa}.green{color:white;background-color: #7ab800;}.green_stroke { padding: 30px 0px;border: 2px solid #7ab800;}.red {color:white;background-color: #DC5034;}.red_stroke {padding: 30px 0px;border: 2px solid #DC5034;}.blue {color:white;background-color: #0085c3;}.blue_stroke {padding: 30px 0px;border: 2px solid #0085c3;}.navyblue {color:white;background-color: #003758;}',
             INPUTS: '.queryWord:focus{background-color: white;outline:none;}#corteopt{width:24px;width: 24px;text-align: center;background-color: white;vertical-align: middle;margin: 0;margin-left: 3px;}'
@@ -126,7 +126,7 @@ var stemmer = function () {
             $this.corte = ($('#corteopt').length>0)? parseFloat($('#corteopt').val()) : 1;
             $this.tfcalc = ($('input[name="tfcalc"]:checked').length>0)? $('input[name="tfcalc"]:checked').attr('id').substr(-1) : 1;
             $this.maxtfidf = 0;
-            $this.splitSpace = ($("#splitspacesopt").length > 0)? $("#splitspacesopt")[0].checked : true;
+            $this.splitSpace = ($("#splitspacesopt").length > 0)? !$("#splitspacesopt")[0].checked : true;
 
             //start
             //get abstracts
@@ -443,17 +443,16 @@ var stemmer = function () {
                 var h3opttitle = document.createElement('h3');
                 h3opttitle.innerText = "Geral";
                 var container = document.createElement('div');
-                $(container).css('float','left').css('width','160px').css('margin-right','10px');
+                $(container).css('float','left').css('width','190px').css('margin-right','10px');
                 container.appendChild(h3opttitle);
 
                 var splitspacesopt = document.createElement('input');
                 splitspacesopt.type = 'checkbox';
                 splitspacesopt.id = 'splitspacesopt';
-                splitspacesopt.checked = true;
                 container.appendChild(splitspacesopt);
 
                 var splitspacelbl = document.createElement('label');
-                splitspacelbl.innerText = 'Quebrar nos espaços';
+                splitspacelbl.innerText = 'Capturar termos compostos';
                 $(splitspacelbl).attr('for','splitspacesopt');
                 container.appendChild(splitspacelbl);
 
@@ -464,7 +463,7 @@ var stemmer = function () {
 
                 var cortelbl = document.createElement('label');
                 $(cortelbl).attr('for','corteopt');
-                cortelbl.innerText = 'Ponto de corte';
+                cortelbl.innerText = 'Tf-Idf mínimo: ';
                 cortelbl.style.float = 'left';
 
                 container.appendChild(cortelbl);
@@ -903,7 +902,8 @@ var stemmer = function () {
                     var lastinput = $('input', '#stringdeBusca')[lastidx-1];
                     var newinput = document.createElement('input');
                     newinput.className = 'queryWord blue';
-                    newinput.value = finalword.trim();
+                    finalword = finalword.trim();
+                    newinput.value = (finalword.indexOf(' ')!=-1)? '"'+finalword+'"' : finalword;
                     
 
                     if(lastinput.value.toUpperCase() != "OR" && lastinput.value.toUpperCase() != "AND"){
