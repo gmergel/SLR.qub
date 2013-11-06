@@ -192,10 +192,12 @@ var stemmer = function () {
                         var splitted = words[wordkey].split(' ');
                         var finalw = '';
                         splitted.each(function(w){
-                            var stemmed = stemmer(w);
-                            finalw += ' '+stemmed;
-                            
-                            $this.nonstem[stemmed] = w;
+                            if(w !== '' && !splitted.hasOwnProperty(w)){
+                                var stemmed = stemmer(w);
+                                finalw += ' '+stemmed;
+                                console.warn(w);
+                                $this.nonstem[stemmed] = w;
+                            }
                         });
                         words[wordkey] = finalw.trim();
                     }
@@ -430,6 +432,52 @@ var stemmer = function () {
 
                 //OPTIONS
 
+                //corte option
+                var h3opttitle = h3opttitle.cloneNode(true);
+                h3opttitle.innerText = "Geral";
+                var container = document.createElement('div');
+                $(container).css('float','left').css('width','160px').css('margin-left','10px');
+                container.appendChild(h3opttitle);
+
+                var splitspacesopt = document.createElement('input');
+                splitspacesopt.type = 'checkbox';
+                splitspacesopt.id = 'splitspacesopt';
+                container.appendChild(splitspacesopt);
+
+                var splitspacelbl = document.createElement('label');
+                splitspacelbl.innerText = 'Quebrar nos espaços';
+                $(splitspacelbl).attr('for','splitspacesopt');
+                container.appendChild(splitspacelbl);
+
+                var corteinput = document.createElement('input');
+                corteinput.id = 'corteopt';
+                corteinput.value = '1.0';
+                corteinput.disabled = 'true';
+
+                var cortelbl = document.createElement('label');
+                $(cortelbl).attr('for','corteopt');
+                cortelbl.innerText = 'Ponto de corte';
+                cortelbl.style.float = 'left';
+
+                container.appendChild(cortelbl);
+                container.appendChild(corteinput);
+
+                $(container).css('border-left','1px solid #ccc').css('padding-left','12px');
+
+                var plusbtn = document.createElement('button');
+                plusbtn.innerText = '+';
+                plusbtn.className = 'btn btn-icon';
+                plusbtn.id = 'pluscorte';
+                container.appendChild(plusbtn);
+
+                var minusbtn = document.createElement('button');
+                minusbtn.innerText = '-';
+                minusbtn.className = 'btn btn-icon';
+                minusbtn.id = 'minuscorte';
+                container.appendChild(minusbtn);
+
+                $this.optionsBox.appendChild(container);
+
                 var tfscontainer = document.createElement('div');
                 $(tfscontainer).css('float','left').css('width','180px');
 
@@ -494,52 +542,6 @@ var stemmer = function () {
                 explaincontainer.appendChild(span3);
 
                 $this.optionsBox.appendChild(explaincontainer);
-
-                //corte option
-                var h3opttitle = h3opttitle.cloneNode(true);
-                h3opttitle.innerText = "Geral";
-                var container = document.createElement('div');
-                $(container).css('float','left').css('width','160px').css('margin-left','10px');
-                container.appendChild(h3opttitle);
-
-                var splitspacesopt = document.createElement('input');
-                splitspacesopt.type = 'checkbox';
-                splitspacesopt.id = 'splitspacesopt';
-                container.appendChild(splitspacesopt);
-
-                var splitspacelbl = document.createElement('label');
-                splitspacelbl.innerText = 'Quebrar nos espaços';
-                $(splitspacelbl).attr('for','splitspacesopt');
-                container.appendChild(splitspacelbl);
-
-                var corteinput = document.createElement('input');
-                corteinput.id = 'corteopt';
-                corteinput.value = '1.0';
-                corteinput.disabled = 'true';
-
-                var cortelbl = document.createElement('label');
-                $(cortelbl).attr('for','corteopt');
-                cortelbl.innerText = 'Ponto de corte';
-                cortelbl.style.float = 'left';
-
-                container.appendChild(cortelbl);
-                container.appendChild(corteinput);
-
-                $(container).css('border-left','1px solid #ccc').css('padding-left','12px');
-
-                var plusbtn = document.createElement('button');
-                plusbtn.innerText = '+';
-                plusbtn.className = 'btn btn-icon';
-                plusbtn.id = 'pluscorte';
-                container.appendChild(plusbtn);
-
-                var minusbtn = document.createElement('button');
-                minusbtn.innerText = '-';
-                minusbtn.className = 'btn btn-icon';
-                minusbtn.id = 'minuscorte';
-                container.appendChild(minusbtn);
-
-                $this.optionsBox.appendChild(container);
 
                 var btncontainer = document.createElement('div');
                 $(btncontainer).css('float','right').css('margin', '30px 20px 0 0');
