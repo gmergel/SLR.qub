@@ -35,21 +35,21 @@ var stemmer = function () {
         $this.STYLES = {
             GENERAL: 'label{line-height:1.9em}',
             BOXWRAPPER: '#boxWrapper{width: 100%;position: absolute;top: 0;text-align: center;font-family:Trebuchet MS; font-size: 13px}',
-            BOX: '#box{width: 960px;background-color: white;height: 750px;padding-top: 20px;margin: 70px auto;text-align: center;border-radius: 6px;box-shadow: 2px 2px 12px #ddd, -2px -2px 12px #ddd;}',
+            BOX: '#box{width: 960px;background-color: white;padding-top: 20px;margin: 70px auto;text-align: center;border-radius: 6px;box-shadow: 2px 2px 12px #ddd, -2px -2px 12px #ddd;}',
             DOCSLI: '#docsBox li{display: inline-block;margin: 20px 30px auto;text-align: center;width: 100px;vertical-align: top;}',
             DOC: '.doc:hover{cursor:pointer;border: 1px solid #aaa}.doc{display: block;border-radius: 4px;background-color: white;box-shadow: 0px 2px 2px 0px #F2F2F2;color: #666;line-height: 23px;height: 120px;border: 1px solid #eee;overflow: hidden;}.doc.good{border-bottom:6px solid #7ab800}.doc.bad{border-bottom:6px solid #DC5034}',
             DOCREF: '.docref{font-size: 13px;height: 15px;width: auto;color: #777;}',
             DOCSBOX: '#docsBox{-webkit-transition: margin-left 0.8s ease-out;width: 99000px;text-align: left;height: 180px;padding: 0;margin: 0 0 0 -6px;}',
             DOCSWRAPPER: '#docsWrapper{float:left;overflow: hidden;margin: 20px 10px;width:781px;padding: 0;border-bottom: 1px solid #eee;}',
             WORDS: '#termsBox .queryWord{cursor:pointer;}.queryWord{font-family: Consolas;text-align:center; padding: 3px;border: 1px solid #fff; border-radius: 5px;margin-right: 7px;display: inline-block;margin-bottom: 3px;}',
-            BUTTONS: '.btn{cursor:pointer;display:inline-block;*display:inline;*zoom:1;padding:4px 12px;margin-bottom:0;font-size:14px;line-height:20px;text-align:center;vertical-align:middle;border:1px solid #ccc;*border:0;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;*margin-left:.3em;box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 1px 2px rgba(0,0,0,.05)}.btn:hover{text-decoration:underline}.btn:focus,.btn.disabled,.btn[disabled]{*background-color:#d9d9d9}.btn:first-child{*margin-left:0}.btn:focus{outline:thin dotted #333;outline:5px auto -webkit-focus-ring-color;outline-offset:-2px}.btn.active,.btn:active{background-image:none;outline:0;-webkit-box-shadow:inset 0 2px 4px rgba(0,0,0,.15),0 1px 2px rgba(0,0,0,.05);box-shadow:inset 0 2px 4px rgba(0,0,0,.15),0 1px 2px rgba(0,0,0,.05)}.btn.disabled,.btn[disabled]{cursor:default;opacity:.65;filter:alpha(opacity=65);box-shadow:none}.btn{text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);}'+
+            BUTTONS: '.searchbtn{float: right;margin-right: 20px;display: inline;margin-top: 0 !important;}.btn{cursor:pointer;display:inline-block;*display:inline;*zoom:1;padding:4px 12px;margin-bottom:0;font-size:14px;line-height:20px;text-align:center;vertical-align:middle;border:1px solid #ccc;*border:0;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;*margin-left:.3em;box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 1px 2px rgba(0,0,0,.05)}.btn:hover{text-decoration:underline}.btn:focus,.btn.disabled,.btn[disabled]{*background-color:#d9d9d9}.btn:first-child{*margin-left:0}.btn:focus{outline:thin dotted #333;outline:5px auto -webkit-focus-ring-color;outline-offset:-2px}.btn.active,.btn:active{background-image:none;outline:0;-webkit-box-shadow:inset 0 2px 4px rgba(0,0,0,.15),0 1px 2px rgba(0,0,0,.05);box-shadow:inset 0 2px 4px rgba(0,0,0,.15),0 1px 2px rgba(0,0,0,.05)}.btn.disabled,.btn[disabled]{cursor:default;opacity:.65;filter:alpha(opacity=65);box-shadow:none}.btn{text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);}'+
             '.btn-carousel{padding: 60px 27px;border-radius: 6px;margin: 50px 9px 0px;color: white;float:left;box-shadow: 1px 1px 0px 0px #ccc;}.btn-carousel:active{box-shadow: 0 0}.btn-icon{padding: 0 2px 0 6px;background: none;border: 0;-webkit-border-radius: 0;box-shadow: none;text-shadow: none;}',
             FWORDS: '.fwords{display:none}',
-            QUERIESBOX: '#queriesBox{text-align:left;height:250px;box-shadow: 0px 3px 6px -1px #f2f2f2}#stringdeBusca{cursor:text;}',
+            QUERIESBOX: '#queriesBox{text-align:left;box-shadow: 0px 3px 6px -1px #f2f2f2}#stringdeBusca{cursor:text;margin-right: 100px;margin-bottom: 20px;padding-left: 90px;}',
             TITLE: '#title{height: 30px;font-size: 22px;margin-bottom: 10px;text-align: center; text-decoration: underline;font-style: italic;}',
-            QUERYBOX: '#queryBox{height:63px;}',
+            CAROUSELBOX: '#carouselBox{clear: both;}',
             SUGGBOX: '#suggBox{clear:both;height: 58px;overflow: hidden;}',
-            OPTBOX: '#optionsBox{margin-top: 12px;}#optionsBox input, #optionsBox label{cursor: pointer}',
+            OPTBOX: '#optionsBox{height: 100px;margin-top: 12px;}#optionsBox input, #optionsBox label{cursor: pointer}',
             LABELS: '.label{font-family: monospace; font-size: 12px;margin-bottom: 10px;color: white;padding: 3px;float: left;margin-right: 20px;width: 65px;text-align: left;}',
             HEATMAP: '.headcell{background-color:white;visibility:hidden;}.smallerFont{font-size: 0.7em; line-height: 9px; display:table-cell; vertical-align: middle; width: 90px;}.heatmapWordiv{padding-right: 10px;height:20px}#heatmapWords{text-align:right;width: 90px;position: absolute;background-color: white;height: 200px;z-index: 5;}#heatmapBox{height:0;clear: both;width: 871px;margin: 20px 10px 20px 0px;}#heatmapTable{clear:both;-webkit-transition: margin-left 0.8s ease-out;margin-left: 90px;}.heatcell{cursor: pointer; color:white;opacity:0;height:20px}',
             OVERLAY: '#overlay{-webkit-transition: margin-left 0.8s ease-out;visibility:hidden;border: 2px solid #bbb;position: absolute;width: 164px;margin-left: 86px;z-index: 9;opacity: 0.7;margin-top: -5px;height: 224px;border-radius: 7px;}',
@@ -126,7 +126,7 @@ var stemmer = function () {
             $this.corte = ($('#corteopt').length>0)? parseFloat($('#corteopt').val()) : 1;
             $this.tfcalc = ($('input[name="tfcalc"]:checked').length>0)? $('input[name="tfcalc"]:checked').attr('id').substr(-1) : 1;
             $this.maxtfidf = 0;
-            $this.splitSpace = ($("#splitspacesopt").length > 0)? $("#splitspacesopt")[0].checked : false;
+            $this.splitSpace = ($("#splitspacesopt").length > 0)? $("#splitspacesopt")[0].checked : true;
 
             //start
             //get abstracts
@@ -391,12 +391,20 @@ var stemmer = function () {
                     newSpan.id = 'word' + key;
                     newSpan.className = 'queryWord ';
                     newSpan.className += (value.indexOf('<')!=-1)? (value.indexOf('(') != -1 || value.indexOf(')') != -1)? 'grey-text' : 'grey' : 'blue';
-                    newSpan.value = word;//.toLowerCase();
+                    newSpan.value = word.trim();//.toLowerCase();
 
                     $this.bindToStringwords(newSpan);
                     $(newSpan).keyup();
                     stringBusca.appendChild(newSpan);
                 });
+                var searchBtn = document.createElement('button');
+                searchBtn.id = 'searchBtn';
+                searchBtn.className = 'btn searchbtn red';
+                searchBtn.innerHTML = 'Buscar!';
+                
+                $(searchBtn).css('margin-top','35px').css('width','90px');
+
+                $this.queryBox.appendChild(searchBtn);
                 $this.queryBox.appendChild(stringBusca);
                 $this.box.appendChild($this.queriesBox);
             }
@@ -441,6 +449,7 @@ var stemmer = function () {
                 var splitspacesopt = document.createElement('input');
                 splitspacesopt.type = 'checkbox';
                 splitspacesopt.id = 'splitspacesopt';
+                splitspacesopt.checked = true;
                 container.appendChild(splitspacesopt);
 
                 var splitspacelbl = document.createElement('label');
@@ -550,7 +559,7 @@ var stemmer = function () {
                 applyBtn.className = 'btn red disabled';
                 applyBtn.innerHTML = 'Aplicar alterações';
                 
-                $(applyBtn).css('margin-top','35px');
+                $(applyBtn).css('width','90px');
                 btncontainer.appendChild(applyBtn);
                 $this.optionsBox.appendChild(btncontainer);
 
@@ -704,6 +713,14 @@ var stemmer = function () {
 
         $this.optionBinds = function(){
             //OPTION BINDS
+            $('#searchBtn').bind('click',function(e){
+                var finalquery = '';
+                $("#stringdeBusca input").each(function(){
+                    finalquery += '%20'+this.value;
+                });
+                window.location.href = window.location.href.replace(/(queryText=)[^\&]+/, '$1' + finalquery);
+            });
+
             $('input[name=tfcalc],#splitspacesopt').unbind('change').bind('change', function(e){
                 $('#applyOpts').removeClass('disabled');
                 if($(this).attr('name') == 'tfcalc'){
@@ -906,7 +923,7 @@ var stemmer = function () {
                     $(newinput).insertAfter(lastinput);
                     $this.bindToStringwords(newinput);
                     $(newinput).keyup();
-                    $(this).css('display','none');
+                    //$(this).css('display','none');
                 });
 
                 $("#termsBox").append(wordspan);
