@@ -118,8 +118,8 @@ var stemmer = function () {
             //dynamic settings - can be changed as options
             $this.abs = [];
             $this.df = new Array();
-            $this.goods = new Array();
-            $this.bads = new Array();
+            //$this.goods = new Array();
+            //$this.bads = new Array();
             $this.newquery = new Array();
             $this.nqpositions = new Array();
             $this.nonstem = new Array();
@@ -435,7 +435,7 @@ var stemmer = function () {
                 var h3opttitle = document.createElement('h3');
                 h3opttitle.innerText = "Geral";
                 var container = document.createElement('div');
-                $(container).css('float','left').css('width','160px').css('margin-left','10px');
+                $(container).css('float','left').css('width','160px').css('margin-right','10px');
                 container.appendChild(h3opttitle);
 
                 var splitspacesopt = document.createElement('input');
@@ -461,7 +461,7 @@ var stemmer = function () {
                 container.appendChild(cortelbl);
                 container.appendChild(corteinput);
 
-                $(container).css('border-left','1px solid #ccc').css('padding-left','12px');
+                $(container).css('border-right','1px solid #ccc').css('padding-left','12px');
 
                 var plusbtn = document.createElement('button');
                 plusbtn.innerText = '+';
