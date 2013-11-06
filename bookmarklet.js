@@ -195,7 +195,6 @@ var stemmer = function () {
                             if(w !== '' && !splitted.hasOwnProperty(w)){
                                 var stemmed = stemmer(w);
                                 finalw += ' '+stemmed;
-                                console.warn(w);
                                 $this.nonstem[stemmed] = w;
                             }
                         });
@@ -433,7 +432,7 @@ var stemmer = function () {
                 //OPTIONS
 
                 //corte option
-                var h3opttitle = h3opttitle.cloneNode(true);
+                var h3opttitle = document.createElement('h3');
                 h3opttitle.innerText = "Geral";
                 var container = document.createElement('div');
                 $(container).css('float','left').css('width','160px').css('margin-left','10px');
