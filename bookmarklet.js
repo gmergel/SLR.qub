@@ -195,7 +195,6 @@ var stemmer = function () {
                             if(w !== '' && !splitted.hasOwnProperty(w) && w != 'lengths'){
                                 var stemmed = stemmer(w);
                                 finalw += ' '+stemmed;
-                                console.warn(w);
                                 $this.nonstem[stemmed] = w;
                             }
                         });
