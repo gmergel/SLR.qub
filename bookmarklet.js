@@ -192,9 +192,10 @@ var stemmer = function () {
                         var splitted = words[wordkey].split(' ');
                         var finalw = '';
                         splitted.each(function(w){
-                            if(w !== '' && !splitted.hasOwnProperty(w)){
+                            if(w !== '' && !splitted.hasOwnProperty(w) && w != 'lengths'){
                                 var stemmed = stemmer(w);
                                 finalw += ' '+stemmed;
+                                console.warn(w);
                                 $this.nonstem[stemmed] = w;
                             }
                         });
