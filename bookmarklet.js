@@ -118,8 +118,8 @@ var stemmer = function () {
             //dynamic settings - can be changed as options
             $this.abs = [];
             $this.df = new Array();
-            //$this.goods = new Array();
-            //$this.bads = new Array();
+            $this.goods =  tempgoods || new Array();
+            $this.bads = tempbads || new Array();
             $this.newquery = new Array();
             $this.nqpositions = new Array();
             $this.nonstem = new Array();
