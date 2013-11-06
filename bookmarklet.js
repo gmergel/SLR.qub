@@ -862,7 +862,6 @@ var stemmer = function () {
 
         $this.updateNQ = function(){
             $("#termsBox").html('');
-            console.log($this.newquery.length+" -- "+$this.goods.length);
             if(!$this.newquery.length) return;
             //if(!$this.goods.length) return;
 
