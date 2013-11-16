@@ -1,4 +1,7 @@
 <?php
+    
+    print_r($_SERVER);
+    exit;
 
     $handle = new SQLite3('metrics.sqlite');
     $ip = $_SERVER['REMOTE_ADDR'];
