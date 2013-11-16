@@ -1,13 +1,8 @@
 <?php
     
-    print_r($_SERVER);
-    exit;
-
     $handle = new SQLite3('metrics.sqlite');
-    $ip = $_SERVER['REMOTE_ADDR'];
+    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
     $result = $handle->query('insert into session (ip) values ("'.$ip.'")');
-
-
 
     $action = $_GET['action'];
     $handle->query('insert into history (ip,action) values ("'.$ip.'","'.$action.'")');
@@ -24,5 +19,4 @@
         $handle->query('insert into varset (history_id, var_id) values ('.$histid.','.$varid.')');
     }
     
-
 ?>
