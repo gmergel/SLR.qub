@@ -23,58 +23,57 @@ var stemmer = function () {
     (function () {
 
         var $this = this;
-        $this.abs = [];
-        $this.df = new Array();
-        $this.goods = new Array();
-        $this.bads = new Array();
-        $this.newquery = new Array();
-        $this.nqpositions = new Array();
-        $this.nonstem = new Array();
-        $this.corte = 1;
-        $this.maxtfidf = 0;
-        $this.heatmapwords = 10;
 
-        $this.splitSpace = false;
-
-        $this.stopWords = ["a","able","about","above","abst","accordance","according","accordingly","across","act","actually","added","adj","affected","affecting","affects","after","afterwards","again","against","ah","all","almost","alone","along","already","also","although","always","am","among","amongst","an","and","announce","another","any","anybody","anyhow","anymore","anyone","anything","anyway","anyways","anywhere","apparently","approximately","are","aren","arent","arise","around","as","aside","ask","asking","at","auth","available","away","awfully","b","back","be","became","because","become","becomes","becoming","been","before","beforehand","begin","beginning","beginnings","begins","behind","being","believe","below","beside","besides","between","beyond","biol","both","brief","briefly","but","by","c","ca","came","can","cannot","can't","cause","causes","certain","certainly","co","com","come","comes","contain","containing","contains","could","couldnt","d","date","did","didn't","different","do","does","doesn't","doing","done","don't","down","downwards","due","during","e","each","ed","edu","effect","eg","eight","eighty","either","else","elsewhere","end","ending","enough","especially","et","et-al","etc","even","ever","every","everybody","everyone","everything","everywhere","ex","except","f","far","few","ff","fifth","first","five","fix","followed","following","follows","for","former","formerly","forth","found","four","from","further","furthermore","g","gave","get","gets","getting","give","given","gives","giving","go","goes","gone","got","gotten","h","had","happens","hardly","has","hasn't","have","haven't","having","he","hed","hence","her","here","hereafter","hereby","herein","heres","hereupon","hers","herself","hes","hi","hid","him","himself","his","hither","home","how","howbeit","however","hundred","i","id","ie","if","i'll","im","is","immediate","immediately","importance","important","in","inc","indeed","index","information","instead","into","invention","inward","is","isn't","it","itd","it'll","its","itself","i've","j","just","k","keep","keeps","kept","kg","km","know","known","knows","l","largely","last","lately","later","latter","latterly","least","less","lest","let","lets","like","liked","likely","line","little","'ll","look","looking","looks","ltd","m","made","mainly","make","makes","many","may","maybe","me","mean","means","meantime","meanwhile","merely","mg","might","million","miss","ml","more","moreover","most","mostly","mr","mrs","much","mug","must","my","myself","n","na","name","namely","nay","nd","near","nearly","necessarily","necessary","need","needs","neither","never","nevertheless","new","next","nine","ninety","no","nobody","non","none","nonetheless","noone","nor","normally","nos","not","noted","nothing","now","nowhere","o","obtain","obtained","obviously","of","off","often","oh","ok","okay","old","omitted","on","once","one","ones","only","onto","or","ord","other","others","otherwise","ought","our","ours","ourselves","out","outside","over","overall","owing","own","p","page","pages","part","particular","particularly","past","per","perhaps","placed","please","plus","poorly","possible","possibly","potentially","pp","predominantly","present","previously","primarily","probably","promptly","proud","provides","put","q","que","quickly","quite","qv","r","ran","rather","rd","re","readily","really","recent","recently","ref","refs","regarding","regardless","regards","related","relatively","research","respectively","resulted","resulting","results","right","run","s","said","same","saw","say","saying","says","sec","section","see","seeing","seem","seemed","seeming","seems","seen","self","selves","sent","seven","several","shall","she","shed","she'll","shes","should","shouldn't","show","showed","shown","showns","shows","significant","significantly","similar","similarly","since","six","slightly","so","some","somebody","somehow","someone","somethan","something","sometime","sometimes","somewhat","somewhere","soon","sorry","specifically","specified","specify","specifying","still","stop","strongly","sub","substantially","successfully","such","sufficiently","suggest","sup","sure","t","take","taken","taking","tell","tends","th","than","thank","thanks","thanx","that","that'll","thats","that've","the","their","theirs","them","themselves","then","thence","there","thereafter","thereby","thered","therefore","therein","there'll","thereof","therere","theres","thereto","thereupon","there've","these","they","theyd","they'll","theyre","they've","think","this","those","thou","though","thoughh","thousand","throug","through","throughout","thru","thus","til","tip","to","together","too","took","toward","towards","tried","tries","truly","try","trying","ts","twice","two","u","un","under","unfortunately","unless","unlike","unlikely","until","unto","up","upon","ups","us","use","used","useful","usefully","usefulness","uses","using","usually","v","value","various","'ve","very","via","viz","vol","vols","vs","w","want","wants","was","wasn't","way","we","wed","welcome","we'll","went","were","weren't","we've","what","whatever","what'll","whats","when","whence","whenever","where","whereafter","whereas","whereby","wherein","wheres","whereupon","wherever","whether","which","while","whim","whither","who","whod","whoever","whole","who'll","whom","whomever","whos","whose","why","widely","willing","wish","with","within","without","won't","words","world","would","wouldn't","www","x","y","yes","yet","you","youd","you'll","your","youre","yours","yourself","yourselves","you've","z","zero"];
-
-        $this.isStopWord = function(word){
-            for (var i=0, len = $this.stopWords.length; i < len; i++)
-                if ($this.stopWords[i] === word) return true;
-            return false;
-        }
-
+        //static settings - do not change:
         $this.step = 159;
         $this.moveby = 2;
         $this.sit = 0;
         $this.heatmapwidth = 800;
+        $this.heatmapwords = 10;
+        $this.stopWords = ["a","able","about","above","abst","accordance","according","accordingly","across","act","actually","added","adj","affected","affecting","affects","after","afterwards","again","against","ah","all","almost","alone","along","already","also","although","always","am","among","amongst","an","and","announce","another","any","anybody","anyhow","anymore","anyone","anything","anyway","anyways","anywhere","apparently","approximately","are","aren","arent","arise","around","as","aside","ask","asking","at","auth","available","away","awfully","b","back","be","became","because","become","becomes","becoming","been","before","beforehand","begin","beginning","beginnings","begins","behind","being","believe","below","beside","besides","between","beyond","biol","both","brief","briefly","but","by","c","ca","came","can","cannot","can't","cause","causes","certain","certainly","co","com","come","comes","contain","containing","contains","could","couldnt","d","date","did","didn't","different","do","does","doesn't","doing","done","don't","down","downwards","due","during","e","each","ed","edu","effect","eg","eight","eighty","either","else","elsewhere","end","ending","enough","especially","et","et-al","etc","even","ever","every","everybody","everyone","everything","everywhere","ex","except","f","far","few","ff","fifth","first","five","fix","followed","following","follows","for","former","formerly","forth","found","four","from","further","furthermore","g","gave","get","gets","getting","give","given","gives","giving","go","goes","gone","got","gotten","h","had","happens","hardly","has","hasn't","have","haven't","having","he","hed","hence","her","here","hereafter","hereby","herein","heres","hereupon","hers","herself","hes","hi","hid","him","himself","his","hither","home","how","howbeit","however","hundred","i","id","ie","if","i'll","im","is","immediate","immediately","importance","important","in","inc","indeed","index","information","instead","into","invention","inward","is","isn't","it","itd","it'll","its","itself","i've","j","just","k","keep","keeps","kept","kg","km","know","known","knows","l","largely","last","lately","later","latter","latterly","least","less","lest","let","lets","like","liked","likely","line","little","'ll","look","looking","looks","ltd","m","made","mainly","make","makes","many","may","maybe","me","mean","means","meantime","meanwhile","merely","mg","might","million","miss","ml","more","moreover","most","mostly","mr","mrs","much","mug","must","my","myself","n","na","name","namely","nay","nd","near","nearly","necessarily","necessary","need","needs","neither","never","nevertheless","new","next","nine","ninety","no","nobody","non","none","nonetheless","noone","nor","normally","nos","not","noted","nothing","now","nowhere","o","obtain","obtained","obviously","of","off","often","oh","ok","okay","old","omitted","on","once","one","ones","only","onto","or","ord","other","others","otherwise","ought","our","ours","ourselves","out","outside","over","overall","owing","own","p","page","pages","part","particular","particularly","past","per","perhaps","placed","please","plus","poorly","possible","possibly","potentially","pp","predominantly","present","previously","primarily","probably","promptly","proud","provides","put","q","que","quickly","quite","qv","r","ran","rather","rd","re","readily","really","recent","recently","ref","refs","regarding","regardless","regards","related","relatively","research","respectively","resulted","resulting","results","right","run","s","said","same","saw","say","saying","says","sec","section","see","seeing","seem","seemed","seeming","seems","seen","self","selves","sent","seven","several","shall","she","shed","she'll","shes","should","shouldn't","show","showed","shown","showns","shows","significant","significantly","similar","similarly","since","six","slightly","so","some","somebody","somehow","someone","somethan","something","sometime","sometimes","somewhat","somewhere","soon","sorry","specifically","specified","specify","specifying","still","stop","strongly","sub","substantially","successfully","such","sufficiently","suggest","sup","sure","t","take","taken","taking","tell","tends","th","than","thank","thanks","thanx","that","that'll","thats","that've","the","their","theirs","them","themselves","then","thence","there","thereafter","thereby","thered","therefore","therein","there'll","thereof","therere","theres","thereto","thereupon","there've","these","they","theyd","they'll","theyre","they've","think","this","those","thou","though","thoughh","thousand","throug","through","throughout","thru","thus","til","tip","to","together","too","took","toward","towards","tried","tries","truly","try","trying","ts","twice","two","u","un","under","unfortunately","unless","unlike","unlikely","until","unto","up","upon","ups","us","use","used","useful","usefully","usefulness","uses","using","usually","v","value","various","'ve","very","via","viz","vol","vols","vs","w","want","wants","was","wasn't","way","we","wed","welcome","we'll","went","were","weren't","we've","what","whatever","what'll","whats","when","whence","whenever","where","whereafter","whereas","whereby","wherein","wheres","whereupon","wherever","whether","which","while","whim","whither","who","whod","whoever","whole","who'll","whom","whomever","whos","whose","why","widely","willing","wish","with","within","without","won't","words","world","would","wouldn't","www","x","y","yes","yet","you","youd","you'll","your","youre","yours","yourself","yourselves","you've","z","zero"];
 
         $this.STYLES = {
+            GENERAL: 'label{line-height:1.9em}',
             BOXWRAPPER: '#boxWrapper{width: 100%;position: absolute;top: 0;text-align: center;font-family:Trebuchet MS; font-size: 13px}',
-            BOX: '#box{width: 960px;background-color: white;height: 700px;padding-top: 20px;margin: 70px auto;text-align: center;border-radius: 6px;box-shadow: 2px 2px 12px #ddd, -2px -2px 12px #ddd;}',
+            BOX: '#box{width: 960px;background-color: white;padding-top: 20px;margin: 70px auto;text-align: center;border-radius: 6px;box-shadow: 2px 2px 12px #ddd, -2px -2px 12px #ddd;}',
             DOCSLI: '#docsBox li{display: inline-block;margin: 20px 30px auto;text-align: center;width: 100px;vertical-align: top;}',
             DOC: '.doc:hover{cursor:pointer;border: 1px solid #aaa}.doc{display: block;border-radius: 4px;background-color: white;box-shadow: 0px 2px 2px 0px #F2F2F2;color: #666;line-height: 23px;height: 120px;border: 1px solid #eee;overflow: hidden;}.doc.good{border-bottom:6px solid #7ab800}.doc.bad{border-bottom:6px solid #DC5034}',
             DOCREF: '.docref{font-size: 13px;height: 15px;width: auto;color: #777;}',
             DOCSBOX: '#docsBox{-webkit-transition: margin-left 0.8s ease-out;width: 99000px;text-align: left;height: 180px;padding: 0;margin: 0 0 0 -6px;}',
             DOCSWRAPPER: '#docsWrapper{float:left;overflow: hidden;margin: 20px 10px;width:781px;padding: 0;border-bottom: 1px solid #eee;}',
             WORDS: '#termsBox .queryWord{cursor:pointer;}.queryWord{font-family: Consolas;text-align:center; padding: 3px;border: 1px solid #fff; border-radius: 5px;margin-right: 7px;display: inline-block;margin-bottom: 3px;}',
-            BUTTONS: '.btn{padding: 60px 27px;border-radius: 6px;margin: 50px 9px 0px;color: white;float:left;box-shadow: 1px 1px 0px 0px #ccc;}.btn:active{box-shadow: 0 0}',
+            BUTTONS: '.searchbtn{float: right;margin-right: 20px;display: inline;margin-top: 0 !important;}.btn{cursor:pointer;display:inline-block;*display:inline;*zoom:1;padding:4px 12px;margin-bottom:0;font-size:14px;line-height:20px;text-align:center;vertical-align:middle;border:1px solid #ccc;*border:0;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;*margin-left:.3em;box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 1px 2px rgba(0,0,0,.05)}.btn:hover{text-decoration:underline}.btn:focus,.btn.disabled,.btn[disabled]{*background-color:#d9d9d9}.btn:first-child{*margin-left:0}.btn:focus{outline:thin dotted #333;outline:5px auto -webkit-focus-ring-color;outline-offset:-2px}.btn.active,.btn:active{background-image:none;outline:0;-webkit-box-shadow:inset 0 2px 4px rgba(0,0,0,.15),0 1px 2px rgba(0,0,0,.05);box-shadow:inset 0 2px 4px rgba(0,0,0,.15),0 1px 2px rgba(0,0,0,.05)}.btn.disabled,.btn[disabled]{cursor:default;opacity:.65;filter:alpha(opacity=65);box-shadow:none}.btn{text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);}'+
+            '.btn-carousel{padding: 60px 27px;border-radius: 6px;margin: 50px 9px 0px;color: white;float:left;box-shadow: 1px 1px 0px 0px #ccc;}.btn-carousel:active{box-shadow: 0 0}.btn-icon{padding: 0 2px 0 6px;background: none;border: 0;-webkit-border-radius: 0;box-shadow: none;text-shadow: none;}',
             FWORDS: '.fwords{display:none}',
-            QUERIESBOX: '#queriesBox{text-align:left;height:200px;box-shadow: 0px 3px 6px -1px #f2f2f2}#stringdeBusca{cursor:text;}',
+            QUERIESBOX: '#queriesBox{text-align:left;box-shadow: 0px 3px 6px -1px #f2f2f2}#stringdeBusca{cursor:text;margin-right: 100px;margin-bottom: 20px;padding-left: 90px;}',
             TITLE: '#title{height: 30px;font-size: 22px;margin-bottom: 10px;text-align: center; text-decoration: underline;font-style: italic;}',
-            QUERYBOX: '#queryBox{height:63px;}',
+            CAROUSELBOX: '#queryBox{margin-bottom: 30px;}#carouselBox{clear: both;}',
             SUGGBOX: '#suggBox{clear:both;height: 58px;overflow: hidden;}',
-            OPTBOX: '#optionsBox{margin-top: 12px;}',
+            OPTBOX: '#optionsBox{height: 100px;margin-top: 12px;}#optionsBox input, #optionsBox label{cursor: pointer}',
             LABELS: '.label{font-family: monospace; font-size: 12px;margin-bottom: 10px;color: white;padding: 3px;float: left;margin-right: 20px;width: 65px;text-align: left;}',
-            HEATMAP: '.headcell{background-color:white;visibility:hidden;}.smallerFont{font-size: 0.7em; line-height: 9px; display:table-cell; vertical-align: middle; width: 90px;}.heatmapWordiv{padding-right: 10px;height:20px}#heatmapWords{text-align:right;width: 90px;position: absolute;background-color: white;height: 200px;z-index: 5;}#heatmapBox{height:0;clear: both;width: 871px;margin: 20px 10px 20px 0px;}#heatmapTable{clear:both;-webkit-transition: margin-left 0.8s ease-out;margin-left: 90px;}.heatcell{cursor: pointer; color:white;opacity:0;height:20px}',
+            HEATMAP: '.headcell{background-color:white;visibility:hidden;}.smallerFont{font-size: 0.7em; line-height: 9px; display:table-cell; vertical-align: middle; width: 90px;}.heatmapWordiv{padding-right: 10px;height:20px}#heatmapWords{text-align:right;width: 90px;position: absolute;background-color: white;height: 200px;z-index: 5;}#heatmapBox{padding-bottom:40px;clear: both;width: 871px;margin: 20px 10px 20px 0px;}#heatmapTable{clear:both;-webkit-transition: margin-left 0.8s ease-out;margin-left: 90px;}.heatcell{cursor: pointer; color:white;opacity:0;height:20px}',
             OVERLAY: '#overlay{-webkit-transition: margin-left 0.8s ease-out;visibility:hidden;border: 2px solid #bbb;position: absolute;width: 164px;margin-left: 86px;z-index: 9;opacity: 0.7;margin-top: -5px;height: 224px;border-radius: 7px;}',
-            COLORS: '.blue-stroke{border: 1px solid #007db8}.blue-text{color: #007db8;}.grey-stroke{border: 1px solid #aaa}.grey-text{color: #aaa}.yellow{background-color: #F2AF00}.orange{background-color: #EE6411;color:white}.grey{color:white;background-color: #aaa}.green{color:white;background-color: #7ab800;}.green_stroke { padding: 30px 0px;border: 2px solid #7ab800;}.red {color:white;background-color: #DC5034;}.red_stroke {padding: 30px 0px;border: 2px solid #DC5034;}.blue {color:white;background-color: #0085c3;}.blue_stroke {padding: 30px 0px;border: 2px solid #0085c3;}.navyblue {color:white;background-color: #003758;}',
-            INPUTS: '.queryWord:focus{background-color: white;outline:none;}'
+            COLORS: '.teal{background-color: #42AEAF;color:white}.teal-stroke{color: #42AEAF}.blue-stroke{border: 1px solid #007db8}.blue-text{color: #007db8;}.grey-stroke{border: 1px solid #aaa}.grey-text{color: #aaa}.yellow{background-color: #F2AF00}.orange{background-color: #EE6411;color:white}.grey{color:white;background-color: #aaa}.green{color:white;background-color: #7ab800;}.green_stroke { padding: 30px 0px;border: 2px solid #7ab800;}.red {color:white;background-color: #DC5034;}.red_stroke {padding: 30px 0px;border: 2px solid #DC5034;}.blue {color:white;background-color: #0085c3;}.blue_stroke {padding: 30px 0px;border: 2px solid #0085c3;}.navyblue {color:white;background-color: #003758;}',
+            INPUTS: '.queryWord:focus{background-color: white;outline:none;}#corteopt{width:24px;width: 24px;text-align: center;background-color: white;vertical-align: middle;margin: 0;margin-left: 3px;}'
         };
 
         $this.CONTROLS = {
-            next: $('<a id="prevBtn" class="btn blue">></a>'),
-            prev: $('<a id="nextBtn" class="btn blue"><</a>')
+            next: $('<a id="prevBtn" class="btn-carousel blue">></a>'),
+            prev: $('<a id="nextBtn" class="btn-carousel blue"><</a>')
+        }
+
+        $this.CONTROLS.next.bind('click', function () {
+            $this.moveheatmap(1);
+        });
+        $this.CONTROLS.prev.bind('click', function () {
+            $this.moveheatmap(-1);
+        });
+
+        /*** FUNCTIONS ***/
+        $this.isStopWord = function(word){
+            for (var i=0, len = $this.stopWords.length; i < len; i++)
+                if ($this.stopWords[i] === word) return true;
+            return false;
         }
 
         $this.moveheatmap = function(steps){
@@ -86,13 +85,6 @@ var stemmer = function () {
             $('#overlay').css('margin-left', parseInt($('#overlay').css('margin-left'), 10) + (steps * $this.moveby * $this.heatmapcellstep) + 'px');
             $this.sit += steps;
         }
-
-        $this.CONTROLS.next.bind('click', function () {
-            $this.moveheatmap(1);
-        });
-        $this.CONTROLS.prev.bind('click', function () {
-            $this.moveheatmap(-1);
-        });
 
         $this.init = function () {
             //include CSSs:
@@ -106,6 +98,37 @@ var stemmer = function () {
             //blur page
             $('#LayoutWrapper').css('opacity', 0.2);
 
+            $this.setupandgo();
+        }
+
+        $this.setupandgo = function(){
+
+            //if($this.box) $this.box.innerHTML = '';
+
+            if($this.suggBox) $this.suggBox.innerHTML = '';
+            //if($this.carouselBox) $this.carouselBox.innerHTML = '';
+            //if($this.heatmapBox) $this.heatmapBox.innerHTML = '';
+            $(".heatcell").css('opacity',0);
+            $(".heatmapWordiv").each(function(){ this.innerText = ''; });
+
+            //temporary vars
+            var tempgoods = $this.goods;
+            var tempbads = $this.bads;
+
+            //dynamic settings - can be changed as options
+            $this.abs = [];
+            $this.df = new Array();
+            $this.goods =  tempgoods || new Array();
+            $this.bads = tempbads || new Array();
+            $this.newquery = new Array();
+            $this.nqpositions = new Array();
+            $this.nonstem = new Array();
+            $this.corte = ($('#corteopt').length>0)? parseFloat($('#corteopt').val()) : 1;
+            $this.tfcalc = ($('input[name="tfcalc"]:checked').length>0)? $('input[name="tfcalc"]:checked').attr('id').substr(-1) : 1;
+            $this.maxtfidf = 0;
+            $this.splitSpace = ($("#splitspacesopt").length > 0)? !$("#splitspacesopt")[0].checked : true;
+
+            //start
             //get abstracts
             $this.getAbs();
             //count words
@@ -114,6 +137,28 @@ var stemmer = function () {
             //prepare box layout elements
             $this.getQuery();
             $this.createBox();
+
+            $this.optionBinds();
+            $this.updateNQ();
+            //$(".doc.good").each(function(){ $this.flipDoc(this,true); $this.flipDoc(this,true); });
+            //$(".doc.bad").each(function(){ $this.flipDoc(this,true); });
+            
+            for (var d in tempgoods){
+                if (tempgoods.hasOwnProperty(d)){
+                    var doc = $('#'+tempgoods[d])[0];
+                    $this.flipDoc(doc,true);
+                    $this.flipDoc(doc,true);
+                    $this.flipDoc(doc,false);
+                }
+            }
+            for (var d in tempbads){
+                if (tempbads.hasOwnProperty(d)){
+                    var doc = $('#'+tempbads[d])[0];
+                    $this.flipDoc(doc,true);
+                    $this.flipDoc(doc,true);
+                    $this.flipDoc(doc,false);
+                }
+            }
 
             console.warn("done");
         }
@@ -133,8 +178,8 @@ var stemmer = function () {
                     var regex = new RegExp(word,'ig');
                     txt = txt.replace(regex,'&&&');
                 })
-                var splitspace = /\s|\-|\→|\*|\"|\,|\.|\;|\-|\»|\/|\\|\(|\)|\:|\'|'s|&&&/ig;
-                var splitnospace = /\-|\→|\*|\"|\,|\.|\;|\-|\»|\/|\\|\(|\)|\:|\'|'s|&&&/ig;
+                var splitspace = /\s|\[|\]|\-|\→|\*|\"|\“|\”|\,|\.|\;|\-|\»|\/|\\|\(|\)|\:|\'|'s|&&&/ig;
+                var splitnospace = /\[|\]|\-|\→|\*|\"|\“|\”|\,|\.|\;|\-|\»|\/|\\|\(|\)|\:|\'|'s|&&&/ig;
                 var regextouse = ($this.splitSpace)? splitspace : splitnospace;
                 words = txt.split(regextouse)
                         .filter(function (value) { 
@@ -147,10 +192,11 @@ var stemmer = function () {
                         var splitted = words[wordkey].split(' ');
                         var finalw = '';
                         splitted.each(function(w){
-                            var stemmed = stemmer(w);
-                            finalw += ' '+stemmed;
-                            
-                            $this.nonstem[stemmed] = w;
+                            if(w !== '' && !splitted.hasOwnProperty(w) && w != 'lengths'){
+                                var stemmed = stemmer(w);
+                                finalw += ' '+stemmed;
+                                $this.nonstem[stemmed] = w;
+                            }
                         });
                         words[wordkey] = finalw.trim();
                     }
@@ -213,24 +259,61 @@ var stemmer = function () {
 
         }
 
+        $this.tfidf1 = function(){
+            //natural Tf
+            return (this.termf)*Math.log(MINER.abs.length/this.df);
+        }
+        $this.tfidf2 = function(){
+            //logarithm Tf
+            var x = 1+Math.log(this.termf);
+            return (x)*Math.log(MINER.abs.length/this.df);
+        }
+        $this.tfidf3 = function(){            
+            //boolean Tf
+            var x = (this.termf>0)? 1:0;
+            return (x)*Math.log(MINER.abs.length/this.df);
+        }
+
         $this.TfIdf = function () {
             
             $this.normalizeTF();
+            var formula = $this.tfidf1;
+                switch($this.tfcalc){
+                    case '1':
+                    default:
+                        //natural Tf
+                        formula = $this.tfidf1;
+                        break;
+                    case '2':
+                        //logarithm Tf
+                        formula = $this.tfidf2;
+                        break;
+                    case '3':
+                        //boolean Tf
+                        formula = $this.tfidf3;
+                        break;
+                }
 
             //var positions = new Array();
             $($this.abs).each(function (key, value) {
                 value.tfidf = new Array();
                 value.tfidfpositions = new Array();
+
                 for (var wordkey in value.tf) {
                     if (value.tf.hasOwnProperty(wordkey) && value.tf[wordkey]) {
                         var word =  value.tf[wordkey][0];
                         var termf = value.tf[wordkey][1];
                         var df = MINER.df[word].length;
-                            
+
                         if (typeof value.tfidf[wordkey] == 'undefined'){
-                            var tfidf = Math.log((termf)*(MINER.abs.length/df));
+                            
+                            //cálculo do TF-IDF
+                            var tfidf = 0;
+                            var pars = { termf: termf, df: df};
+                            tfidf = formula.call(pars);
                             if(tfidf > $this.maxtfidf) $this.maxtfidf = tfidf;
                             value.tfidf[wordkey] = [word, tfidf];
+
                         }
                     }
                 }
@@ -243,151 +326,306 @@ var stemmer = function () {
         }
 
         $this.createBox = function () {
-            $this.box = document.createElement('div');
-            $this.box.id = 'box';
-            var wrapper = document.createElement('div');
-            wrapper.id = 'boxWrapper';
 
+            if($this.box){
+                wrapper = $("#boxWrapper");
+            }else{
+                $this.box = document.createElement('div');
+                $this.box.id = 'box';
+                var wrapper = document.createElement('div');
+                wrapper.id = 'boxWrapper';
+                var title = document.createElement('div');
+                title.id = 'title';
+                title.innerHTML = 'qub';
+                $this.box.appendChild(title);
+            }
             //box inner-html
+            if(!$this.queriesBox){
+                $this.queriesBox = document.createElement('div');
+                $this.queriesBox.id = 'queriesBox';
+            }
             //queryBox
-            var queryBox = document.createElement('div');
-            queryBox.id = 'queryBox';
+            if(!$this.queryBox){
+                $this.queryBox = document.createElement('div');
+                $this.queryBox.id = 'queryBox';
+                $this.queriesBox.appendChild($this.queryBox);
+
+                var labelQ = document.createElement('span');
+                labelQ.id = 'queryLabel';
+                labelQ.className = 'grey label';
+                labelQ.innerHTML = '<i>String</i> de busca';
+                $this.queryBox.appendChild(labelQ);
+
+                var stringBusca = document.createElement('div');
+                stringBusca.id = "stringdeBusca";
+                $(stringBusca).bind('click', function(e){
+                    //$('input', this).offset
+                    if(e.currentTarget != e.target) return;
+                    var andar = Math.floor(e.offsetY/28);
+                    var clicked = e.currentTarget.offsetLeft+e.offsetX;
+                    var len = $('input', '#stringdeBusca').length;
+
+                    $('input', '#stringdeBusca').each(function(k){
+                        
+                        if((andar == Math.floor((this.offsetTop-132)/28) && clicked < $(this).offset().left) || k >= len-1){
+
+                            var newSpan = document.createElement('input');
+                            newSpan.id = 'word'+len;
+                            $(newSpan).css('width','20px');
+                            newSpan.className = 'queryWord blue-stroke blue-text ';
+                            if(clicked < $(this).offset().left) $(newSpan).insertBefore(this);
+                            else $(newSpan).insertAfter(this);
+
+                            $this.bindToStringwords(newSpan);
+                            $(newSpan).focus();
+
+                            changed = true;
+                            return false;
+                        }
+                    });
+                }); 
+
+                $(MINER.query).each(function (key, value) {
+                    var newSpan = document.createElement('input');
+                    var word = value.replace(/</ig,'').replace(/>/ig,'');
+                    newSpan.id = 'word' + key;
+                    newSpan.className = 'queryWord ';
+                    newSpan.className += (value.indexOf('<')!=-1)? (value.indexOf('(') != -1 || value.indexOf(')') != -1)? 'grey-text' : 'grey' : 'blue';
+                    newSpan.value = word.trim();//.toLowerCase();
+
+                    $this.bindToStringwords(newSpan);
+                    $(newSpan).keyup();
+                    stringBusca.appendChild(newSpan);
+                });
+                var searchBtn = document.createElement('button');
+                searchBtn.id = 'searchBtn';
+                searchBtn.className = 'btn searchbtn red';
+                searchBtn.innerHTML = 'Buscar!';
+                
+                $(searchBtn).css('margin-top','35px').css('width','90px');
+
+                $this.queryBox.appendChild(searchBtn);
+                $this.queryBox.appendChild(stringBusca);
+                $this.box.appendChild($this.queriesBox);
+            }
+            //termsBox
+            if(!$this.termsBox){
+                $this.termsBox = document.createElement('div');
+                $this.termsBox.id = 'termsBox';
+            }
             //suggBox
-            var suggBox = document.createElement('div');
-            suggBox.id = 'suggBox';
-            var termsBox = document.createElement('div');
-            termsBox.id = 'termsBox';
-            var queriesBox = document.createElement('div');
-            queriesBox.id = 'queriesBox';
-            var title = document.createElement('div');
-            title.id = 'title';
-            title.innerHTML = 'qub';
-            $this.box.appendChild(title);
+            if(!$this.suggBox){
+                $this.suggBox = document.createElement('div');
+                $this.suggBox.id = 'suggBox';
+                $this.queriesBox.appendChild($this.suggBox);
+            }
+            if($this.suggBox.innerHTML.length <= 0){
+                var labelSQ = document.createElement('span');
+                labelSQ.id = 'queryLabel';
+                labelSQ.className = 'grey label';
+                labelSQ.innerHTML = 'Termos sugeridos';
+                $this.suggBox.appendChild(labelSQ);
+                $this.suggBox.appendChild($this.termsBox);
+            }
+            
+            if(!$this.optionsBox){
+                $this.optionsBox = document.createElement('div');
+                $this.optionsBox.id = 'optionsBox';
+                var labelOpt = document.createElement('span');
+                labelOpt.id = 'optLabel';
+                labelOpt.className = 'grey label';
+                labelOpt.innerHTML = 'Opções';
+                $this.optionsBox.appendChild(labelOpt);
 
-            var optionsBox = document.createElement('div');
-            optionsBox.id = 'optionsBox';
-            var labelOpt = document.createElement('span');
-            labelOpt.id = 'optLabel';
-            labelOpt.className = 'grey label';
-            labelOpt.innerHTML = 'Options';
-            optionsBox.appendChild(labelOpt);
+                //OPTIONS
 
-            queriesBox.appendChild(queryBox);
-            queriesBox.appendChild(suggBox);
-            queriesBox.appendChild(optionsBox);
+                //corte option
+                var h3opttitle = document.createElement('h3');
+                h3opttitle.innerText = "Geral";
+                var container = document.createElement('div');
+                $(container).css('float','left').css('width','190px').css('margin-right','10px');
+                container.appendChild(h3opttitle);
 
-            var labelQ = document.createElement('span');
-            labelQ.id = 'queryLabel';
-            labelQ.className = 'grey label';
-            labelQ.innerHTML = '<i>String</i> de busca';
-            queryBox.appendChild(labelQ);
+                var splitspacesopt = document.createElement('input');
+                splitspacesopt.type = 'checkbox';
+                splitspacesopt.id = 'splitspacesopt';
+                container.appendChild(splitspacesopt);
 
-            var labelSQ = document.createElement('span');
-            labelSQ.id = 'queryLabel';
-            labelSQ.className = 'grey label';
-            labelSQ.innerHTML = 'Termos sugeridos';
-            suggBox.appendChild(labelSQ);
-            suggBox.appendChild(termsBox);
+                var splitspacelbl = document.createElement('label');
+                splitspacelbl.innerText = 'Capturar termos compostos';
+                $(splitspacelbl).attr('for','splitspacesopt');
+                container.appendChild(splitspacelbl);
 
-            var stringBusca = document.createElement('div');
-            stringBusca.id = "stringdeBusca";
-            $(stringBusca).bind('click', function(e){
-                //$('input', this).offset
-                if(e.currentTarget != e.target) return;
-                var andar = Math.floor(e.offsetY/28);
-                var clicked = e.currentTarget.offsetLeft+e.offsetX;
-                var len = $('input', '#stringdeBusca').length;
+                var corteinput = document.createElement('input');
+                corteinput.id = 'corteopt';
+                corteinput.value = '1.0';
+                corteinput.disabled = 'true';
 
-                $('input', '#stringdeBusca').each(function(k){
+                var cortelbl = document.createElement('label');
+                $(cortelbl).attr('for','corteopt');
+                cortelbl.innerText = 'Tf-Idf mínimo: ';
+                cortelbl.style.float = 'left';
+
+                container.appendChild(cortelbl);
+                container.appendChild(corteinput);
+
+                $(container).css('border-right','1px solid #ccc').css('padding-left','12px');
+
+                var plusbtn = document.createElement('button');
+                plusbtn.innerText = '+';
+                plusbtn.className = 'btn btn-icon';
+                plusbtn.id = 'pluscorte';
+                container.appendChild(plusbtn);
+
+                var minusbtn = document.createElement('button');
+                minusbtn.innerText = '-';
+                minusbtn.className = 'btn btn-icon';
+                minusbtn.id = 'minuscorte';
+                container.appendChild(minusbtn);
+
+                $this.optionsBox.appendChild(container);
+
+                var tfscontainer = document.createElement('div');
+                $(tfscontainer).css('float','left').css('width','180px');
+
+                var radio, radio2, radio3;
+                radio = document.createElement('input');
+                radio2 = document.createElement('input');
+                radio3 = document.createElement('input');
+                radio.name = 'tfcalc'; radio2.name = 'tfcalc'; radio3.name = 'tfcalc';
+                radio.type = 'radio'; radio2.type = 'radio'; radio3.type = 'radio';
+                $(radio).attr('checked','');
+
+                var label, label1, label2;
+                label = document.createElement('label');
+                label2 = document.createElement('label');
+                label3 = document.createElement('label');
+
+                var h3opttitle = document.createElement('h3');
+                h3opttitle.innerText = "Fórmula TF-IDF";
+                tfscontainer.appendChild(h3opttitle);
+                
+                $(label).attr('for','tfcalc1');
+                label.innerHTML = 'Natural Term Frequency';
+                radio.id = 'tfcalc1';
+                tfscontainer.appendChild(radio);
+                tfscontainer.appendChild(label);
+                radio2.id = 'tfcalc2';
+                $(label2).attr('for','tfcalc2');
+                label2.innerHTML = 'Logarithm Term Frequency';
+                tfscontainer.appendChild(radio2);
+                tfscontainer.appendChild(label2);
+                radio3.id = 'tfcalc3';
+                $(label3).attr('for','tfcalc3');
+                label3.innerHTML = 'Boolean Term Frequency';
+                tfscontainer.appendChild(radio3);
+                tfscontainer.appendChild(label3);
+
+                $this.optionsBox.appendChild(tfscontainer);
+
+                var explaincontainer = document.createElement('div');
+                $(explaincontainer).css('float','left').css('width','320px').css('margin-left','12px');
+
+                var h3explain = document.createElement('h3');
+                h3explain.innerText = "Definição";
+                explaincontainer.appendChild(h3explain);
+
+                var span1 = document.createElement('span');
+                var span2 = document.createElement('span');
+                var span3 = document.createElement('span');
+                $(span2).css('display','none');
+                $(span3).css('display','none');
+
+                span1.id = 'tfexp1';
+                span2.id = 'tfexp2';
+                span3.id = 'tfexp3';
+
+                span1.innerHTML = '<i>TF*IDF</i>, onde <i>TF</i> é o número de vezes que o termo aparece no documento e <i>IDF</i> o log da razão entre o número total de documentos dividido pelo número de documentos contendo o termo.';
+                span2.innerHTML = '<i>TF*IDF</i>, onde <i>TF</i> é o log do número de vezes que o termo aparece no documento e <i>IDF</i> o log da razão entre o número total de documentos dividido pelo número de documentos contendo o termo.';
+                span3.innerHTML = '<i>TF*IDF</i>, onde <i>TF</i> é 1 se o termo aparece no documento ou 0 se não aparece e <i>IDF</i> é o log da razão entre o número total de documentos dividido pelo número de documentos contendo o termo.';
+
+                explaincontainer.appendChild(span1);
+                explaincontainer.appendChild(span2);
+                explaincontainer.appendChild(span3);
+
+                $this.optionsBox.appendChild(explaincontainer);
+
+                var btncontainer = document.createElement('div');
+                $(btncontainer).css('float','right').css('margin', '30px 20px 0 0');
+
+                var applyBtn = document.createElement('button');
+                applyBtn.id = 'applyOpts';
+                applyBtn.className = 'btn red disabled';
+                applyBtn.innerHTML = 'Aplicar alterações';
+                
+                $(applyBtn).css('width','90px');
+                btncontainer.appendChild(applyBtn);
+                $this.optionsBox.appendChild(btncontainer);
+
+                $this.queriesBox.appendChild($this.optionsBox);
+            }            
+
+            if(!$this.docsBox){
+                //docsBox
+                $this.docsWrapper = document.createElement('div');
+                $this.docsWrapper.id = 'docsWrapper';
+
+                $this.docsBox = document.createElement('ul');
+                $this.docsBox.id = 'docsBox';
+                $this.docsWrapper.appendChild($this.docsBox);
+            }
+
+            if(!$this.carouselBox){
+
+                $(MINER.abs).each(function (key, value) {
+                    var newLi = document.createElement('li');
+
+                    var newId = document.createElement('div');
+                    newId.className = 'docref';
+                    newId.innerHTML = '-'+(key+1)+'-';
+
+                    var newSpan = document.createElement('span');
+                    newSpan.id = 'doc' + key;
+                    newSpan.className = 'doc';
+                    newSpan.innerHTML = value.title;
+                    $(newSpan).bind('click',function(){ $this.flipDoc(newSpan,false); });
                     
-                    if((andar == Math.floor((this.offsetTop-132)/28) && clicked < $(this).offset().left) || k >= len-1){
-                        console.log(this);
+                    var newFWordsSpan = document.createElement('span');
+                    newFWordsSpan.id = 'fwords' + key;
+                    newFWordsSpan.className = 'fwords';
 
-                        var newSpan = document.createElement('input');
-                        newSpan.id = 'word'+len;
-                        $(newSpan).css('width','20px');
-                        newSpan.className = 'queryWord blue-stroke blue-text ';
-                        if(clicked < $(this).offset().left) $(newSpan).insertBefore(this);
-                        else $(newSpan).insertAfter(this);
-
-                        $this.bindToStringwords(newSpan);
-                        $(newSpan).focus();
-
-                        changed = true;
-                        return false;
+                    for (var i = 0; i < 5; i++) {
+                        newFWordsSpan.innerHTML += value.tfidf[i][0].trim()+'</br>';
                     }
+                    
+                    var newWordList = document.createElement('div');
+                    newWordList.id = 'wl' + key;
 
-                })
-
-            })         
-
-            $(MINER.query).each(function (key, value) {
-                var newSpan = document.createElement('input');
-                var word = value.replace(/</ig,'').replace(/>/ig,'');
-                newSpan.id = 'word' + key;
-                newSpan.className = 'queryWord ';
-                newSpan.className += (value.indexOf('<')!=-1)? (value.indexOf('(') != -1 || value.indexOf(')') != -1)? 'grey-text' : 'grey' : 'blue';
-                newSpan.value = word;//.toLowerCase();
-
-                $this.bindToStringwords(newSpan);
-                $(newSpan).keyup();
-                stringBusca.appendChild(newSpan);
-            });
-            queryBox.appendChild(stringBusca);
-            $this.box.appendChild(queriesBox);
-
-            //docsBox
-            var docsWrapper = document.createElement('div');
-            docsWrapper.id = 'docsWrapper';
-
-            var docsBox = document.createElement('ul');
-            docsBox.id = 'docsBox';
-            docsWrapper.appendChild(docsBox);
-
-            $(MINER.abs).each(function (key, value) {
-                var newLi = document.createElement('li');
-
-                var newId = document.createElement('div');
-                newId.className = 'docref';
-                newId.innerHTML = '-'+(key+1)+'-';
-
-                var newSpan = document.createElement('span');
-                newSpan.id = 'doc' + key;
-                newSpan.className = 'doc';
-                newSpan.innerHTML = value.title;
-                $(newSpan).bind('click',function(){ $this.flipDoc(newSpan); });
-                
-                var newFWordsSpan = document.createElement('span');
-                newFWordsSpan.id = 'fwords' + key;
-                newFWordsSpan.className = 'fwords';
-
-                for (var i = 0; i < 5; i++) {
-                    newFWordsSpan.innerHTML += value.tfidf[i][0].trim()+'</br>';
-                }
-                
-                var newWordList = document.createElement('div');
-                newWordList.id = 'wl' + key;
-
-                newLi.appendChild(newId);
-                newLi.appendChild(newSpan);
-                newLi.appendChild(newFWordsSpan);
-                docsBox.appendChild(newLi);
-            });
+                    newLi.appendChild(newId);
+                    newLi.appendChild(newSpan);
+                    newLi.appendChild(newFWordsSpan);
+                    $this.docsBox.appendChild(newLi);
+                });
 
             //carouselBox
-            var carouselBox = document.createElement('div');
-            carouselBox.id = 'carouselBox';
-            $(carouselBox).append($this.CONTROLS.prev);
-            carouselBox.appendChild(docsWrapper);
-            $(carouselBox).append($this.CONTROLS.next);
-
-            $this.box.appendChild(carouselBox);
+            
+                $this.carouselBox = document.createElement('div');
+                $this.carouselBox.id = 'carouselBox';  
+            }
+            if($this.carouselBox.innerHTML.length <= 0){
+                $($this.carouselBox).append($this.CONTROLS.prev);
+                $this.carouselBox.appendChild($this.docsWrapper);
+                $($this.carouselBox).append($this.CONTROLS.next);
+                $this.box.appendChild($this.carouselBox);
+            }
 
             //heatmap
-            var heatmapBox = document.createElement('div');
-            heatmapBox.id = 'heatmapBox';
-            heatmapBox.className = 'heatmapBox';
-            $this.box.appendChild(heatmapBox);
+            if(!$this.heatmapBox){
+                $this.heatmapBox = document.createElement('div');
+                $this.heatmapBox.id = 'heatmapBox';
+                $this.heatmapBox.className = 'heatmapBox';
+                $this.box.appendChild($this.heatmapBox);
+            
 
             var heatmapWords = document.createElement('div');
             heatmapWords.id = 'heatmapWords';
@@ -400,15 +638,16 @@ var stemmer = function () {
                 var wordiv = document.createElement('div');
                 wordiv.className = 'heatmapWordiv';
                 wordiv.id = 'heatmapWord-'+i;
+                wordiv.innerText = '';
                 heatmapWords.appendChild(document.createElement('div'));
                 heatmapWords.appendChild(wordiv);
             }
 
-            heatmapBox.appendChild(heatmapWords);
+            $this.heatmapBox.appendChild(heatmapWords);
 
             var overlay = document.createElement('div');
             overlay.id = "overlay";
-            heatmapBox.appendChild(overlay); 
+            $this.heatmapBox.appendChild(overlay); 
 
             var heatmapTable = document.createElement('table');
             heatmapTable.id = 'heatmapTable';
@@ -440,8 +679,8 @@ var stemmer = function () {
                 });
                 heatmapTable.appendChild(tr);
             }            
-            heatmapBox.appendChild(heatmapTable);
-
+            $this.heatmapBox.appendChild(heatmapTable);
+}
             $(wrapper).append($this.box);
             $('body').append(wrapper);
         }
@@ -449,7 +688,7 @@ var stemmer = function () {
         $this.bindToStringwords = function(el){
             $(el).bind('focus',function(e){
                     var temp = this.className;
-                    var color = (temp.indexOf('blue') != -1)? 'blue' : (temp.indexOf('grey') != -1)? 'grey' : (temp.indexOf('red') != -1)? 'red' : 'green';
+                    var color = (temp.indexOf('blue') != -1)? 'blue' : (temp.indexOf('grey') != -1)? 'grey' : (temp.indexOf('red') != -1)? 'red' : 'teal';
                     $(this).removeClass(color).addClass(color+"-text").addClass(color+"-stroke");
                 }).bind('focusout',function(e){
                     var temp = this.className;
@@ -469,6 +708,40 @@ var stemmer = function () {
                     if(this.value.trim() == '') this.parentNode.removeChild(this);
                     //this.value = this.value.toLowerCase();
                 });
+        }
+
+        $this.optionBinds = function(){
+            //OPTION BINDS
+            $('#searchBtn').bind('click',function(e){
+                var finalquery = '';
+                $("#stringdeBusca input").each(function(){
+                    finalquery += '%20'+this.value;
+                });
+                window.location.href = window.location.href.replace(/(queryText=)[^\&]+/, '$1' + finalquery);
+            });
+
+            $('input[name=tfcalc],#splitspacesopt').unbind('change').bind('change', function(e){
+                $('#applyOpts').removeClass('disabled');
+                if($(this).attr('name') == 'tfcalc'){
+                    $('span[id^=tfexp]:visible').css('display','none');
+                    $('#tfexp'+this.id.substr(-1)).css('display','inline');
+                };
+            });
+            $('#applyOpts').unbind('click').bind('click',function(e){
+                if(this.className.indexOf('disabled') != -1) return false;
+                $(this).addClass('disabled');
+                $this.setupandgo();
+            });
+            $('#pluscorte').unbind('click').bind('click', function(e){
+                $("#corteopt").val((parseFloat($("#corteopt").val())+0.1).toFixed(1));
+                $('#applyOpts').removeClass('disabled');
+            });
+            $('#minuscorte').unbind('click').bind('click', function(e){
+                $("#corteopt").val((parseFloat($("#corteopt").val())-0.1).toFixed(1));
+                $('#applyOpts').removeClass('disabled');
+            });
+
+
         }
 
         $this.colorizeHeatmap = function(){
@@ -539,16 +812,18 @@ var stemmer = function () {
             $this.query = tq;
         }
 
-        $this.flipDoc = function(docn) {
+        $this.flipDoc = function(docn,reset) {
             var cellid = docn.id.replace(/[^0-9\.]/g, '');
             if($(docn).hasClass('bad')){
                 $("#headcell-"+cellid).removeClass('red')
                 $(docn).removeClass('bad');
+                if(reset) return;
                 $this.bads.splice($this.bads.indexOf(docn.id), 1);
                 $this.newQ(docn.id,0);
             }else if(!$(docn).hasClass('good')){
                 $("#headcell-"+cellid).addClass('green')
                 $(docn).addClass('good');
+                if(reset) return;
                 $this.goods.push(docn.id);
                 $this.newQ(docn.id,1);
             }else{
@@ -556,6 +831,7 @@ var stemmer = function () {
                 $("#headcell-"+cellid).addClass('red')
                 $(docn).removeClass('good');
                 $(docn).addClass('bad');
+                if(reset) return;
                 $this.goods.splice($this.goods.indexOf(docn.id), 1);
                 $this.bads.push(docn.id);
                 $this.newQ(docn.id,-1);
@@ -603,7 +879,7 @@ var stemmer = function () {
         $this.updateNQ = function(){
             $("#termsBox").html('');
             if(!$this.newquery.length) return;
-            if(!$this.goods.length) return;
+            //if(!$this.goods.length) return;
 
             $this.newquery.each(function(wobj, key){
                 
@@ -619,14 +895,15 @@ var stemmer = function () {
 
                 wordspan.innerHTML = finalword.trim();//$this.newquery[i][0].trim();//$this.nonstem[$this.newquery[i][0].trim()];
                 wordspan.innerHTML += ' ('+finaltfidf.toFixed(2)+')';
-                wordspan.className = 'queryWord green';
+                wordspan.className = 'queryWord teal';
 
                 $(wordspan).bind('click',function(e){
                     var lastidx = $('input', '#stringdeBusca').length;
                     var lastinput = $('input', '#stringdeBusca')[lastidx-1];
                     var newinput = document.createElement('input');
                     newinput.className = 'queryWord blue';
-                    newinput.value = finalword.trim();
+                    finalword = finalword.trim();
+                    newinput.value = (finalword.indexOf(' ')!=-1)? '"'+finalword+'"' : finalword;
                     
 
                     if(lastinput.value.toUpperCase() != "OR" && lastinput.value.toUpperCase() != "AND"){
@@ -646,7 +923,7 @@ var stemmer = function () {
                     $(newinput).insertAfter(lastinput);
                     $this.bindToStringwords(newinput);
                     $(newinput).keyup();
-                    $(this).css('display','none');
+                    //$(this).css('display','none');
                 });
 
                 $("#termsBox").append(wordspan);
