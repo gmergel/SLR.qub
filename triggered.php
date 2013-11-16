@@ -1,23 +1,25 @@
 <?php
-    if ($db = new SQLiteDatabase('metrics')) {
 
-        $ip = $_SERVER['REMOTE_ADDR'];
-        echo $ip;
+    $handle = new SQLite3('metrics.sqlite');
+    $ip = $_SERVER['REMOTE_ADDR'];
+    $result = $handle->query('insert into session (ip) values ("'.$ip.'")');
 
+
+
+    $action = $_GET['action'];
+    $handle->query('insert into history (ip,action) values ("'.$ip.'","'.$action.'")');
+
+    $histid = $handle->lastInsertRowID();
+    $varids = Array();
+
+    foreach($_GET['vars'] as $var){
+        $handle->query('insert into var (description) values ("'.$var.'")');    
+        array_push($varids,$handle->lastInsertRowID());    
     }
-    //     $q = @$db->query('SELECT requests FROM tablename WHERE id = 1');
-    //     if ($q === false) {
-    //         $db->queryExec('CREATE TABLE tablename (id int, requests int, PRIMARY KEY (id)); INSERT INTO tablename VALUES (1,1)');
-    //         $hits = 1;
-    //     } else {
-    //         $result = $q->fetchSingle();
-    //         $hits = $result+1;
-    //     }
-    //     $db->queryExec("UPDATE tablename SET requests = '$hits' WHERE id = 1");
-    // } else {
-    //     die($err);
-    // }
 
+    foreach($varids as $varid){
+        $handle->query('insert into varset (history_id, var_id) values ('.$histid.','.$varid.')');
+    }
+    
 
-    //$.getJSON("http://qub.herokuapp.com/triggered.php?jsoncallback=?", null, function(e){ console.log(e); });
 ?>
