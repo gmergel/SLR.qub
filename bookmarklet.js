@@ -58,8 +58,8 @@ var stemmer = function () {
         };
 
         $this.CONTROLS = {
-            next: $('<a id="prevBtn" class="btn-carousel blue">></a>'),
-            prev: $('<a id="nextBtn" class="btn-carousel blue"><</a>')
+            next: $('<a id="nextBtn" class="btn-carousel blue">></a>'),
+            prev: $('<a id="prevBtn" class="btn-carousel blue"><</a>')
         }
 
         $this.CONTROLS.next.bind('click', function () {
@@ -81,12 +81,13 @@ var stemmer = function () {
             steps = Math.min(steps,(Math.round(($this.abs.length-5)/$this.moveby))-$this.sit);
 
             $('#docsBox').css('margin-left', parseInt($('#docsBox').css('margin-left'), 10) - (steps * $this.moveby * $this.step) + 'px');
-            //$('#heatmapTable').css('margin-left', parseInt($('#heatmapTable').css('margin-left'), 10) - ($this.moveby * $this.step) + 'px');
             $('#overlay').css('margin-left', parseInt($('#overlay').css('margin-left'), 10) + (steps * $this.moveby * $this.heatmapcellstep) + 'px');
             $this.sit += steps;
+            $this.m.pagina = $this.m.pagina+steps;
         }
 
         $this.init = function () {
+
             //include CSSs:
             var styles = document.createElement('style');
 
@@ -99,6 +100,7 @@ var stemmer = function () {
             $('#LayoutWrapper').css('opacity', 0.2);
 
             $this.setupandgo();
+            $this.bindTrackings();        
         }
 
         $this.setupandgo = function(){
@@ -159,9 +161,45 @@ var stemmer = function () {
                     $this.flipDoc(doc,false);
                 }
             }
-
+            $this.setAnalytics(); 
             console.warn("done");
         }
+
+        $this.setAnalytics = function () {
+            //analytics
+            $this.m = new Object();
+            $this.m.pagina = 1;
+            $this.m.totalAbs = $this.abs.length;
+
+            $this.m.maxtfidf = $this.maxtfidf.toFixed(2);
+            switch($this.tfcalc){
+                case '1':
+                default:
+                    $this.m.formulatf = 'Natural TF';
+                break;
+                case '2':
+                    $this.m.formulatf = 'Log TF';
+                break;
+                case '3':
+                    $this.m.formulatf = 'Bool TF';
+                break;
+            }
+            $this.m.corte = $this.corte;
+            $this.m.termosSimples = $this.splitSpace;
+
+            $this.m.stringOriginal = $this.query.join(' ');
+
+            $this.m.goods = null;
+            $this.m.bads = null;
+        }
+
+        // $this.analyticsParams = function(){
+        //     var metricstring = '';
+        //     for(metric in $this.m){
+        //         metricstring += metric+':'+$this.m[metric];
+        //     }
+        //     return metricstring;
+        // }
 
         $this.getAbs = function () {
             $(".abstract").each(function (key) {
@@ -323,6 +361,45 @@ var stemmer = function () {
                 })
                 
             });
+        }
+
+        //Analytics
+        $this.buildurl = function (pars){
+            var url = "http://localhost/qub/triggered.php?";
+            url += "action="+pars.action;
+
+            for(metric in pars.vars){
+             url += "&vars[]="+metric+':'+pars['vars'][metric];
+            };
+            return url;
+        }
+        $this.logit = function (pars){
+            try{
+                var tempStr = '';
+                $('#stringdeBusca input').each(function(){ tempStr += ' '+this.value; });
+                pars.vars.novaString = tempStr;
+                var url = $this.buildurl(pars);
+                
+                $.ajax({
+                    url: url,
+                    dataType: 'jsonp'
+                });
+            }catch(e){}            
+        }
+
+        //tracking
+        $this.bindTrackings = function(){
+
+            $('#prevBtn,#nextBtn').bind('click',function(e){
+                $this.m.target = e.target.id;
+                var pars = new Object();
+                pars.action = 'click';
+                pars.vars = $this.m;
+                $this.logit(pars);
+            });
+
+
+
         }
 
         $this.createBox = function () {
@@ -675,6 +752,13 @@ var stemmer = function () {
                         var n = Math.floor(this.id.split('-')[1]/$this.moveby);
                         var diff = n-$this.sit;//($this.sit<n)? n-$this.sit : -1*($this.sit-n);
                         $this.moveheatmap(diff);
+
+                        $this.m.target = e.target.id;
+                        var pars = new Object();
+                        pars.action = 'click';
+                        pars.vars = $this.m;
+                        $this.logit(pars);
+
                     });
                 });
                 heatmapTable.appendChild(tr);
@@ -700,6 +784,12 @@ var stemmer = function () {
                     this.className = '';
                     $(this).addClass('queryWord').addClass(color);
 
+                    $this.m.target = e.target.id;
+                    var pars = new Object();
+                    pars.action = 'edit';
+                    pars.vars = $this.m;
+                    $this.logit(pars);
+
                 }).bind('keyup change', function(e){
                     if(e.keyCode == 13) $(this).blur();
                     if($.inArray(e.keyCode,[9,20,16,17,18]) != -1) return false;
@@ -717,6 +807,12 @@ var stemmer = function () {
                 $("#stringdeBusca input").each(function(){
                     finalquery += '%20'+this.value;
                 });
+                $this.m.target = e.target.id;
+                var pars = new Object();
+                pars.action = 'click';
+                pars.vars = $this.m;
+                $this.logit(pars);
+
                 window.location.href = window.location.href.replace(/(queryText=)[^\&]+/, '$1' + finalquery);
             });
 
@@ -824,7 +920,7 @@ var stemmer = function () {
                 $("#headcell-"+cellid).addClass('green')
                 $(docn).addClass('good');
                 if(reset) return;
-                $this.goods.push(docn.id);
+                if($.inArray(docn.id,$this.goods) == -1) $this.goods.push(docn.id);
                 $this.newQ(docn.id,1);
             }else{
                 $("#headcell-"+cellid).removeClass('green')
@@ -833,9 +929,19 @@ var stemmer = function () {
                 $(docn).addClass('bad');
                 if(reset) return;
                 $this.goods.splice($this.goods.indexOf(docn.id), 1);
-                $this.bads.push(docn.id);
+                if($.inArray(docn.id,$this.bads) == -1) $this.bads.push(docn.id);
                 $this.newQ(docn.id,-1);
             }
+            $this.m.goods = $this.goods.join(' ');
+            $this.m.bads = $this.bads.join(' ');
+
+
+            $this.m.target = docn.id;
+            var pars = new Object();
+            pars.action = 'click';
+            pars.vars = $this.m;
+            $this.logit(pars);
+
             //$this.newQ();
         }
 
@@ -869,6 +975,13 @@ var stemmer = function () {
             });
             $this.updateNQ();
             $this.colorizeHeatmap();
+
+            $this.m.termos = '';
+
+            for(var i=0;i<10;i++){
+                $this.m.termos += $this.newquery[i][0]+','+$this.newquery[i][1].toFixed(2);       
+            }
+            
         }
         $this.updateCorte = function(ncorte){
             $this.corte = ncorte;
@@ -924,6 +1037,12 @@ var stemmer = function () {
                     $this.bindToStringwords(newinput);
                     $(newinput).keyup();
                     //$(this).css('display','none');
+
+                    $this.m.target = e.target.id;
+                    var pars = new Object();
+                    pars.action = 'click';
+                    pars.vars = $this.m;
+                    $this.logit(pars);
                 });
 
                 $("#termsBox").append(wordspan);
