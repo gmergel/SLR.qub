@@ -121,8 +121,8 @@ var stemmer = function () {
             $(".heatmapWordiv").each(function(){ this.innerText = ''; });
 
             //temporary vars
-            var tempgoods = $this.goods || localStorage.goods;
-            var tempbads = $this.bads || localStorage.bads;
+            var tempgoods = $this.goods || localStorage.goods.split(',');
+            var tempbads = $this.bads || localStorage.bads.split(',');
 
             //dynamic settings - can be changed as options
             $this.abs = [];
