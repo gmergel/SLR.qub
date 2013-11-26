@@ -143,12 +143,17 @@ var stemmer = function () {
 
             if(!localStorage.goods) localStorage.goods = '';
             if(!localStorage.bads) localStorage.bads = '';
-            $this.goods =  (localStorage.goods != '')? localStorage.goods.split(',').map(function(i){ return $this.findAbs(i) || null; }) : new Array();
-            $this.bads = (localStorage.bads != '')? localStorage.bads.split(',').map(function(i){ return $this.findAbs(i) || null; }) : new Array();
+            $this.goods =  (localStorage.goods != '')? localStorage.goods.split(',').map(function(i){ return $this.findAbs(i) || undefined; }) : new Array();
+            $this.bads = (localStorage.bads != '')? localStorage.bads.split(',').map(function(i){ return $this.findAbs(i) || undefined; }) : new Array();
 
-            for(var item in $this.goods){
-                if(!item) $this.goods.splice($this.goods.indexOf(item),1);
+            for(var idx = $this.goods.length; idx >= 0; idx--){
+                if($this.goods.hasOwnProperty(idx) && !$this.goods[idx]) $this.goods.splice(idx,1);
             }
+
+            for(var idx = $this.bads.length; idx >= 0; idx--){
+                if($this.bads.hasOwnProperty(idx) && !$this.bads[idx]) $this.bads.splice(idx,1);
+            }
+
 
             $this.optionBinds();
             $this.updateNQ();
