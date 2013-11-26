@@ -31,7 +31,7 @@ var stemmer = function () {
         $this.heatmapwidth = 800;
         $this.heatmapwords = 10;
         $this.stopWords = ["a","able","about","above","abst","accordance","according","accordingly","across","act","actually","added","adj","affected","affecting","affects","after","afterwards","again","against","ah","all","almost","alone","along","already","also","although","always","am","among","amongst","an","and","announce","another","any","anybody","anyhow","anymore","anyone","anything","anyway","anyways","anywhere","apparently","approximately","are","aren","arent","arise","around","as","aside","ask","asking","at","auth","available","away","awfully","b","back","be","became","because","become","becomes","becoming","been","before","beforehand","begin","beginning","beginnings","begins","behind","being","believe","below","beside","besides","between","beyond","biol","both","brief","briefly","but","by","c","ca","came","can","cannot","can't","cause","causes","certain","certainly","co","com","come","comes","contain","containing","contains","could","couldnt","d","date","did","didn't","different","do","does","doesn't","doing","done","don't","down","downwards","due","during","e","each","ed","edu","effect","eg","eight","eighty","either","else","elsewhere","end","ending","enough","especially","et","et-al","etc","even","ever","every","everybody","everyone","everything","everywhere","ex","except","f","far","few","ff","fifth","first","five","fix","followed","following","follows","for","former","formerly","forth","found","four","from","further","furthermore","g","gave","get","gets","getting","give","given","gives","giving","go","goes","gone","got","gotten","h","had","happens","hardly","has","hasn't","have","haven't","having","he","hed","hence","her","here","hereafter","hereby","herein","heres","hereupon","hers","herself","hes","hi","hid","him","himself","his","hither","home","how","howbeit","however","hundred","i","id","ie","if","i'll","im","is","immediate","immediately","importance","important","in","inc","indeed","index","information","instead","into","invention","inward","is","isn't","it","itd","it'll","its","itself","i've","j","just","k","keep","keeps","kept","kg","km","know","known","knows","l","largely","last","lately","later","latter","latterly","least","less","lest","let","lets","like","liked","likely","line","little","'ll","look","looking","looks","ltd","m","made","mainly","make","makes","many","may","maybe","me","mean","means","meantime","meanwhile","merely","mg","might","million","miss","ml","more","moreover","most","mostly","mr","mrs","much","mug","must","my","myself","n","na","name","namely","nay","nd","near","nearly","necessarily","necessary","need","needs","neither","never","nevertheless","new","next","nine","ninety","no","nobody","non","none","nonetheless","noone","nor","normally","nos","not","noted","nothing","now","nowhere","o","obtain","obtained","obviously","of","off","often","oh","ok","okay","old","omitted","on","once","one","ones","only","onto","or","ord","other","others","otherwise","ought","our","ours","ourselves","out","outside","over","overall","owing","own","p","page","pages","part","particular","particularly","past","per","perhaps","placed","please","plus","poorly","possible","possibly","potentially","pp","predominantly","present","previously","primarily","probably","promptly","proud","provides","put","q","que","quickly","quite","qv","r","ran","rather","rd","re","readily","really","recent","recently","ref","refs","regarding","regardless","regards","related","relatively","research","respectively","resulted","resulting","results","right","run","s","said","same","saw","say","saying","says","sec","section","see","seeing","seem","seemed","seeming","seems","seen","self","selves","sent","seven","several","shall","she","shed","she'll","shes","should","shouldn't","show","showed","shown","showns","shows","significant","significantly","similar","similarly","since","six","slightly","so","some","somebody","somehow","someone","somethan","something","sometime","sometimes","somewhat","somewhere","soon","sorry","specifically","specified","specify","specifying","still","stop","strongly","sub","substantially","successfully","such","sufficiently","suggest","sup","sure","t","take","taken","taking","tell","tends","th","than","thank","thanks","thanx","that","that'll","thats","that've","the","their","theirs","them","themselves","then","thence","there","thereafter","thereby","thered","therefore","therein","there'll","thereof","therere","theres","thereto","thereupon","there've","these","they","theyd","they'll","theyre","they've","think","this","those","thou","though","thoughh","thousand","throug","through","throughout","thru","thus","til","tip","to","together","too","took","toward","towards","tried","tries","truly","try","trying","ts","twice","two","u","un","under","unfortunately","unless","unlike","unlikely","until","unto","up","upon","ups","us","use","used","useful","usefully","usefulness","uses","using","usually","v","value","various","'ve","very","via","viz","vol","vols","vs","w","want","wants","was","wasn't","way","we","wed","welcome","we'll","went","were","weren't","we've","what","whatever","what'll","whats","when","whence","whenever","where","whereafter","whereas","whereby","wherein","wheres","whereupon","wherever","whether","which","while","whim","whither","who","whod","whoever","whole","who'll","whom","whomever","whos","whose","why","widely","willing","wish","with","within","without","won't","words","world","would","wouldn't","www","x","y","yes","yet","you","youd","you'll","your","youre","yours","yourself","yourselves","you've","z","zero"];
-        $this.adjectives = ['aback','abaft','abandoned','abashed','aberrant','abhorrent','abiding','abject','ablaze','able','abnormal','aboard','aboriginal','abortive','abounding','abrasive','abrupt','absent','absorbed','absorbing','abstracted','absurd','abundant','abusive','acceptable','accessible','accidental','accurate','acid','acidic','acoustic','acrid','actually','adhoc','adamant','adaptable','addicted','adhesive','adjoining','adorable','adventurous','afraid','aggressive','agonizing','agreeable','ahead','ajar','alcoholic','alert','alike','alive','alleged','alluring','aloof','amazing','ambiguous','ambitiong>bad','barbarous','bashful','bawdy','beautiful','befitting','belligerent','beneficial','bent','berserk','best','better','bewildered','big','billowy','bite-sized','bitter','bizarre','black','black-and-white','bloody','blue','blue-eyed','blushing','boiling','boorish','bored','boring','bounc','cagey','calculating','callous','calm','capable','capricious','careful','careless','caring','cautious','ceaseless','certain','changeable','charming','cheap','cheerful','chemical','chief','childlike','chilly','chivalrous','chubby','chunky','clammy','classy','clean','clear','clever','cloistered','cloudy','closed','clumsy','cluttered','coherent','cold','colorful','colossal','combative','comfortable','common','complete','complex','concerned','condemned','confused','c','daffy','daily','damaged','damaging','damp','dangerous','dapper','dark','dashing','dazzling','dead','deadpan','deafening','dear','debonair','decisive','decorous','deep','deeply','defeated','defective','defiant','delicate','delicious','delightful','demonic','delirious','dependent','depressed','deranged','descriptive','deserted','detailed','determined','devilish','didactic','different','difficult','diligent','direful','dirty','disagreeable','disastrous','discreet','eager','early','earsplitting','earthy','easy','eatable','economic','educated','efficacious','efficient','eight','elastic','elated','elderly','electric','elegant','elfin','elite','embarrassed','eminent','empty','enchanted','enchanting','encouraging','endurable','energetic','enormous','entertaining','enthusiastic','envious','equable','equal','erect','fabulous','faded','faint','fair','faithful','fallacious','false','familiar','famous','fanatical','fancy','fantastic','far','far-flung','fascinated','fast','fat','faulty','fearful','fearless','feeble','feigned','female','fertile','festive','few','fierce','filthy','fine','finicky','first','five','fixed','flagrant','flaky','flashy','flat','flawless','flimsy','flippant','flowery','fluffy','fluttering','foamy','foolish','for','gabby','gainful','gamy','gaping','garrulous','gaudy','general','gentle','giant','giddy','gifted','gigantic','glamorous','gleaming','glib','glistening','glorious','glossy','godly','good','goofy','gorgeous','graceful','grandiose','grateful','gratis','gray','greasy','gre','habitual','half','hallowed','halting','handsome','handsomely','handy','hanging','hapless','happy','hard','hard-to-find','harmonious','harsh','hateful','heady','healthy','heartbreaking','heavenly','heavy','hellish','helpful','helpless','hesitant','hideous','high','highfalutin','high-pitched','hilarious','hissing','historical','holistic','hollow','icky','icy','idiotic','ignorant','ill','illegal','ill-fated','ill-informed','illustrious','imaginary','immense','imminent','impartial','imperfect','impolite','important','imported','impossible','incandescent','incompetent','inconclusive','industrious','incredible','inexpensive','infamous','innateb','jaded','jagged','jazzy','jealous','jittery','jobless','jolly','joyous','j','kaput','keen','kind','kindhearted','kindly','knotty','kno','labored','lackadaisical','lacking','lame','lamentable','languid','large','last','late','laughable','lavish','lazy','lean','learned','left','legal','lethal','level','lewd','light','like','likeable','limping','literate','little','lively','lively','living','lonely','long','macabre','macho','maddening','madly','magenta','magical','magnificent','majestic','makeshift','male','malicious','mammoth','maniacal','many','marked','massive','married','marvelous','material','materialistic','mature','mean','measly','meaty','medical','meek','mellow','melodic','melted','merciful','mere','messy','mighty','military','milky','m','naive','nappy','narrow','nasty','natural','naughty','nauseating','near','neat','nebulous','necessary','needless','needy','neighborly','nervous','new','next','nice','nifty','nimble','nine','nippy','noiseless','noisy','oafish','obedient','obeisant','obese','obnoxious','obscene','obsequious','observant','obsolete','obtainable','oceanic','odd','offbeat','old','old-fashioned','omniscient','one','onerous','open','opposite','optimal','orange','ordinary','organic','painful','painstaking','pale','paltry','panicky','panoramic','parallel','parched','parsimonious','past','pastoral','pathetic','peaceful','penitent','perfect','periodic','permissible','perpetual','petite','petite','phobic','physical','picayune','pink','piquant','placid','plain','plant','plastic','plausible','pleasant','plucky','pointless','poised','polite','political','poor','possessive','possible','powerful','precious','premium','pre','quack','quaint','quarrelsome','questionable','quick','quickest','qui','rabid','racial','ragged','rainy','rambunctious','rampant','rapid','rare','raspy','ratty','ready','real','rebel','receptive','recondite','red','redundant','reflective','regular','relieved','remarkable','reminiscent','repulsive','resolute','resonant','responsible','rhetorical','rich','right','sable','sad','safe','salty','same','sassy','satisfying','savory','scandalous','scarce','scared','scary','scattered','scientific','scintillating','scrawny','screeching','second','second-hand','secret','secretive','sedate','seemly','selective','selfish','separate','serious','shaggy','shaky','shallow','sharp','shiny','shivering','shocking','short','shrill','shut','shy','sick','silent','silent','silky','silly','simple','simplistic','sincere','six','skillful','skinny','sleepy','slim','slimy','slippery','sloppy','slow','small','smart','smelly','smiling','smoggy','smooth','sneaky','snobbish','snotty','soft','soggy','solid','somber','sophisticated','sordid','sore','sore','sour','sparkling','special','spectacular','spicy','spiffy','spiky','spiritual','spiteful','splendid','spooky','spotless','spotted','spotty','taboo','tacit','tacky','talented','tall','tame','tan','tangible','tangy','tart','tasteful','tasteless','tasty','tawdry','tearful','tedious','teeny','teeny-tiny','telling','temporary','ten','tender','tense','tense','tenuous','terrible','terrific','tested','testy','thankful','therapeutic','thick','thin','thinkable','third','thirsty','thirsty','thoughtful','thoughtless','threatening','three','ubiquitous','ugliest','ugly','ultra','unable','unaccountable','unadvised','unarmed','unbecoming','unbiased','uncovered','understood','undesirable','unequal','unequaled','uneven','unhealthy','uninterested','unique','unkempt','unknown','unnatural','unruly','unsightly','unsuitable','unti','vacuous','vagabond','vague','valuable','various','vast','vengeful','venomous','verdant','versed','victorious','vigorous','violent','wacky','waggish','waiting','wakeful','wandering','wanting','warlike','warm','wary','wasteful','watery','weak','wealthy','weary','well-groomed','well-made','well-off','well-to-do','wet','whimsical','whispering','white','whole','wholesale','wicked','wide','wide-eyed','wiggly','wild','willing','xenophobic','yellow','yielding','zany','zealous','zesty'];
+        $this.adjectives = ['aback','abaft','abandoned','abashed','aberrant','abhorrent','abiding','abject','ablaze','able','abnormal','aboard','aboriginal','abortive','abounding','abrasive','abrupt','absent','absorbed','absorbing','abstracted','absurd','abundant','abusive','acceptable','accessible','accidental','accurate','acid','acidic','acoustic','acrid','actually','adhoc','adamant','adaptable','addicted','adhesive','adjoining','adorable','adventurous','afraid','aggressive','agonizing','agreeable','ahead','ajar','alcoholic','alert','alike','alive','alleged','alluring','aloof','amazing','ambiguous','ambitiong>bad','barbarous','bashful','bawdy','beautiful','befitting','belligerent','beneficial','bent','berserk','best','better','bewildered','big','billowy','bite-sized','bitter','bizarre','black','black-and-white','bloody','blue','blue-eyed','blushing','boiling','boorish','bored','boring','bounc','cagey','calculating','callous','calm','capable','capricious','careful','careless','caring','cautious','ceaseless','certain','changeable','charming','cheap','cheerful','chemical','chief','childlike','chilly','chivalrous','chubby','chunky','clammy','classy','clean','clear','clever','cloistered','cloudy','closed','clumsy','cluttered','coherent','cold','colorful','colossal','combative','comfortable','common','complete','complex','concerned','condemned','confused','c','daffy','daily','damaged','damaging','damp','dangerous','dapper','dark','dashing','dazzling','dead','deadpan','deafening','dear','debonair','decisive','decorous','deep','deeply','defeated','defective','defiant','delicate','delicious','delightful','demonic','delirious','dependent','depressed','deranged','descriptive','deserted','detailed','determined','devilish','didactic','different','difficult','diligent','direful','dirty','disagreeable','disastrous','discreet','eager','early','earsplitting','earthy','easy','eatable','economic','educated','efficacious','efficient','eight','elastic','elated','elderly','electric','elegant','elfin','elite','embarrassed','eminent','empirical','empty','enchanted','enchanting','encouraging','endurable','energetic','enormous','entertaining','enthusiastic','envious','equable','equal','erect','fabulous','faded','faint','fair','faithful','fallacious','false','familiar','famous','fanatical','fancy','fantastic','far','far-flung','fascinated','fast','fat','faulty','fearful','fearless','feeble','feigned','female','fertile','festive','few','fierce','filthy','fine','finicky','first','five','fixed','flagrant','flaky','flashy','flat','flawless','flimsy','flippant','flowery','fluffy','fluttering','foamy','foolish','for','gabby','gainful','gamy','gaping','garrulous','gaudy','general','gentle','giant','giddy','gifted','gigantic','glamorous','gleaming','glib','glistening','glorious','glossy','godly','good','goofy','gorgeous','graceful','grandiose','grateful','gratis','gray','greasy','gre','habitual','half','hallowed','halting','handsome','handsomely','handy','hanging','hapless','happy','hard','hard-to-find','harmonious','harsh','hateful','heady','healthy','heartbreaking','heavenly','heavy','hellish','helpful','helpless','hesitant','hideous','high','highfalutin','high-pitched','hilarious','hissing','historical','holistic','hollow','icky','icy','idiotic','ignorant','ill','illegal','ill-fated','ill-informed','illustrious','imaginary','immense','imminent','impartial','imperfect','impolite','important','imported','impossible','incandescent','incompetent','inconclusive','industrious','incredible','inexpensive','infamous','innateb','jaded','jagged','jazzy','jealous','jittery','jobless','jolly','joyous','j','kaput','keen','kind','kindhearted','kindly','knotty','kno','labored','lackadaisical','lacking','lame','lamentable','languid','large','last','late','laughable','lavish','lazy','lean','learned','left','legal','lethal','level','lewd','light','like','likeable','limping','literate','little','lively','lively','living','lonely','long','macabre','macho','maddening','madly','magenta','magical','magnificent','majestic','makeshift','male','malicious','mammoth','maniacal','many','marked','massive','married','marvelous','material','materialistic','mature','mean','measly','meaty','medical','meek','mellow','melodic','melted','merciful','mere','messy','mighty','military','milky','m','naive','nappy','narrow','nasty','natural','naughty','nauseating','near','neat','nebulous','necessary','needless','needy','neighborly','nervous','new','next','nice','nifty','nimble','nine','nippy','noiseless','noisy','oafish','obedient','obeisant','obese','obnoxious','obscene','obsequious','observant','obsolete','obtainable','oceanic','odd','offbeat','old','old-fashioned','omniscient','one','onerous','open','opposite','optimal','orange','ordinary','organic','painful','painstaking','pale','paltry','panicky','panoramic','parallel','parched','parsimonious','past','pastoral','pathetic','peaceful','penitent','perfect','periodic','permissible','perpetual','petite','petite','phobic','physical','picayune','pink','piquant','placid','plain','plant','plastic','plausible','pleasant','plucky','pointless','poised','polite','political','poor','possessive','possible','powerful','precious','premium','pre','quack','quaint','quarrelsome','questionable','quick','quickest','qui','rabid','racial','ragged','rainy','rambunctious','rampant','rapid','rare','raspy','ratty','ready','real','rebel','receptive','recondite','red','redundant','reflective','regular','relieved','remarkable','reminiscent','repulsive','resolute','resonant','responsible','robust','rhetorical','rich','right','sable','sad','safe','salty','same','sassy','satisfying','savory','scandalous','scarce','scared','scary','scattered','scientific','scintillating','scrawny','screeching','second','second-hand','secret','secretive','sedate','seemly','selective','selfish','separate','serious','shaggy','shaky','shallow','sharp','shiny','shivering','shocking','short','shrill','shut','shy','sick','silent','silent','silky','silly','simple','simplistic','sincere','six','skillful','skinny','sleepy','slim','slimy','slippery','sloppy','slow','small','smart','smelly','smiling','smoggy','smooth','sneaky','snobbish','snotty','soft','soggy','solid','somber','sophisticated','sordid','sore','sore','sour','sparkling','special','spectacular','spicy','spiffy','spiky','spiritual','spiteful','splendid','spooky','spotless','spotted','spotty','taboo','tacit','tacky','talented','tall','tame','tan','tangible','tangy','tart','tasteful','tasteless','tasty','tawdry','tearful','tedious','teeny','teeny-tiny','telling','temporary','ten','tender','tense','tense','tenuous','terrible','terrific','tested','testy','thankful','therapeutic','thick','thin','thinkable','third','thirsty','thirsty','thoughtful','thoughtless','threatening','three','ubiquitous','ugliest','ugly','ultra','unable','unaccountable','unadvised','unarmed','unbecoming','unbiased','uncovered','understood','undesirable','unequal','unequaled','uneven','unhealthy','uninterested','unique','unkempt','unknown','unnatural','unruly','unsightly','unsuitable','unti','vacuous','vagabond','vague','valuable','various','vast','vengeful','venomous','verdant','versed','victorious','vigorous','violent','wacky','waggish','waiting','wakeful','wandering','wanting','warlike','warm','wary','wasteful','watery','weak','wealthy','weary','well-groomed','well-made','well-off','well-to-do','wet','whimsical','whispering','white','whole','wholesale','wicked','wide','wide-eyed','wiggly','wild','willing','xenophobic','yellow','yielding','zany','zealous','zesty'];
 
         $this.STYLES = {
             GENERAL: 'label{line-height:1.9em}',
@@ -73,13 +73,13 @@ var stemmer = function () {
         /*** FUNCTIONS ***/
         $this.isStopWord = function(word){
             for (var i=0, len = $this.stopWords.length; i < len; i++)
-                if ($this.stopWords[i] === word) return true;
+                if ($this.stopWords[i].toLowerCase() === word) return true;
             return false;
         }
 
         $this.isAdjective = function(word){
             for (var i=0, len = $this.adjectives.length; i < len; i++)
-                if ($this.adjectives[i] === word) return true;
+                if ($this.adjectives[i].toLowerCase() === word) return true;
             return false;
         }
 
@@ -106,11 +106,11 @@ var stemmer = function () {
             //blur page
             $('#LayoutWrapper').css('opacity', 0.2);
 
-            $this.setupandgo();
+            $this.setupandgo(false);
             $this.bindTrackings();        
         }
 
-        $this.setupandgo = function(){
+        $this.setupandgo = function(reset){
 
             //if($this.box) $this.box.innerHTML = '';
 
@@ -120,15 +120,9 @@ var stemmer = function () {
             $(".heatcell").css('opacity',0);
             $(".heatmapWordiv").each(function(){ this.innerText = ''; });
 
-            //temporary vars
-            var tempgoods = $this.goods || localStorage.goods.split(',');
-            var tempbads = $this.bads || localStorage.bads.split(',');
-
             //dynamic settings - can be changed as options
             $this.abs = [];
             $this.df = new Array();
-            $this.goods =  tempgoods || new Array();
-            $this.bads = tempbads || new Array();
             $this.newquery = new Array();
             $this.nqpositions = new Array();
             $this.nonstem = new Array();
@@ -147,24 +141,30 @@ var stemmer = function () {
             $this.getQuery();
             $this.createBox();
 
+            if(!localStorage.goods) localStorage.goods = '';
+            if(!localStorage.bads) localStorage.bads = '';
+            $this.goods =  (localStorage.goods != '')? localStorage.goods.split(',').map(function(i){ return $this.findAbs(i) }) : new Array();
+            $this.bads = (localStorage.bads != '')? localStorage.bads.split(',').map(function(i){ return $this.findAbs(i) }) : new Array();
+
             $this.optionBinds();
             $this.updateNQ();
             //$(".doc.good").each(function(){ $this.flipDoc(this,true); $this.flipDoc(this,true); });
             //$(".doc.bad").each(function(){ $this.flipDoc(this,true); });
             $this.setAnalytics();
-            for (var d in tempgoods){
-                if (tempgoods.hasOwnProperty(d)){
-                    var doc = $('#'+tempgoods[d])[0];
-                    $this.flipDoc(doc,true);
-                    $this.flipDoc(doc,true);
+
+            for (var d in $this.goods){
+                if ($this.goods.hasOwnProperty(d)){
+                    var doc = $('#'+$this.goods[d])[0];
+                    if(reset) $this.flipDoc(doc,true);
+                    if(reset) $this.flipDoc(doc,true);
                     $this.flipDoc(doc,false);
                 }
             }
-            for (var d in tempbads){
-                if (tempbads.hasOwnProperty(d)){
-                    var doc = $('#'+tempbads[d])[0];
-                    $this.flipDoc(doc,true);
-                    $this.flipDoc(doc,true);
+            for (var d in $this.bads){
+                if ($this.bads.hasOwnProperty(d)){
+                    var doc = $('#'+$this.bads[d])[0];
+                    if(reset) $this.flipDoc(doc,true);
+                    $this.flipDoc(doc,false);
                     $this.flipDoc(doc,false);
                 }
             }
@@ -224,13 +224,13 @@ var stemmer = function () {
                     var regex = new RegExp(word,'ig');
                     txt = txt.replace(regex,'&&&');
                 })
-                var splitspace = /\s|\[|\]|\-|\→|\*|\"|\“|\”|\,|\.|\;|\-|\»|\/|\\|\(|\)|\:|\'|'s|&&&/ig;
-                var splitnospace = /\[|\]|\-|\→|\*|\"|\“|\”|\,|\.|\;|\-|\»|\/|\\|\(|\)|\:|\'|'s|&&&/ig;
+                var splitspace = /\s|[0-9]+|\[|\]|\-|\→|\*|\"|\“|\”|\,|\.|\;|\-|\»|\/|\\|\(|\)|\:|\'|'s|&&&/ig;
+                var splitnospace = /[0-9]+|\[|\]|\-|\→|\*|\"|\“|\”|\,|\.|\;|\-|\»|\/|\\|\(|\)|\:|\'|'s|&&&/ig;
                 var regextouse = ($this.splitSpace)? splitspace : splitnospace;
                 words = txt.split(regextouse)
                         .filter(function (value) { 
                         value = " "+value.trim();
-                            return value !== " " && value !== "" && value !== null && !$this.isStopWord(value);
+                            return value !== " " && value !== "" && value !== null && !$this.isStopWord(value.trim().toLowerCase()) && !$this.isAdjective(value.trim().toLowerCase());
                         });
                 
                 for (var wordkey in words)
@@ -841,7 +841,7 @@ var stemmer = function () {
             $('#applyOpts').unbind('click').bind('click',function(e){
                 if(this.className.indexOf('disabled') != -1) return false;
                 $(this).addClass('disabled');
-                $this.setupandgo();
+                $this.setupandgo(true);
             });
             $('#pluscorte').unbind('click').bind('click', function(e){
                 $("#corteopt").val((parseFloat($("#corteopt").val())+0.1).toFixed(1));
@@ -924,41 +924,38 @@ var stemmer = function () {
         }
 
         $this.flipDoc = function(docn,reset) {
-            console.warn(docn);
+
             if(!docn) return;
-            var cellid = docn.id.replace(/[^0-9\.]/g, '');
-            if($(docn).hasClass('bad')){
+
+            var docid = (typeof docn == 'string')? docn : docn.id;
+            var cellid = (typeof docn == 'string')? docn.replace(/[^0-9\.]/g, '') : docn.id.replace(/[^0-9\.]/g, '');
+            var docel = $('#'+docid);
+
+            if($(docel).hasClass('bad')){
                 $("#headcell-"+cellid).removeClass('red')
-                $(docn).removeClass('bad');
+                $(docel).removeClass('bad');
                 if(reset) return;
-                $this.bads.splice($this.bads.indexOf(docn.id), 1);
-                $this.newQ(docn.id,0);
-            }else if(!$(docn).hasClass('good')){
+                $this.bads.splice($this.bads.indexOf(docid), 1);
+                $this.newQ(docid,0);
+            }else if(!$(docel).hasClass('good')){
                 $("#headcell-"+cellid).addClass('green')
-                $(docn).addClass('good');
+                $(docel).addClass('good');
                 if(reset) return;
-                if($.inArray(docn.id,$this.goods) == -1) $this.goods.push(docn.id);
-                $this.newQ(docn.id,1);
+                if($.inArray(docid,$this.goods) == -1) $this.goods.push(docid);
+                $this.newQ(docid,1);
             }else{
                 $("#headcell-"+cellid).removeClass('green')
                 $("#headcell-"+cellid).addClass('red')
-                $(docn).removeClass('good');
-                $(docn).addClass('bad');
+                $(docel).removeClass('good');
+                $(docel).addClass('bad');
                 if(reset) return;
-                $this.goods.splice($this.goods.indexOf(docn.id), 1);
-                if($.inArray(docn.id,$this.bads) == -1) $this.bads.push(docn.id);
-                $this.newQ(docn.id,-1);
+                $this.goods.splice($this.goods.indexOf(docid), 1);
+                if($.inArray(docid,$this.bads) == -1) $this.bads.push(docid);
+                $this.newQ(docid,-1);
             }
 
-            // var auxGoods = [];
-            // for(var idxG in $this.goods){
-            //     if($this.goods.hasOwnProperty(idxG) && $this.goods[idxG])
-            //         auxGoods.push($this.abs[$this.goods[idxG].substr(3,$this.goods[idxG].length)].unique);
-            // }
-            // console.log(auxGoods);
-
-            //localStorage.goods = $this.goods.map();
-            localStorage.bads = $this.bads;
+            localStorage.goods = $this.goods.map(function(i,k){ return $this.abs[i.substr(3,i.length)].unique });
+            localStorage.bads = $this.bads.map(function(i,k){ return $this.abs[i.substr(3,i.length)].unique });
             $this.m.goods = $this.goods.join(' ');
             $this.m.bads = $this.bads.join(' ');
 
