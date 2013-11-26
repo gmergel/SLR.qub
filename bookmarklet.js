@@ -924,6 +924,8 @@ var stemmer = function () {
         }
 
         $this.flipDoc = function(docn,reset) {
+            console.warn(docn);
+            if(!docn) return;
             var cellid = docn.id.replace(/[^0-9\.]/g, '');
             if($(docn).hasClass('bad')){
                 $("#headcell-"+cellid).removeClass('red')
@@ -955,7 +957,7 @@ var stemmer = function () {
             // }
             // console.log(auxGoods);
 
-            localStorage.goods = $this.goods.map();
+            //localStorage.goods = $this.goods.map();
             localStorage.bads = $this.bads;
             $this.m.goods = $this.goods.join(' ');
             $this.m.bads = $this.bads.join(' ');
