@@ -151,7 +151,7 @@ var stemmer = function () {
             $this.updateNQ();
             //$(".doc.good").each(function(){ $this.flipDoc(this,true); $this.flipDoc(this,true); });
             //$(".doc.bad").each(function(){ $this.flipDoc(this,true); });
-            
+            $this.setAnalytics();
             for (var d in tempgoods){
                 if (tempgoods.hasOwnProperty(d)){
                     var doc = $('#'+tempgoods[d])[0];
@@ -168,7 +168,7 @@ var stemmer = function () {
                     $this.flipDoc(doc,false);
                 }
             }
-            $this.setAnalytics(); 
+             
             console.warn("done");
         }
 
@@ -214,6 +214,7 @@ var stemmer = function () {
                 var words = [];
                 $this.abs[key] = $(this);
                 $this.abs[key].id = 'doc'+key;
+                $this.abs[key].unique = ($('a[href^="http://dx.doi.org/"')[key])? $('a[href^="http://dx.doi.org/"')[key].innerText : null;
                 $this.abs[key].title = $($this.abs[key]).parents('.detail').find('h3').text().trim();
                 $this.abs[key].txt = $this.abs[key].text().replace(/^[\s]/g, '').replace(/\s+/g, ' ').toLowerCase();
                 var txt = $this.abs[key].txt;
@@ -254,6 +255,13 @@ var stemmer = function () {
                 $this.abs[key].uniqueWords = words.unique().sort();
             });
             $this.heatmapcellstep = Math.floor($this.heatmapwidth/$this.abs.length);
+        }
+
+        $this.findAbs = function(uniqueid){
+            for(var abstr in $this.abs){
+                if($this.abs.hasOwnProperty(abstr))
+                    if($this.abs[abstr].unique == uniqueid) return $this.abs[abstr].id;
+            };
         }
 
         $this.normalizeTF = function(){
@@ -939,7 +947,15 @@ var stemmer = function () {
                 if($.inArray(docn.id,$this.bads) == -1) $this.bads.push(docn.id);
                 $this.newQ(docn.id,-1);
             }
-            localStorage.goods = $this.goods;
+
+            // var auxGoods = [];
+            // for(var idxG in $this.goods){
+            //     if($this.goods.hasOwnProperty(idxG) && $this.goods[idxG])
+            //         auxGoods.push($this.abs[$this.goods[idxG].substr(3,$this.goods[idxG].length)].unique);
+            // }
+            // console.log(auxGoods);
+
+            localStorage.goods = $this.goods.map();
             localStorage.bads = $this.bads;
             $this.m.goods = $this.goods.join(' ');
             $this.m.bads = $this.bads.join(' ');
