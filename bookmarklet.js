@@ -143,8 +143,12 @@ var stemmer = function () {
 
             if(!localStorage.goods) localStorage.goods = '';
             if(!localStorage.bads) localStorage.bads = '';
-            $this.goods =  (localStorage.goods != '')? localStorage.goods.split(',').map(function(i){ return $this.findAbs(i) }) : new Array();
-            $this.bads = (localStorage.bads != '')? localStorage.bads.split(',').map(function(i){ return $this.findAbs(i) }) : new Array();
+            $this.goods =  (localStorage.goods != '')? localStorage.goods.split(',').map(function(i){ return $this.findAbs(i) || null; }) : new Array();
+            $this.bads = (localStorage.bads != '')? localStorage.bads.split(',').map(function(i){ return $this.findAbs(i) || null; }) : new Array();
+
+            for(var item in $this.goods){
+                if(!item) $this.goods.splice($this.goods.indexOf(item),1);
+            }
 
             $this.optionBinds();
             $this.updateNQ();
