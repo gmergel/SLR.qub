@@ -4,8 +4,11 @@ Systematic Literature Review - query builder is a tool in the format of a bookma
 
 In order to use it, you should:
 1) copy the bookmarklet code;
+
 2) create a new bookmark in your favorite browser;
+
 3) use the bookmarklet code as the new bookmark URL (search for bookmarklet for more details on how it works);
+
 4) open the IEEExplore page ();
 5) execute a search on any keywords (eg: "text mining");
 6) once in the search results page, activate the bookmarklet;
